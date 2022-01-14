@@ -1,0 +1,1328 @@
+#include <SFML/Graphics.hpp>
+#include <string>
+#include <Windows.h>
+#include <time.h>
+#include <iostream>
+#include "dziedziczace.h"
+#include "render_api.h"
+
+#include "mainmenu.h"
+#include "game_screen.h"
+#pragma warning(disable:4996)
+#define WINDOW_HEIGHT 613
+#define WINDOW_WIDTH 822
+#define TILE_WIDTH 30
+#define TILE_HEIGHT 30
+using namespace std;
+
+void render_api::Czyszczenie_Bufora(void)//czyszczenie bufora
+{
+	
+}
+
+render_api::render_api() {
+
+}
+
+void render_api::pudlo(int typ) {
+
+
+}
+
+void render_api::przeka¿_komputer() {
+	
+}
+
+std::string render_api::podaj_nick(sf::RenderWindow* Window) {
+	sf::Text t;
+	t.setFillColor(sf::Color::Black);
+	sf::Font retrofont;
+	retrofont.loadFromFile("retrofont.ttf");
+	t.setFont(retrofont);
+	t.setCharacterSize(50);
+	t.setPosition(Vector2f(75, 250));
+	string s;
+	RectangleShape podaj_nick_background;
+	podaj_nick_background.setSize(Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
+	Texture podaj_nick_Texture;
+	podaj_nick_Texture.loadFromFile("Texture/podaj_nick.png");
+	podaj_nick_background.setTexture(&podaj_nick_Texture);
+	while (Window->isOpen())
+	{
+
+		Event gevent;
+		Window->clear();
+		Window->draw(podaj_nick_background);
+		Window->draw(t);
+		//read_nickname.draw(*Window);
+		Window->display();
+		if (Window->pollEvent(gevent))
+		{
+			if (gevent.type == Event::MouseButtonPressed) {
+
+			}
+			if (gevent.type == Event::Closed) {
+				Window->close();
+			}
+			if (gevent.type == sf::Event::TextEntered)
+			{
+				if (gevent.text.unicode < 127 &&
+					gevent.text.unicode >= 48 &&
+					gevent.text.unicode != '\n' &&
+					gevent.text.unicode != '\r' &&
+					gevent.text.unicode != 10 &&
+					gevent.text.unicode != '\v' &&
+					gevent.text.unicode != 27 &&
+					gevent.text.unicode != 32 &&
+					gevent.text.unicode != '\b' &&
+					t.getString().getSize() < 16)
+				{
+					s += static_cast<char>(gevent.text.unicode);
+					t.setString(s); //dodaj do stringa
+
+				}
+				//je¿eli masz co usuwaæ, to usuñ ostatnio dodany znak
+				if (t.getString().getSize() > 0 && gevent.text.unicode == '\b') {
+					s.pop_back();
+					t.setString(s);
+				}
+				if ((gevent.text.unicode == '\n' || gevent.text.unicode == '\r') && t.getString().getSize() > 0) {
+					string tempString = t.getString();
+					int rodzaj = 0;
+					const char* nick = tempString.c_str();
+					return tempString;
+				}
+			}
+		}
+	}
+}
+
+void render_api::komputer_ustawia_statki(sf::RenderWindow* Window) {
+	RectangleShape komputer_ustawia_statki_background;
+	komputer_ustawia_statki_background.setSize(Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
+	Texture komputer_ustawia_statki_Texture;
+	komputer_ustawia_statki_Texture.loadFromFile("Texture/komputer_ustawia.png");
+	komputer_ustawia_statki_background.setTexture(&komputer_ustawia_statki_Texture);
+	Window->clear();
+	Window->draw(komputer_ustawia_statki_background);
+
+	sf::sleep(sf::milliseconds(1000));
+}
+
+void render_api::clear_screen() {
+}
+
+void render_api::ruch_wykonuje_komputer() {
+}
+
+std::string render_api::podaj_nick2(sf::RenderWindow* Window) {
+	string xd = "xd";
+	return xd;
+}
+
+void render_api::b³êdny_nick() {
+	
+}
+
+void render_api::trafienie() {
+	
+}
+
+void render_api::main_menu() {
+	
+}
+
+void render_api::opcja_nie_istnieje() {
+	
+}
+
+void render_api::niestety_nie_ma_takiej_opcji() {
+	
+}
+
+void render_api::wybor_typu_gry() {
+	
+}
+
+void render_api::error() {
+	
+}
+void render_api::instrukcja() {
+	
+}
+
+void render_api::podaj_nazwê_save() {
+	
+}
+
+void render_api::save_error() {
+	
+	render_api::Czyszczenie_Bufora();
+	render_api::podaj_nazwê_save();
+}
+
+void render_api::save_read_error() {
+	
+}
+
+void render_api::plik_uszkodzony() {
+	
+}
+
+void render_api::thx_4_playing() {
+	
+}
+
+void render_api::czy_zapisac_gre() {
+	
+}
+
+void render_api::nie_ma_opcji_zapisu() {
+	
+}
+
+void render_api::przerwy(int x)
+{
+	
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void render_api::ustawkolor(char c)
+{
+
+	
+}
+void render_api::kolorplanszyprzeciwnika(char c)
+{
+	
+}
+
+void render_api::resetkolor()
+{
+	
+}
+
+void render_api::legenda_planszy() {
+	
+}
+
+void render_api::b³êdna_wspó³rzêdna() {
+	
+}
+
+void render_api::podaj_wspó³rzêdne() {
+	
+}
+
+
+
+void render_api::wypisz_plansze(char plansza[10][10]) {
+	for (int i = 0; i < 10; i++) {
+		for (int j = 0; j < 10; j++) {
+			if (plansza[j][i] == ' ') cout << '-';
+			else cout << plansza[j][i];
+		}cout << "\n";
+	}
+	cout << "\n";
+}
+
+int render_api::czy_wygrana(char plansza[10][10])//funkcja sprawdza czy w przeslanej tablicy znajduja sie jeszcze symbole oznaczajace niezatopiony statek i zwraca odpowiednia informacje
+{
+	for (int i = 0; i < 10; i++)
+	{
+		for (int k = 0; k < 10; k++)
+		{
+			if (plansza[i][k] == '1' || plansza[i][k] == '2' || plansza[i][k] == '3' || plansza[i][k] == '4')
+			{
+				return 0;
+			}
+		}
+	}
+	
+	return 1;
+}
+int render_api::czy_moze_tu_stac(unsigned int wspolrzedna_x, unsigned int wspolrzedna_y, char plansza[10][10])//funkcja sprawdza czy postawiony statek w tej pozycji nie
+{																											//bedzie kolidowal z juz postawionymi statkami lub czy nie
+	//czy nie wychodzi za tablice																			//wychodzi za plansze
+	if (wspolrzedna_x > 10 || wspolrzedna_x < 1 || wspolrzedna_y > 10 || wspolrzedna_y < 1)					//zwraca 0 jezeli nie moze stac na tej pozycji lub 1 jezeli moze
+	{
+		return 0;
+	}
+	if (plansza[wspolrzedna_y - 1][wspolrzedna_x - 1] != ' ')
+	{
+		return 0;
+	}
+	if (wspolrzedna_x == 10)//jezeli dotyka prawej sciany(sprawdzamy tylko czy czegos nie dotyka po lewej)
+	{
+		if (plansza[wspolrzedna_y - 1][wspolrzedna_x - 2] != ' ')
+		{
+			return 0;
+		}
+	}
+	else if (wspolrzedna_x == 1)//jezeli dotyka lewej sciany(sprawdzamy tylko czy czegos nie dotyka po prawej)
+	{
+		if (plansza[wspolrzedna_y - 1][wspolrzedna_x] != ' ')
+		{
+			return 0;
+		}
+	}
+	else//jezeli nie dotyka zadnej sciany(lewej lub prawej)(sprawdzamy czy nie dotyka czegos z obu stron)
+	{
+		if (plansza[wspolrzedna_y - 1][wspolrzedna_x] != ' ' || plansza[wspolrzedna_y - 1][wspolrzedna_x - 2] != ' ')
+		{
+			return 0;
+		}
+	}
+	if (wspolrzedna_y == 10)//jezeli dotyka dolna sciane(sprawdzamy tylko czy czegos nie dotyka u gory)
+	{
+		if (plansza[wspolrzedna_y - 2][wspolrzedna_x - 1] != ' ')
+		{
+			return 0;
+		}
+	}
+	else if (wspolrzedna_y == 1)//jezeli dotyka dolna sciane(sprawdzamy tylko czy czegos nie dotyka u dolu)
+	{
+		if (plansza[wspolrzedna_y][wspolrzedna_x - 1] != ' ')
+		{
+			return 0;
+		}
+	}
+	else//jezeli nie dotyka dotyka zadnej sciany(gornej lub dolnej)(sprawdzamy czy nie dotyka czegos u gory i dolu)
+	{
+		if (plansza[wspolrzedna_y - 2][wspolrzedna_x - 1] != ' ' || plansza[wspolrzedna_y][wspolrzedna_x - 1] != ' ')
+		{
+			return 0;
+		}
+	}
+	if (wspolrzedna_y > 1)//jezeli nie dotyka gornej sciany
+	{
+		if (wspolrzedna_x == 10)//jezeli dotyka prawej sciany(sprawdzamy tylko czy lewy gorny rog jest wolny)
+		{
+			if (plansza[wspolrzedna_y - 2][wspolrzedna_x - 2] != ' ')
+			{
+				return 0;
+			}
+		}
+		else if (wspolrzedna_x == 1)//jezeli dotyka lewej sciany(sprawdzamy tylko czy prawy gorny rog jest wolny)
+		{
+			if (plansza[wspolrzedna_y - 2][wspolrzedna_x] != ' ')
+			{
+				return 0;
+			}
+		}
+		else//jezeli nie dotyka zadnej sciany(lewej lub prawej)(sprawdzamy czy gorne rogi sa wolne)
+		{
+			if (plansza[wspolrzedna_y - 2][wspolrzedna_x - 2] != ' ' || plansza[wspolrzedna_y - 2][wspolrzedna_x] != ' ')
+			{
+				return 0;
+			}
+		}
+	}
+	if (wspolrzedna_y < 10)//jezeli nie dotyka dolnej sciany
+	{
+		if (wspolrzedna_x == 10)//jezeli dotyka prawej sciany(sprawdzamy tylko czy lewy dolny rog jest wolny)
+		{
+			if (plansza[wspolrzedna_y][wspolrzedna_x - 2] != ' ')
+			{
+				return 0;
+			}
+		}
+		else if (wspolrzedna_x == 1)//jezeli dotyka lewej sciany(sprawdzamy tylko czy prawy dolny rog jest wolny)
+		{
+			if (plansza[wspolrzedna_y][wspolrzedna_x] != ' ')
+			{
+				return 0;
+			}
+		}
+		else//jezeli nie dotyka zadnej sciany(lewej lub prawej)(sprawdzamy czy dolne rogi sa wolne)
+		{
+			if (plansza[wspolrzedna_y][wspolrzedna_x - 2] != ' ' || plansza[wspolrzedna_y][wspolrzedna_x] != ' ')
+			{
+				return 0;
+			}
+		}
+	}
+	return 1;
+}
+
+void render_api::render_planszy_gra(char plansza1[10][10], char plansza2[10][10], char plansza2_1[10][10], char plansza2_2[10][10], sf::RenderWindow* Window, int typ, unsigned int& oddane_strzaly_1, unsigned int& oddane_strzaly_2, unsigned int& trafienia_1, unsigned int& trafienia_2) {
+
+	//t³o planszy
+	RectangleShape game_background;
+	game_background.setSize(Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
+	Texture game_texture;
+	game_texture.loadFromFile("Texture/game_background.png");
+	game_background.setTexture(&game_texture);
+
+	//font
+	sf::Font retrofont;
+	retrofont.loadFromFile("retrofont.ttf");
+
+	//tekst "Twoje pole:"
+	sf::Text twojaplanszatekst;
+	twojaplanszatekst.setFillColor(sf::Color::Green);
+	twojaplanszatekst.setFont(retrofont);
+	twojaplanszatekst.setCharacterSize(18);
+	twojaplanszatekst.setPosition(Vector2f(120, 100));
+	twojaplanszatekst.setString("Twoje pole:");
+
+	//tekst "Pole przeciwnika:"
+	sf::Text planszaprzeciwnikatekst;
+	planszaprzeciwnikatekst.setFillColor(sf::Color::Red);
+	planszaprzeciwnikatekst.setFont(retrofont);
+	planszaprzeciwnikatekst.setCharacterSize(18);
+	planszaprzeciwnikatekst.setPosition(Vector2f(456, 100));
+	planszaprzeciwnikatekst.setString("Pole przeciwnika:");
+
+	sf::Text komunikat;
+	komunikat.setFillColor(sf::Color::Red);
+	komunikat.setFont(retrofont);
+	komunikat.setCharacterSize(18);
+	komunikat.setPosition(Vector2f(333, 539));
+
+	//³adowanie dostêpnych tekstur pól
+	Texture sprite_pustego_pola_texture;
+	sprite_pustego_pola_texture.loadFromFile("Texture/empty_tile.png");
+	Texture sprite_1_tile;
+	sprite_1_tile.loadFromFile("Texture/1_tile.png");
+	Texture sprite_2_tile;
+	sprite_2_tile.loadFromFile("Texture/2_tile.png");
+	Texture sprite_3_tile;
+	sprite_3_tile.loadFromFile("Texture/3_tile.png");
+	Texture sprite_4_tile;
+	sprite_4_tile.loadFromFile("Texture/4_tile.png");
+	Texture sprite_hit_tile;
+	sprite_hit_tile.loadFromFile("Texture/hit_tile.png");
+	Texture sprite_miss_tile;
+	sprite_miss_tile.loadFromFile("Texture/missed_tile.png");
+	game_screen game_screen(Window->getSize().x, Window->getSize().y, Window);
+	render_api* renderer = new render_api();
+	int nr = 1;
+	int odpowiedz = -1;
+	int jezeli_wygrana = 0;
+	bool podaje_kierunek = false;
+	bool czy_error = false;
+	bool czy_kontynuowaæ = true;
+	unsigned int wspolrzedna_x, wspolrzedna_y, orientacja = 1;
+	while (Window->isOpen() && czy_kontynuowaæ)
+	{
+		Event gevent;
+
+		Window->clear();
+		Window->draw(game_background);
+		Window->draw(twojaplanszatekst);
+		Window->draw(planszaprzeciwnikatekst);
+		Window->draw(komunikat);
+		game_screen.draw(*Window, plansza1, plansza2, 2);
+		Window->display();
+		wspolrzedna_x = 0;
+		int czy_trafione = 0;
+		wspolrzedna_y = 0;
+		while (Window->pollEvent(gevent))
+		{
+			if (gevent.type == Event::MouseButtonPressed) {
+
+			}
+			if (gevent.type == Event::KeyPressed) {
+				if (gevent.key.code == Keyboard::Up)
+				{
+					game_screen.MoveUp(plansza2, 2);
+					break;
+				}
+				if (gevent.key.code == Keyboard::Down) {
+					game_screen.MoveDown(plansza2, 2);
+					break;
+				}
+				if (gevent.key.code == Keyboard::Left) {
+					game_screen.MoveLeft(plansza2, 2);
+					break;
+				}
+				if (gevent.key.code == Keyboard::Right) {
+					game_screen.MoveRight(plansza2, 2);
+					break;
+				}
+				if (gevent.key.code == Keyboard::Return)
+				{
+					
+					wspolrzedna_x = floor(game_screen.PoleSelected / 10);
+					wspolrzedna_y = game_screen.PoleSelected % 10;
+					
+					
+					 if (typ == 1 || typ == 2) {
+						if (plansza2_1[wspolrzedna_y][wspolrzedna_x] == ' ')//jezeli uzytkownik strzelil w puste pole
+						{
+							if (typ == 1) {
+								oddane_strzaly_1++;
+								temp_shot1++;
+								
+							}
+							if (typ == 2) {
+								oddane_strzaly_2++;
+								temp_shot2++;
+							}
+							//ustawianie oznaczenia strzalu w odpowiednich tablicach
+							
+							komunikat.setPosition(Vector2f(356, 539));
+							komunikat.setString("Pudlo!");
+							Window->clear();
+							Window->draw(game_background);
+							Window->draw(twojaplanszatekst);
+							Window->draw(planszaprzeciwnikatekst);
+							Window->draw(komunikat);
+							game_screen.draw(*Window, plansza1, plansza2, 2);
+							Window->display();
+							plansza2_1[wspolrzedna_y][wspolrzedna_x] = '.';
+							plansza2[wspolrzedna_x][wspolrzedna_y] = '.';
+							czy_trafione = 0;
+							czy_kontynuowaæ = false;
+						}
+						else if (plansza2_1[wspolrzedna_y][wspolrzedna_x] == 'x' || plansza2_1[wspolrzedna_y][wspolrzedna_x] == '.')//jezeli uzytkownik strzelil w juz strzelane pole
+						{
+							
+							if (typ == 1) {
+								oddane_strzaly_1++;
+								temp_shot1++;
+
+								
+							}
+							if (typ == 2) {
+								oddane_strzaly_2++;
+								temp_shot2++;
+							}
+							komunikat.setPosition(Vector2f(226, 539));
+							komunikat.setString("Strzelales juz tutaj!");
+							Window->clear();
+							Window->draw(game_background);
+							Window->draw(twojaplanszatekst);
+							Window->draw(planszaprzeciwnikatekst);
+							Window->draw(komunikat);
+							game_screen.draw(*Window, plansza1, plansza2, 2);
+							Window->display();
+							czy_trafione = 2;
+							czy_kontynuowaæ = false;
+						}
+						else//jezeli uzytkownik trafil
+						{
+							if (typ == 1) {
+								oddane_strzaly_1++;
+
+								temp_shot1++;
+								
+								trafienia_1++;
+
+								temp_hit1++;
+								
+							}
+							if (typ == 2) {
+								oddane_strzaly_2++;
+
+								temp_shot2++;
+								trafienia_2++;
+
+								temp_hit2++;
+							} 
+						
+							komunikat.setString("Trafiles!");
+							czy_kontynuowaæ = true;
+							Window->clear();
+							Window->draw(game_background);
+							Window->draw(twojaplanszatekst);
+							Window->draw(planszaprzeciwnikatekst);
+							Window->draw(komunikat);
+							game_screen.draw(*Window, plansza1, plansza2, 2);
+							Window->display();
+							//umieszczanie odpowiednich oznaczen statkow na tablicach
+							if (plansza2_1[wspolrzedna_y][wspolrzedna_x] == '1')//jezeli statek jednomasztowy
+							{
+								plansza2[wspolrzedna_x][wspolrzedna_y] = 'x';
+							}
+							else if (plansza2_1[wspolrzedna_y][wspolrzedna_x] == '2')//jezeli statek dwumasztowy
+							{
+								plansza2[wspolrzedna_x][wspolrzedna_y] = 'x';
+							}
+							else if (plansza2_1[wspolrzedna_y][wspolrzedna_x] == '3')//jezeli statek trzymasztowy
+							{
+								plansza2[wspolrzedna_x][wspolrzedna_y] = 'x';
+							}
+							else if (plansza2_1[wspolrzedna_y][wspolrzedna_x] == '4')//jezeli statek czteromasztowy
+							{
+								plansza2[wspolrzedna_x][wspolrzedna_y] = 'x';
+							}
+							plansza2_1[wspolrzedna_y][wspolrzedna_x] = 'x';//ustawienie na planszy drugiego gracza oznaczenia, ze przeciwnik trafil
+							czy_trafione = 1;
+							jezeli_wygrana = czy_wygrana(plansza2_1);//sprawdzenie czy gracz wygral
+							if (jezeli_wygrana == 1)//jezeli wygral
+							{
+								czy_kontynuowaæ = false;
+								//wygrana(nick1);//wyswietlenie statystyk
+								break;
+							}
+						}
+						std::cout << "PLANSZA2_1\n";
+						for (int i = 0; i < 10; i++) {
+							for (int j = 0; j < 10; j++) {
+								if (plansza2_1[j][i] != ' ')
+									std::cout << plansza2_1[j][i];
+								else std::cout << '-';
+							}std::cout << "\n";
+						}
+					}
+					//typ 3 jest ok - NIE RUSZAC!
+					else if (typ == 3) {
+					if (plansza2_1[wspolrzedna_x][wspolrzedna_y] == ' ')//jezeli uzytkownik strzelil w puste pole
+					{
+						//ustawianie oznaczenia strzalu w odpowiednich tablicach
+						
+						oddane_strzaly_1++;
+						temp_shot1++;
+						
+						
+						komunikat.setPosition(Vector2f(356, 539));
+						komunikat.setString("Pudlo!");
+						Window->clear();
+						Window->draw(game_background);
+						Window->draw(twojaplanszatekst);
+						Window->draw(planszaprzeciwnikatekst);
+						Window->draw(komunikat);
+						game_screen.draw(*Window, plansza1, plansza2, 2);
+						Window->display();
+						plansza2_1[wspolrzedna_x][wspolrzedna_y] = '.';
+						plansza2[wspolrzedna_x][wspolrzedna_y] = '.';
+						czy_trafione = 0;
+						czy_kontynuowaæ = false;
+					}
+					else if (plansza2_1[wspolrzedna_x][wspolrzedna_y] == 'x' || plansza2_1[wspolrzedna_x][wspolrzedna_y] == '.')//jezeli uzytkownik strzelil w juz strzelane pole
+					{
+						
+						oddane_strzaly_1++;
+						temp_shot1++;
+						
+						komunikat.setPosition(Vector2f(226, 539));
+						komunikat.setString("Strzelales juz tutaj!");
+						Window->clear();
+						Window->draw(game_background);
+						Window->draw(twojaplanszatekst);
+						Window->draw(planszaprzeciwnikatekst);
+						Window->draw(komunikat);
+						game_screen.draw(*Window, plansza1, plansza2, 2);
+						Window->display();
+						czy_trafione = 2;
+						czy_kontynuowaæ = false;
+					}
+					else//jezeli uzytkownik trafil
+					{
+						oddane_strzaly_1++;
+						temp_shot1++;
+						
+						trafienia_1++;
+						temp_hit1++;
+						
+						komunikat.setString("Trafiles!");
+						czy_kontynuowaæ = true;
+						Window->clear();
+						Window->draw(game_background);
+						Window->draw(twojaplanszatekst);
+						Window->draw(planszaprzeciwnikatekst);
+						Window->draw(komunikat);
+						game_screen.draw(*Window, plansza1, plansza2, 2);
+						Window->display();
+						//umieszczanie odpowiednich oznaczen statkow na tablicach
+						if (plansza2_1[wspolrzedna_x][wspolrzedna_y] == '1')//jezeli statek jednomasztowy
+						{
+							plansza2[wspolrzedna_x][wspolrzedna_y] = 'x';
+						}
+						else if (plansza2_1[wspolrzedna_x][wspolrzedna_y] == '2')//jezeli statek dwumasztowy
+						{
+							plansza2[wspolrzedna_x][wspolrzedna_y] = 'x';
+						}
+						else if (plansza2_1[wspolrzedna_x][wspolrzedna_y] == '3')//jezeli statek trzymasztowy
+						{
+							plansza2[wspolrzedna_x][wspolrzedna_y] = 'x';
+						}
+						else if (plansza2_1[wspolrzedna_x][wspolrzedna_y] == '4')//jezeli statek czteromasztowy
+						{
+							plansza2[wspolrzedna_x][wspolrzedna_y] = 'x';
+						}
+						plansza2_1[wspolrzedna_x][wspolrzedna_y] = 'x';//ustawienie na planszy drugiego gracza oznaczenia, ze przeciwnik trafil
+						czy_trafione = 1;
+						jezeli_wygrana = czy_wygrana(plansza2_1);//sprawdzenie czy gracz wygral
+						if (jezeli_wygrana == 1)//jezeli wygral
+						{
+							czy_kontynuowaæ = false;
+							//wygrana(nick1);//wyswietlenie statystyk
+							break;
+						}
+					}
+					std::cout << "PLANSZA1_2\n";
+					for (int i = 0; i < 10; i++) {
+						for (int j = 0; j < 10; j++) {
+							if (plansza2[i][j] != ' ')
+								std::cout << plansza2[i][j];
+							else std::cout << '-';
+						}std::cout << "\n";
+					}
+					std::cout << "PLANSZA2_1\n";
+					for (int i = 0; i < 10; i++) {
+						for (int j = 0; j < 10; j++) {
+							if (plansza2_1[i][j] != ' ')
+								std::cout << plansza2_1[i][j];
+							else std::cout << '-';
+						}std::cout << "\n";
+					}
+					}
+				}
+			}
+			if (gevent.type == Event::Closed) {
+				Window->close();
+			}
+			//Window->display();
+		}
+	}
+}
+
+
+void render_api::render_planszy(char plansza1[10][10], char plansza2[10][10], sf::RenderWindow* Window) {
+	
+	//t³o planszy
+	RectangleShape game_background;
+	game_background.setSize(Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
+	Texture game_texture;
+	game_texture.loadFromFile("Texture/game_background.png");
+	game_background.setTexture(&game_texture);
+
+	//font
+	sf::Font retrofont;
+	retrofont.loadFromFile("retrofont.ttf");
+
+	//tekst "Twoje pole:"
+	sf::Text twojaplanszatekst;
+	twojaplanszatekst.setFillColor(sf::Color::Green);
+	twojaplanszatekst.setFont(retrofont);
+	twojaplanszatekst.setCharacterSize(18);
+	twojaplanszatekst.setPosition(Vector2f(120, 100));
+	twojaplanszatekst.setString("Twoje pole:");
+
+	//tekst "Pole przeciwnika:"
+	sf::Text planszaprzeciwnikatekst;
+	planszaprzeciwnikatekst.setFillColor(sf::Color::Red);
+	planszaprzeciwnikatekst.setFont(retrofont);
+	planszaprzeciwnikatekst.setCharacterSize(18);
+	planszaprzeciwnikatekst.setPosition(Vector2f(456, 100));
+	planszaprzeciwnikatekst.setString("Pole przeciwnika:");
+
+	sf::Text ustawiasz_statek;
+	sf::Text komunikat_bledu;
+	sf::Text komunikat_kierunku;
+
+	//³adowanie dostêpnych tekstur pól
+	Texture sprite_pustego_pola_texture;
+	sprite_pustego_pola_texture.loadFromFile("Texture/empty_tile.png");
+	Texture sprite_1_tile;
+	sprite_1_tile.loadFromFile("Texture/1_tile.png");
+	Texture sprite_2_tile;
+	sprite_2_tile.loadFromFile("Texture/2_tile.png");
+	Texture sprite_3_tile;
+	sprite_3_tile.loadFromFile("Texture/3_tile.png");
+	Texture sprite_4_tile;
+	sprite_4_tile.loadFromFile("Texture/4_tile.png");
+	Texture sprite_hit_tile;
+	sprite_hit_tile.loadFromFile("Texture/hit_tile.png");
+	Texture sprite_miss_tile;
+	sprite_miss_tile.loadFromFile("Texture/missed_tile.png");
+	game_screen game_screen(Window->getSize().x, Window->getSize().y, Window);
+	render_api* renderer = new render_api();
+	int nr=1;
+	int typ=1;
+	int odpowiedz=-1;
+	bool podaje_kierunek = false;
+	bool czy_error = false;
+	unsigned int wspolrzedna_x, wspolrzedna_y, orientacja=1;
+	while (Window->isOpen() && typ < 5)
+	{
+		do
+		{
+			Event gevent;
+			
+			Window->clear();
+			Window->draw(game_background);
+			Window->draw(twojaplanszatekst);
+			Window->draw(planszaprzeciwnikatekst);
+			game_screen.draw(*Window, plansza1, plansza2, 1);
+			renderer->ustawiasz_statek(typ, nr, Window, 1, ustawiasz_statek);
+			if (czy_error && !podaje_kierunek) {
+				renderer->ustawiasz_statek(typ, nr, Window, 3, komunikat_bledu);
+			}
+			else {
+				komunikat_bledu.setString("");
+				Window->draw(komunikat_bledu);
+			}
+			
+			//read_nickname.draw(*Window);
+			Window->display();
+			wspolrzedna_x = 0;
+			wspolrzedna_y = 0;
+			while (Window->pollEvent(gevent))
+			{
+				if (gevent.type == Event::MouseButtonPressed) {
+
+				}
+				if (gevent.type == Event::KeyPressed) {
+					if (gevent.key.code == Keyboard::Up && !podaje_kierunek)
+					{
+						game_screen.MoveUp(plansza1, 1);
+						break;
+					}
+					if (gevent.key.code == Keyboard::Down&&!podaje_kierunek) {
+						game_screen.MoveDown(plansza1, 1);
+						break;
+					}
+					if (gevent.key.code == Keyboard::Left&&!podaje_kierunek) {
+						game_screen.MoveLeft(plansza1, 1);
+						break;
+					}
+					if (gevent.key.code == Keyboard::Right &&!podaje_kierunek) {
+						game_screen.MoveRight(plansza1, 1);
+						break;
+					}
+					if (gevent.key.code == Keyboard::Return) 
+					{
+						if (typ == 1) {
+							wspolrzedna_y = floor(game_screen.PoleSelected / 10);
+							wspolrzedna_x = game_screen.PoleSelected % 10;
+							odpowiedz = czy_moze_tu_stac(wspolrzedna_y + 1, wspolrzedna_x + 1, plansza1);//sprawdzanie czy w wylosowanej pozycji moze stac statek
+							if (odpowiedz == 0)
+							{
+								czy_error = true;
+								renderer->nie_mo¿na_postawiæ_statku();
+
+							}
+							else {czy_error=false;
+								komunikat_bledu.setString("");
+								Window->clear();
+								plansza1[wspolrzedna_x][wspolrzedna_y] = '1';//wpisanie statku do tablicy w odpowiednie miejsce
+								game_screen.PoleSelected = 0;
+								nr++;
+								renderer->wypisz_plansze(plansza1);
+								if (nr == 5) { typ++; nr = 1; break; }
+							}
+						}
+						else if (typ == 2) 
+						{
+							wspolrzedna_x = floor(game_screen.PoleSelected / 10);
+							wspolrzedna_y = game_screen.PoleSelected % 10;
+								Event kierunekevent;
+								while (Window->waitEvent(kierunekevent))
+								{
+									
+									czy_error = false;
+									
+									podaje_kierunek = true; if (!czy_error && podaje_kierunek)
+									{
+										renderer->ustawiasz_statek(typ, nr, Window, 2, komunikat_kierunku);
+										komunikat_bledu.setString("");
+									}Window->display();
+									if (kierunekevent.type == Event::KeyPressed)
+									{
+										if (kierunekevent.key.code == Keyboard::Up)
+										{
+											orientacja = 1;
+											odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1, plansza1);
+											if (odpowiedz == 0)
+											{
+												czy_error = true; podaje_kierunek = false; break;
+											}
+											odpowiedz = czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y+1, plansza1);
+											if (odpowiedz == 0)
+											{
+												czy_error = true; podaje_kierunek = false; break;
+											}
+											else {
+												czy_error=false;
+												komunikat_bledu.setString("");
+												Window->clear();
+												plansza1[wspolrzedna_y][wspolrzedna_x] = '2';
+												plansza1[wspolrzedna_y][wspolrzedna_x-1] = '2';
+												game_screen.PoleSelected = 0;
+												nr++;
+												if (nr == 4) { typ++; nr = 1; }renderer->wypisz_plansze(plansza1);
+											}podaje_kierunek = false;
+											break;
+										}
+										if (kierunekevent.key.code == Keyboard::Down)
+										{
+											orientacja = 4;
+											odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1, plansza1);
+											if (odpowiedz == 0)
+											{
+												czy_error = true; podaje_kierunek = false; break;
+											}
+											odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 2, wspolrzedna_y + 1, plansza1);
+											if (odpowiedz == 0)
+											{
+												czy_error = true; podaje_kierunek = false; break;
+											}
+											else {
+												czy_error=false;
+												komunikat_bledu.setString("");
+												Window->clear();
+												plansza1[wspolrzedna_y][wspolrzedna_x] = '2';
+												plansza1[wspolrzedna_y][wspolrzedna_x+1] = '2';
+												game_screen.PoleSelected = 0;
+												nr++; renderer->wypisz_plansze(plansza1);
+												if (nr == 4) { typ++; nr = 1; }
+											}
+											podaje_kierunek = false;
+											break;
+										}
+										if (kierunekevent.key.code == Keyboard::Left)
+										{
+											orientacja = 3; 
+											odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1, plansza1);
+											if (odpowiedz == 0)
+											{
+												czy_error = true; podaje_kierunek = false; break;
+											}
+											odpowiedz = czy_moze_tu_stac(wspolrzedna_x+1, wspolrzedna_y, plansza1);
+											if (odpowiedz == 0)
+											{
+												czy_error = true; podaje_kierunek = false; break;
+											}
+											else {
+												czy_error=false;
+												komunikat_bledu.setString("");
+												Window->clear();
+												plansza1[wspolrzedna_y][wspolrzedna_x] = '2';
+												plansza1[wspolrzedna_y - 1][wspolrzedna_x] = '2';
+												game_screen.PoleSelected = 0;
+												nr++; renderer->wypisz_plansze(plansza1);
+												if (nr == 4) { typ++; nr = 1; }
+											}
+											podaje_kierunek = false;
+											break;
+										}
+										if (kierunekevent.key.code == Keyboard::Right)
+										{
+											orientacja = 2;
+											odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1, plansza1);
+											if (odpowiedz == 0)
+											{
+												czy_error = true; podaje_kierunek = false; break;
+											}
+											odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 2, plansza1);
+											if (odpowiedz == 0)
+											{
+												czy_error = true; podaje_kierunek = false; break;
+											}
+											else {
+												czy_error=false;
+												komunikat_bledu.setString("");
+												Window->clear();
+												plansza1[wspolrzedna_y][wspolrzedna_x] = '2';
+												plansza1[wspolrzedna_y + 1][wspolrzedna_x] = '2';
+												game_screen.PoleSelected = 0;
+												nr++; renderer->wypisz_plansze(plansza1);
+												if (nr == 4) { typ++; nr = 1; }
+											}
+											podaje_kierunek = false;
+											break;
+										}
+									}
+								}
+								
+						}
+						else if (typ == 3)
+						{
+							wspolrzedna_x = floor(game_screen.PoleSelected / 10);
+							wspolrzedna_y = game_screen.PoleSelected % 10;
+							Event kierunekevent;
+							while (Window->waitEvent(kierunekevent))
+							{
+								czy_error = false;
+								
+								
+								podaje_kierunek = true;
+								if (!czy_error && podaje_kierunek)
+								{
+									renderer->ustawiasz_statek(typ, nr, Window, 2, komunikat_kierunku); komunikat_bledu.setString("");
+								}Window->display();
+								if (kierunekevent.type == Event::KeyPressed)
+								{
+									if (kierunekevent.key.code == Keyboard::Up)
+									{
+										orientacja = 1;
+										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1, plansza1);
+										if (odpowiedz == 0)
+										{
+											czy_error = true; podaje_kierunek = false; break;
+										}
+										odpowiedz = czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y + 1, plansza1);
+										if (odpowiedz == 0)
+										{
+											czy_error = true; podaje_kierunek = false; break;
+										}
+										odpowiedz = czy_moze_tu_stac(wspolrzedna_x-1, wspolrzedna_y + 1, plansza1);
+										if (odpowiedz == 0)
+										{
+											czy_error = true; podaje_kierunek = false; break;
+										}
+										else {
+											czy_error=false;
+											komunikat_bledu.setString("");
+											Window->clear();
+											plansza1[wspolrzedna_y][wspolrzedna_x] = '3';
+											plansza1[wspolrzedna_y][wspolrzedna_x - 1] = '3';
+											plansza1[wspolrzedna_y][wspolrzedna_x - 2] = '3';
+											game_screen.PoleSelected = 0;
+											nr++; renderer->wypisz_plansze(plansza1);
+											if (nr == 3) { typ++; nr = 1; }
+										}podaje_kierunek = false;
+										break;
+									}
+									if (kierunekevent.key.code == Keyboard::Down)
+									{
+										orientacja = 4;
+										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1, plansza1);
+										if (odpowiedz == 0)
+										{
+											czy_error = true; podaje_kierunek = false; break;
+										}
+										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 2, wspolrzedna_y + 1, plansza1);
+										if (odpowiedz == 0)
+										{
+											czy_error = true; podaje_kierunek = false; break;
+										}
+										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 3, wspolrzedna_y + 1, plansza1);
+										if (odpowiedz == 0)
+										{
+											czy_error = true; podaje_kierunek = false; break;
+										}
+										else {
+											czy_error=false; komunikat_bledu.setString("");
+											Window->clear();
+											plansza1[wspolrzedna_y][wspolrzedna_x] = '3';
+											plansza1[wspolrzedna_y][wspolrzedna_x + 1] = '3';
+											plansza1[wspolrzedna_y][wspolrzedna_x + 2] = '3';
+											game_screen.PoleSelected = 0;
+											nr++; renderer->wypisz_plansze(plansza1);
+											if (nr == 3) { typ++; nr = 1; }
+										}
+										podaje_kierunek = false;
+										break;
+									}
+									if (kierunekevent.key.code == Keyboard::Left)
+									{
+										orientacja = 3;
+										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1, plansza1);
+										if (odpowiedz == 0)
+										{
+											czy_error = true;  podaje_kierunek = false; break;
+										}
+										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y, plansza1);
+										if (odpowiedz == 0)
+										{
+											czy_error = true; podaje_kierunek = false; break;
+										}
+										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y-1, plansza1);
+										if (odpowiedz == 0)
+										{
+											czy_error = true; podaje_kierunek = false; break;
+										}
+										else {
+											czy_error=false; komunikat_bledu.setString("");
+											Window->clear();
+											plansza1[wspolrzedna_y][wspolrzedna_x] = '3';
+											plansza1[wspolrzedna_y - 1][wspolrzedna_x] = '3';
+											plansza1[wspolrzedna_y - 2][wspolrzedna_x] = '3';
+											game_screen.PoleSelected = 0;
+											nr++; renderer->wypisz_plansze(plansza1);
+											if (nr == 3) { typ++; nr = 1; }
+										}
+										podaje_kierunek = false;
+										break;
+									}
+									if (kierunekevent.key.code == Keyboard::Right)
+									{
+										orientacja = 2;
+										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1, plansza1);
+										if (odpowiedz == 0)
+										{
+											czy_error = true; podaje_kierunek = false; break;
+										}
+										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 2, plansza1);
+										if (odpowiedz == 0)
+										{
+											czy_error = true; podaje_kierunek = false; break;
+										}
+										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 3, plansza1);
+										if (odpowiedz == 0)
+										{
+											czy_error = true; podaje_kierunek = false; break;
+										}
+										else {
+											czy_error=false; komunikat_bledu.setString("");
+											Window->clear();
+											plansza1[wspolrzedna_y][wspolrzedna_x] = '3';
+											plansza1[wspolrzedna_y + 1][wspolrzedna_x] = '3';
+											plansza1[wspolrzedna_y + 2][wspolrzedna_x] = '3';
+											game_screen.PoleSelected = 0;
+											nr++; renderer->wypisz_plansze(plansza1);
+											if (nr == 3) { typ++; nr = 1; }
+										}
+										podaje_kierunek = false;
+										break;
+									}
+								}
+							}
+
+						}
+						else if (typ == 4)
+						{
+							wspolrzedna_x = floor(game_screen.PoleSelected / 10);
+							wspolrzedna_y = game_screen.PoleSelected % 10;
+							Event kierunekevent;
+							while (Window->waitEvent(kierunekevent))
+							{
+								czy_error = false;
+								
+								podaje_kierunek = true; if (!czy_error && podaje_kierunek)
+								{
+									komunikat_bledu.setString("");
+									renderer->ustawiasz_statek(typ, nr, Window, 2, komunikat_kierunku); 
+								}
+								Window->display();
+								if (kierunekevent.type == Event::KeyPressed)
+								{
+									if (kierunekevent.key.code == Keyboard::Up)
+									{
+										orientacja = 1;
+										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1, plansza1);
+										if (odpowiedz == 0)
+										{
+											czy_error = true; podaje_kierunek = false; break;
+										}
+										odpowiedz = czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y + 1, plansza1);
+										if (odpowiedz == 0)
+										{
+											czy_error = true; podaje_kierunek = false; break;
+										}
+										odpowiedz = czy_moze_tu_stac(wspolrzedna_x - 1, wspolrzedna_y + 1, plansza1);
+										if (odpowiedz == 0)
+										{
+											czy_error = true; podaje_kierunek = false; break;
+										}
+										odpowiedz = czy_moze_tu_stac(wspolrzedna_x - 2, wspolrzedna_y + 1, plansza1);
+										if (odpowiedz == 0)
+										{podaje_kierunek = false; break;
+											czy_error = true;
+										}
+										else {
+											czy_error=false; komunikat_bledu.setString("");
+											plansza1[wspolrzedna_y][wspolrzedna_x] = '4';
+											plansza1[wspolrzedna_y][wspolrzedna_x - 1] = '4';
+											plansza1[wspolrzedna_y][wspolrzedna_x - 2] = '4';
+											plansza1[wspolrzedna_y][wspolrzedna_x - 3] = '4';
+											game_screen.PoleSelected = 0;
+											nr++; renderer->wypisz_plansze(plansza1);
+											if (nr == 2) { typ++; nr = 1; }
+										}podaje_kierunek = false;
+										break;
+									}
+									if (kierunekevent.key.code == Keyboard::Down)
+									{
+										orientacja = 4;
+										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1, plansza1);
+										if (odpowiedz == 0)
+										{
+											czy_error = true; podaje_kierunek = false; break;
+										}
+										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 2, wspolrzedna_y + 1, plansza1);
+										if (odpowiedz == 0)
+										{
+											czy_error = true; podaje_kierunek = false; break;
+										}
+										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 3, wspolrzedna_y + 1, plansza1);
+										if (odpowiedz == 0)
+										{
+											czy_error = true; podaje_kierunek = false; break;
+										}
+										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 4, wspolrzedna_y + 1, plansza1);
+										if (odpowiedz == 0)
+										{
+											czy_error = true; podaje_kierunek = false; break;
+										}
+										else {
+											czy_error=false; komunikat_bledu.setString("");
+											plansza1[wspolrzedna_y][wspolrzedna_x] = '4';
+											plansza1[wspolrzedna_y][wspolrzedna_x + 1] = '4';
+											plansza1[wspolrzedna_y][wspolrzedna_x + 2] = '4';
+											plansza1[wspolrzedna_y][wspolrzedna_x + 3] = '4';
+											game_screen.PoleSelected = 0;
+											nr++; renderer->wypisz_plansze(plansza1);
+											if (nr == 2) { typ++; nr = 1; }
+										}
+										podaje_kierunek = false;
+										break;
+									}
+									if (kierunekevent.key.code == Keyboard::Left)
+									{
+										orientacja = 3;
+										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1, plansza1);
+										if (odpowiedz == 0)
+										{
+											czy_error = true; podaje_kierunek = false; break;
+										}
+										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y, plansza1);
+										if (odpowiedz == 0)
+										{
+											czy_error = true; podaje_kierunek = false; break;
+										}
+										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y - 1, plansza1);
+										if (odpowiedz == 0)
+										{
+											czy_error = true; podaje_kierunek = false; break;
+										}
+										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y - 2, plansza1);
+										if (odpowiedz == 0)
+										{
+											czy_error = true; podaje_kierunek = false; break;
+										}
+										else {
+											czy_error=false; komunikat_bledu.setString("");
+											plansza1[wspolrzedna_y][wspolrzedna_x] = '4';
+											plansza1[wspolrzedna_y - 1][wspolrzedna_x] = '4';
+											plansza1[wspolrzedna_y - 2][wspolrzedna_x] = '4';
+											plansza1[wspolrzedna_y - 3][wspolrzedna_x] = '4';
+											game_screen.PoleSelected = 0;
+											nr++; renderer->wypisz_plansze(plansza1);
+											if (nr == 2) { typ++; nr = 1; }
+										}
+										podaje_kierunek = false;
+										break;
+									}
+									if (kierunekevent.key.code == Keyboard::Right)
+									{
+										orientacja = 2;
+										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1, plansza1);
+										if (odpowiedz == 0)
+										{
+											czy_error = true; podaje_kierunek = false; break;
+										}
+										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 2, plansza1);
+										if (odpowiedz == 0)
+										{
+											czy_error = true; podaje_kierunek = false; break;
+										}
+										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 3, plansza1);
+										if (odpowiedz == 0)
+										{
+											czy_error = true; podaje_kierunek = false; break;
+										}
+										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 4, plansza1);
+										if (odpowiedz == 0)
+										{
+											czy_error = true; podaje_kierunek = false; break;
+										}
+										else {
+											czy_error=false; komunikat_bledu.setString("");
+											plansza1[wspolrzedna_y][wspolrzedna_x] = '4';
+											plansza1[wspolrzedna_y + 1][wspolrzedna_x] = '4';
+											plansza1[wspolrzedna_y + 2][wspolrzedna_x] = '4';
+											plansza1[wspolrzedna_y + 3][wspolrzedna_x] = '4';
+											game_screen.PoleSelected = 0;
+
+											nr++; renderer->wypisz_plansze(plansza1);
+											if (nr == 2) { typ++; nr = 1; }
+										}
+										podaje_kierunek = false;
+										break;
+									}
+								}
+							}
+
+						}
+					}
+				}
+				if (gevent.type == Event::Closed) {
+					Window->close();
+				}
+				//Window->display();
+			}
+		} while (odpowiedz != 1);//jezeli nie moze stac statek w tej pozycji uzytkownik podaje nowe wspolrzedne
+		
+	}
+}
+
+void render_api::nie_ma_opcji() {
+	
+}
+
+void render_api::ustawiasz_statek(int typ, int nr, sf::RenderWindow* Window, int typ_wiadomosci, sf::Text napis) {
+	sf::Font retrofont;
+	retrofont.loadFromFile("retrofont.ttf");
+
+	napis.setFillColor(sf::Color::Black);
+	napis.setFont(retrofont);
+	
+	int max_ilosc = 5 - typ;
+	std::string var;
+	if (typ_wiadomosci==1)
+	{
+		var = "Ustawiasz statek " + std::to_string(typ) + "-masztowy (" + std::to_string(nr) + "/" + std::to_string(max_ilosc) + ")\n";
+		napis.setPosition(Vector2f(115, 493));
+
+		napis.setCharacterSize(18);
+	}
+	else if (typ_wiadomosci==2) { 
+		var = "Wybierz orientacje okretu (strzalkami)\n"; 
+		napis.setPosition(Vector2f(75, 539));
+
+		napis.setCharacterSize(18);
+	}
+	else if (typ_wiadomosci == 3) {
+		var = "Nie mozna umiescic statku w tym miejscu!\n";
+		napis.setPosition(Vector2f(71, 579));
+
+		napis.setCharacterSize(17);
+	}
+	else if (typ_wiadomosci == 4) {
+		var = "";
+		napis.setPosition(Vector2f(71, 539));
+
+		napis.setCharacterSize(17);
+	}
+	napis.setString(var);
+	Window->draw(napis);
+	
+}
+
+void render_api::nie_mo¿na_postawiæ_statku() {
+	
+}
+
+void render_api::podaj_orientacjê() {
+	
+}
+
+void render_api::podaj_nazwê_pliku_do_zapisania_gry() {
+	
+}
+
+void render_api::nie_uda³o_siê() {
+	
+}
+
+void render_api::zapisano_pomyœlnie() {
+	
+}
+
+void render_api::wczytano_pomyœlnie() {
+	
+}
+
+void render_api::zaczyna(char* nick1) {
+
+}
