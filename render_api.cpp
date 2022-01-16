@@ -29,8 +29,33 @@ void render_api::pudlo(int typ) {
 
 }
 
-void render_api::przeka¿_komputer() {
-	
+void render_api::przeka¿_komputer(sf::RenderWindow* Window) {
+	sf::RectangleShape przekaz_background;
+	przekaz_background.setSize(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
+	sf::Texture przekaz_background_texture;
+	przekaz_background_texture.loadFromFile("Texture/game_background.png");
+	przekaz_background.setTexture(&przekaz_background_texture);
+	sf::Font retrofont;
+	retrofont.loadFromFile("retrofont.ttf");
+
+	//tekst "Twoje pole:"
+	sf::Text przekaz_text;
+	przekaz_text.setFillColor(sf::Color::Black);
+	przekaz_text.setFont(retrofont);
+	przekaz_text.setCharacterSize(18);
+	przekaz_text.setPosition(sf::Vector2f(100, 100));
+	przekaz_text.setString("Przekaz komputer drugiemu graczowi");
+	sf::Text enter_text;
+	enter_text.setFillColor(sf::Color::Black);
+	enter_text.setFont(retrofont);
+	enter_text.setCharacterSize(22);
+	enter_text.setPosition(sf::Vector2f(86, 500));
+	enter_text.setString("Wcisnij ENTER, aby kontynuowac");
+
+	Window->draw(przekaz_background);
+	Window->draw(przekaz_text);
+	Window->draw(enter_text);
+	Window->display();
 }
 
 std::string render_api::podaj_nick(sf::RenderWindow* Window) {
@@ -98,21 +123,61 @@ std::string render_api::podaj_nick(sf::RenderWindow* Window) {
 }
 
 void render_api::komputer_ustawia_statki(sf::RenderWindow* Window) {
-	RectangleShape komputer_ustawia_statki_background;
-	komputer_ustawia_statki_background.setSize(Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
-	Texture komputer_ustawia_statki_Texture;
-	komputer_ustawia_statki_Texture.loadFromFile("Texture/komputer_ustawia.png");
-	komputer_ustawia_statki_background.setTexture(&komputer_ustawia_statki_Texture);
+	sf::RectangleShape ustawienie_statkow_bota_background;
+	ustawienie_statkow_bota_background.setSize(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
+	sf::Texture ustawienie_statkow_bota_texture;
+	ustawienie_statkow_bota_texture.loadFromFile("Texture/game_background.png");
+	ustawienie_statkow_bota_background.setTexture(&ustawienie_statkow_bota_texture);
+	sf::Font retrofont;
+	retrofont.loadFromFile("retrofont.ttf");
+
+	//tekst "Twoje pole:"
+	sf::Text ustawienie_statkow_bota_text;
+	ustawienie_statkow_bota_text.setFillColor(sf::Color::Black);
+	ustawienie_statkow_bota_text.setFont(retrofont);
+	ustawienie_statkow_bota_text.setCharacterSize(24);
+	ustawienie_statkow_bota_text.setPosition(sf::Vector2f(134, 300));
+	ustawienie_statkow_bota_text.setString("Komputer ustawia statki");
+
+	
+	Window->draw(ustawienie_statkow_bota_background);
+	Window->draw(ustawienie_statkow_bota_text);
+	Window->display();
+	sf::sleep(sf::milliseconds(1000)); 
+	clear_screen(Window);
+}
+
+void render_api::clear_screen(sf::RenderWindow* Window) {
 	Window->clear();
-	Window->draw(komputer_ustawia_statki_background);
+}
 
+void render_api::ruch_wykonuje_komputer(sf::RenderWindow* Window) {
+	
+	sf::RectangleShape ruch_komputera_background;
+	ruch_komputera_background.setSize(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
+	sf::Texture ruch_komputera_texture;
+	ruch_komputera_texture.loadFromFile("Texture/game_background.png");
+	ruch_komputera_background.setTexture(&ruch_komputera_texture);
+
+	sf::Font retrofont;
+	retrofont.loadFromFile("retrofont.ttf");
+	
+	sf::Text ruch_komputera_text;
+	ruch_komputera_text.setFillColor(sf::Color::Black);
+	ruch_komputera_text.setFont(retrofont);
+	ruch_komputera_text.setCharacterSize(24);
+	ruch_komputera_text.setPosition(sf::Vector2f(154, 300));
+	ruch_komputera_text.setString("Ruch wykonuje komputer");
+
+
+	
+
+	Window->draw(ruch_komputera_background);
+	Window->draw(ruch_komputera_text);
+	Window->display();
+	//std::cout << "WCISNIETO ENTER KIEDY MA PRZEKAZAC KOMPUTER";
 	sf::sleep(sf::milliseconds(1000));
-}
-
-void render_api::clear_screen() {
-}
-
-void render_api::ruch_wykonuje_komputer() {
+	Window->clear();
 }
 
 std::string render_api::podaj_nick2(sf::RenderWindow* Window) {
@@ -214,9 +279,6 @@ void render_api::b³êdna_wspó³rzêdna() {
 	
 }
 
-void render_api::podaj_wspó³rzêdne() {
-	
-}
 
 
 
@@ -684,8 +746,110 @@ void render_api::render_planszy_gra(char plansza1[10][10], char plansza2[10][10]
 	}
 }
 
+void render_api::drukuj_statystyki(sf::RenderWindow* Window, char* nick, char* nick1, char* nick2, int oddane_strzaly_1, int oddane_strzaly_2, int trafienia_1, int trafienia_2) {
+	sf::RectangleShape background;
+	background.setSize(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
+	sf::Texture background_texture;
+	background_texture.loadFromFile("Texture/game_background.png");
+	background.setTexture(&background_texture);
+	sf::Font retrofont;
+	retrofont.loadFromFile("retrofont.ttf");
 
-void render_api::render_planszy(char plansza1[10][10], char plansza2[10][10], sf::RenderWindow* Window) {
+	//tekst "Twoje pole:"
+	sf::Text game_over_text;
+	game_over_text.setFillColor(sf::Color::Black);
+	game_over_text.setFont(retrofont);
+	game_over_text.setCharacterSize(38);
+	game_over_text.setPosition(sf::Vector2f(230, 100));
+	game_over_text.setString("KONIEC GRY");
+
+	sf::Text wygral;
+	wygral.setFillColor(sf::Color::Black);
+	wygral.setFont(retrofont);
+	wygral.setCharacterSize(38);
+	wygral.setPosition(sf::Vector2f(145, 160));
+	wygral.setString("Wygral: " + std::string(nick));
+
+	sf::Text player1_name;
+	player1_name.setFillColor(sf::Color::Black);
+	player1_name.setFont(retrofont);
+	player1_name.setCharacterSize(38);
+	player1_name.setPosition(sf::Vector2f(76, 300));
+	player1_name.setString(nick1);
+
+	sf::Text player2_name;
+	player2_name.setFillColor(sf::Color::Black);
+	player2_name.setFont(retrofont);
+	player2_name.setCharacterSize(38);
+	player2_name.setPosition(sf::Vector2f(76, 400));
+	player2_name.setString(nick2);
+
+	sf::Text oddane_strzaly_player1_text;
+	oddane_strzaly_player1_text.setFillColor(sf::Color::Black);
+	oddane_strzaly_player1_text.setFont(retrofont);
+	oddane_strzaly_player1_text.setCharacterSize(38);
+	oddane_strzaly_player1_text.setPosition(sf::Vector2f(500, 300));
+	oddane_strzaly_player1_text.setString(to_string(oddane_strzaly_1));
+
+	sf::Text oddane_strzaly_player2_text;
+	oddane_strzaly_player2_text.setFillColor(sf::Color::Black);
+	oddane_strzaly_player2_text.setFont(retrofont);
+	oddane_strzaly_player2_text.setCharacterSize(38);
+	oddane_strzaly_player2_text.setPosition(sf::Vector2f(500, 400));
+	oddane_strzaly_player2_text.setString(to_string(oddane_strzaly_2));
+
+	sf::Text trafienia_player1_text;
+	trafienia_player1_text.setFillColor(sf::Color::Black);
+	trafienia_player1_text.setFont(retrofont);
+	trafienia_player1_text.setCharacterSize(38);
+	trafienia_player1_text.setPosition(sf::Vector2f(680, 300));
+	trafienia_player1_text.setString(to_string(trafienia_1));
+
+	sf::Text trafienia_player2_text;
+	trafienia_player2_text.setFillColor(sf::Color::Black);
+	trafienia_player2_text.setFont(retrofont);
+	trafienia_player2_text.setCharacterSize(38);
+	trafienia_player2_text.setPosition(sf::Vector2f(680, 400));
+	trafienia_player2_text.setString(to_string(trafienia_2));
+
+	sf::Text shots_text;
+	shots_text.setFillColor(sf::Color::Black);
+	shots_text.setFont(retrofont);
+	shots_text.setCharacterSize(18);
+	shots_text.setPosition(sf::Vector2f(460, 240));
+	shots_text.setString("Strzalów:");
+
+	sf::Text hit_text;
+	hit_text.setFillColor(sf::Color::Black);
+	hit_text.setFont(retrofont);
+	hit_text.setCharacterSize(18);
+	hit_text.setPosition(sf::Vector2f(630, 240));
+	hit_text.setString("Trafieñ:");
+
+	sf::Text enter_text;
+	enter_text.setFillColor(sf::Color::Black);
+	enter_text.setFont(retrofont);
+	enter_text.setCharacterSize(22);
+	enter_text.setPosition(sf::Vector2f(86, 500));
+	enter_text.setString("Wcisnij ENTER, aby kontynuowac");
+
+	Window->draw(background);
+	Window->draw(game_over_text);
+	Window->draw(wygral);
+	Window->draw(player1_name);
+	Window->draw(player2_name);
+	Window->draw(oddane_strzaly_player1_text);
+	Window->draw(oddane_strzaly_player2_text);
+	Window->draw(trafienia_player1_text);
+	Window->draw(trafienia_player2_text);
+	Window->draw(hit_text);
+	Window->draw(shots_text);
+	Window->draw(enter_text);
+
+	Window->display();
+}
+
+void render_api::render_planszy_przy_ustawianiu(char plansza1[10][10], char plansza2[10][10], sf::RenderWindow* Window) {
 	
 	//t³o planszy
 	RectangleShape game_background;
@@ -1315,14 +1479,67 @@ void render_api::nie_uda³o_siê() {
 	
 }
 
-void render_api::zapisano_pomyœlnie() {
-	
+void render_api::zapisano_pomyœlnie(sf::RenderWindow* Window) {
+	sf::RectangleShape zapis_udany_background;
+	zapis_udany_background.setSize(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
+	sf::Texture zapis_udany_texture;
+	zapis_udany_texture.loadFromFile("Texture/zapis_udany.png");
+	zapis_udany_background.setTexture(&zapis_udany_texture);
+
+	Window->clear();
+	Window->draw(zapis_udany_background);
+	Window->display();
 }
 
-void render_api::wczytano_pomyœlnie() {
+void render_api::wczytaj_save_background_method(sf::RenderWindow* Window, sf::Text text) {
+	sf::RectangleShape Wczytaj_save_background;
+	Wczytaj_save_background.setSize(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
+	sf::Texture wczytaj_save_Texture;
+	wczytaj_save_Texture.loadFromFile("Texture/podaj_nazwê_pliku.png");
+	Wczytaj_save_background.setTexture(&wczytaj_save_Texture);
 	
+
+	Window->clear();
+	Window->draw(Wczytaj_save_background);
+	Window->draw(text);
+	Window->display();
 }
 
-void render_api::zaczyna(char* nick1) {
+void render_api::zaczyna(sf::RenderWindow* Window, char* nick1)
+{
+	int count = 3;
+	sf::Text text_odliczania;
+	sf::Text text_odliczania2;
+	sf::Font retrofont;
+	retrofont.loadFromFile("retrofont.ttf");
 
+	text_odliczania.setFillColor(sf::Color::Black);
+	text_odliczania.setFont(retrofont);
+	text_odliczania.setCharacterSize(30);
+	text_odliczania.setPosition(sf::Vector2f(136, 157));
+	text_odliczania.setString("");
+
+	text_odliczania2.setFillColor(sf::Color::Black);
+	text_odliczania2.setFont(retrofont);
+	text_odliczania2.setCharacterSize(24);
+	text_odliczania2.setPosition(sf::Vector2f(294, 400));
+	text_odliczania2.setString("");
+	sf::RectangleShape wczytaj_save_background;
+	wczytaj_save_background.setSize(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
+	sf::Texture wczytaj_save_texture;
+	wczytaj_save_texture.loadFromFile("Texture/game_background.png");
+	wczytaj_save_background.setTexture(&wczytaj_save_texture);
+
+	while (Window->isOpen() && count > 0) 
+	{
+		Window->clear();
+		text_odliczania.setString("Rozpoczyna: " + string(nick1));
+		text_odliczania2.setString("Start za " + to_string(count));
+		Window->draw(wczytaj_save_background);
+		Window->draw(text_odliczania);
+		Window->draw(text_odliczania2);
+		Window->display();
+		count--;
+		sf::sleep(sf::milliseconds(1000));
+	}
 }

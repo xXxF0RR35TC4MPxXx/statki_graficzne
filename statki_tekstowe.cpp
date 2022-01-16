@@ -15,10 +15,6 @@
 #define WINDOW_WIDTH 822
 using namespace std;
 
-void Czyszczenie_Bufora(void)//czyszczenie bufora
-{
-	while (getchar() != '\n') {}
-}
 
 template<typename T>
 T rozpoczecie_gry(void)//funkcja pokazujaca menu dla rozpoczecia gry
@@ -54,9 +50,8 @@ T rozpoczecie_gry(void)//funkcja pokazujaca menu dla rozpoczecia gry
 
 
 template<typename T>
-T menu(RenderWindow *Window)//menu glowne
+T menu(RenderWindow *Window, render_api* renderer)//menu glowne
 {
-	render_api* renderer = new render_api();
 	T wybor_gracza;
 	bool nowa_gra = true;
 	mainmenu mainMenu(Window->getSize().x, Window->getSize().y);
@@ -592,7 +587,6 @@ void opis(void)
 	//Wyswietlenie instrukcji dla gry
 	render_api* renderer = new render_api();
 	renderer->instrukcja();
-	system("cls");//wyczyszczenie ekranu
 }
 
 int main()
@@ -608,6 +602,6 @@ int main()
 	srand((unsigned int)time(NULL));//liczby pseudolosowe
 	while (Window.isOpen())//petla uruchamiajaca gre ciagle od nowa
 	{
-		menu<int>(&Window);//wywolanie funkcji menu(wybor gracza co chce zrobic)
+		menu<int>(&Window, renderer);//wywolanie funkcji menu(wybor gracza co chce zrobic)
 	}
 }
