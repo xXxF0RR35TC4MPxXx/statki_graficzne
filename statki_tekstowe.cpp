@@ -289,7 +289,7 @@ T menu(RenderWindow *Window, render_api* renderer)//menu glowne
 											napis = "";
 											pierwszy = false;
 											text.setString(napis);
-											renderer->nie_udało_się(Window, text);
+											renderer->błąd_odczytu_save(Window, text);
 
 										}
 										else 

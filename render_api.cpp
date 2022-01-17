@@ -21,6 +21,9 @@ render_api::render_api() {
 
 }
 
+
+
+
 void render_api::main_menu(sf::RenderWindow* Window, mainmenu MainMenu) {
 	sf::RectangleShape background;
 	background.setSize(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
@@ -105,7 +108,6 @@ std::string render_api::podaj_nick(sf::RenderWindow* Window) {
 		}
 	}
 }
-
 void render_api::ustawiasz_statek(int typ, int nr, sf::RenderWindow* Window, int typ_wiadomosci, sf::Text napis) {
 	sf::Font retrofont;
 	retrofont.loadFromFile("retrofont.ttf");
@@ -1153,9 +1155,6 @@ void render_api::render_planszy_gra(char plansza1[10][10], char plansza2[10][10]
 		}
 	}
 }
-
-
-
 void render_api::przeka¿_komputer(sf::RenderWindow* Window) {
 	sf::RectangleShape przekaz_background;
 	przekaz_background.setSize(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
@@ -1183,9 +1182,6 @@ void render_api::przeka¿_komputer(sf::RenderWindow* Window) {
 	Window->draw(enter_text);
 	Window->display();
 }
-
-
-
 void render_api::komputer_ustawia_statki(sf::RenderWindow* Window) {
 	sf::RectangleShape ustawienie_statkow_bota_background;
 	ustawienie_statkow_bota_background.setSize(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
@@ -1209,13 +1205,8 @@ void render_api::komputer_ustawia_statki(sf::RenderWindow* Window) {
 	sf::sleep(sf::milliseconds(1000)); 
 	clear_screen(Window);
 }
-
-void render_api::clear_screen(sf::RenderWindow* Window) {
-	Window->clear();
-}
-
 void render_api::ruch_wykonuje_komputer(sf::RenderWindow* Window) {
-	
+
 	sf::RectangleShape ruch_komputera_background;
 	ruch_komputera_background.setSize(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
 	sf::Texture ruch_komputera_texture;
@@ -1224,7 +1215,7 @@ void render_api::ruch_wykonuje_komputer(sf::RenderWindow* Window) {
 
 	sf::Font retrofont;
 	retrofont.loadFromFile("retrofont.ttf");
-	
+
 	sf::Text ruch_komputera_text;
 	ruch_komputera_text.setFillColor(sf::Color::Black);
 	ruch_komputera_text.setFont(retrofont);
@@ -1233,7 +1224,7 @@ void render_api::ruch_wykonuje_komputer(sf::RenderWindow* Window) {
 	ruch_komputera_text.setString("Ruch wykonuje komputer");
 
 
-	
+
 
 	Window->draw(ruch_komputera_background);
 	Window->draw(ruch_komputera_text);
@@ -1242,94 +1233,6 @@ void render_api::ruch_wykonuje_komputer(sf::RenderWindow* Window) {
 	sf::sleep(sf::milliseconds(1000));
 	Window->clear();
 }
-
-
-
-void render_api::draw_empty_background(sf::RenderWindow* Window)
-{
-	sf::RectangleShape background;
-	background.setSize(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
-	sf::Texture MainTexture;
-	MainTexture.loadFromFile("Texture/menu_background.jpg");
-	background.setTexture(&MainTexture);
-	Window->clear();
-	Window->draw(background);
-	Window->display();
-}
-
-
-void render_api::czy_zapisac_gre(sf::RenderWindow* Window, zapis_save_yes_no zapis_yes_no){
-	RectangleShape pusty_background;
-	pusty_background.setSize(Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
-	Texture pusty_texture;
-	pusty_texture.loadFromFile("Texture/game_background.png");
-	pusty_background.setTexture(&pusty_texture);
-
-	Window->clear();
-	Window->draw(pusty_background);
-	zapis_yes_no.draw(*Window);
-	Window->display();
-}
-
-
-
-void render_api::instrukcja(sf::RenderWindow* Window) {
-	//photo to instructions
-	RectangleShape Instrukcja_background;
-	Instrukcja_background.setSize(Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
-	Texture InstructionTexture;
-	InstructionTexture.loadFromFile("Texture/Instruction_photo.png");
-	Instrukcja_background.setTexture(&InstructionTexture);
-
-
-	Window->clear();
-	Window->draw(Instrukcja_background);
-	Window->display();
-}
-
-
-void render_api::plik_uszkodzony(sf::RenderWindow* Window) {
-	RectangleShape plik_uszkodzony_background;
-	plik_uszkodzony_background.setSize(Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
-	Texture plik_uszkodzony_Texture;
-	plik_uszkodzony_Texture.loadFromFile("Texture/plik_uszkodzony.png");
-	plik_uszkodzony_background.setTexture(&plik_uszkodzony_Texture);
-
-	Window->draw(plik_uszkodzony_background);
-	Window->display();
-}
-
-void render_api::twórcy(sf::RenderWindow* Window) {
-
-	RectangleShape Twórcy_background;
-	Twórcy_background.setSize(Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
-	Texture AboutTexture;
-	AboutTexture.loadFromFile("Texture/About_photo.png");
-	Twórcy_background.setTexture(&AboutTexture);
-
-
-	Window->clear();
-	Window->draw(Twórcy_background);
-	Window->display();
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-void render_api::wypisz_plansze(char plansza[10][10]) {
-	for (int i = 0; i < 10; i++) {
-		for (int j = 0; j < 10; j++) {
-			if (plansza[j][i] == ' ') cout << '-';
-			else cout << plansza[j][i];
-		}cout << "\n";
-	}
-	cout << "\n";
-}
-
 int render_api::czy_wygrana(char plansza[10][10])//funkcja sprawdza czy w przeslanej tablicy znajduja sie jeszcze symbole oznaczajace niezatopiony statek i zwraca odpowiednia informacje
 {
 	for (int i = 0; i < 10; i++)
@@ -1342,11 +1245,9 @@ int render_api::czy_wygrana(char plansza[10][10])//funkcja sprawdza czy w przesl
 			}
 		}
 	}
-	
+
 	return 1;
 }
-
-
 void render_api::drukuj_statystyki(sf::RenderWindow* Window, char* nick, char* nick1, char* nick2, int oddane_strzaly_1, int oddane_strzaly_2, int trafienia_1, int trafienia_2) {
 	sf::RectangleShape background;
 	background.setSize(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
@@ -1452,19 +1353,19 @@ void render_api::drukuj_statystyki(sf::RenderWindow* Window, char* nick, char* n
 
 
 
-void render_api::nie_uda³o_siê(sf::RenderWindow* Window, sf::Text text) {
-	
-	RectangleShape b³¹d_odczytu_background;
-	b³¹d_odczytu_background.setSize(Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
-	Texture b³¹d_odczytu_Texture;
-	b³¹d_odczytu_Texture.loadFromFile("Texture/b³¹d_odczytu.png");
-	b³¹d_odczytu_background.setTexture(&b³¹d_odczytu_Texture);
 
-	Window->draw(b³¹d_odczytu_background);
-	Window->draw(text);
+void render_api::czy_zapisac_gre(sf::RenderWindow* Window, zapis_save_yes_no zapis_yes_no) {
+	RectangleShape pusty_background;
+	pusty_background.setSize(Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
+	Texture pusty_texture;
+	pusty_texture.loadFromFile("Texture/game_background.png");
+	pusty_background.setTexture(&pusty_texture);
+
+	Window->clear();
+	Window->draw(pusty_background);
+	zapis_yes_no.draw(*Window);
 	Window->display();
 }
-
 void render_api::zapisano_pomyœlnie(sf::RenderWindow* Window) {
 	sf::RectangleShape zapis_udany_background;
 	zapis_udany_background.setSize(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
@@ -1477,20 +1378,44 @@ void render_api::zapisano_pomyœlnie(sf::RenderWindow* Window) {
 	Window->display();
 }
 
+
+
+
 void render_api::wczytaj_save_background_method(sf::RenderWindow* Window, sf::Text text) {
 	sf::RectangleShape Wczytaj_save_background;
 	Wczytaj_save_background.setSize(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
 	sf::Texture wczytaj_save_Texture;
 	wczytaj_save_Texture.loadFromFile("Texture/podaj_nazwê_pliku.png");
 	Wczytaj_save_background.setTexture(&wczytaj_save_Texture);
-	
+
 
 	Window->clear();
 	Window->draw(Wczytaj_save_background);
 	Window->draw(text);
 	Window->display();
 }
+void render_api::plik_uszkodzony(sf::RenderWindow* Window) {
+	RectangleShape plik_uszkodzony_background;
+	plik_uszkodzony_background.setSize(Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
+	Texture plik_uszkodzony_Texture;
+	plik_uszkodzony_Texture.loadFromFile("Texture/plik_uszkodzony.png");
+	plik_uszkodzony_background.setTexture(&plik_uszkodzony_Texture);
 
+	Window->draw(plik_uszkodzony_background);
+	Window->display();
+}
+void render_api::b³¹d_odczytu_save(sf::RenderWindow* Window, sf::Text text) {
+
+	RectangleShape b³¹d_odczytu_background;
+	b³¹d_odczytu_background.setSize(Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
+	Texture b³¹d_odczytu_Texture;
+	b³¹d_odczytu_Texture.loadFromFile("Texture/b³¹d_odczytu.png");
+	b³¹d_odczytu_background.setTexture(&b³¹d_odczytu_Texture);
+
+	Window->draw(b³¹d_odczytu_background);
+	Window->draw(text);
+	Window->display();
+}
 void render_api::zaczyna(sf::RenderWindow* Window, char* nick1)
 {
 	int count = 3;
@@ -1516,7 +1441,7 @@ void render_api::zaczyna(sf::RenderWindow* Window, char* nick1)
 	wczytaj_save_texture.loadFromFile("Texture/game_background.png");
 	wczytaj_save_background.setTexture(&wczytaj_save_texture);
 
-	while (Window->isOpen() && count > 0) 
+	while (Window->isOpen() && count > 0)
 	{
 		Window->clear();
 		text_odliczania.setString("Rozpoczyna: " + string(nick1));
@@ -1528,4 +1453,57 @@ void render_api::zaczyna(sf::RenderWindow* Window, char* nick1)
 		count--;
 		sf::sleep(sf::milliseconds(1000));
 	}
+}
+
+
+
+
+void render_api::instrukcja(sf::RenderWindow* Window) {
+	//photo to instructions
+	RectangleShape Instrukcja_background;
+	Instrukcja_background.setSize(Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
+	Texture InstructionTexture;
+	InstructionTexture.loadFromFile("Texture/Instruction_photo.png");
+	Instrukcja_background.setTexture(&InstructionTexture);
+
+
+	Window->clear();
+	Window->draw(Instrukcja_background);
+	Window->display();
+}
+void render_api::twórcy(sf::RenderWindow* Window) {
+
+	RectangleShape Twórcy_background;
+	Twórcy_background.setSize(Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
+	Texture AboutTexture;
+	AboutTexture.loadFromFile("Texture/About_photo.png");
+	Twórcy_background.setTexture(&AboutTexture);
+
+
+	Window->clear();
+	Window->draw(Twórcy_background);
+	Window->display();
+}
+void render_api::draw_empty_background(sf::RenderWindow* Window)
+{
+	sf::RectangleShape background;
+	background.setSize(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
+	sf::Texture MainTexture;
+	MainTexture.loadFromFile("Texture/menu_background.jpg");
+	background.setTexture(&MainTexture);
+	Window->clear();
+	Window->draw(background);
+	Window->display();
+}
+void render_api::wypisz_plansze(char plansza[10][10]) {
+	for (int i = 0; i < 10; i++) {
+		for (int j = 0; j < 10; j++) {
+			if (plansza[j][i] == ' ') cout << '-';
+			else cout << plansza[j][i];
+		}cout << "\n";
+	}
+	cout << "\n";
+}
+void render_api::clear_screen(sf::RenderWindow* Window) {
+	Window->clear();
 }
