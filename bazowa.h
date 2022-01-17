@@ -25,8 +25,6 @@ protected:
 	void pokaz_plansze_gra(char plansza1[10][10], char plansza2[10][10], char plansza2_1[10][10], char plansza2_2[10][10], sf::RenderWindow*, int typ, unsigned int oddane_strzaly_1, unsigned int oddane_strzaly_2, unsigned int trafienia_1, unsigned int trafienia_2);//funkcja pokazujaca odpowiednie plansze
 	int czy_wygrana(char plansza[10][10]);//funkcja sprawdza czy ktos juz nie zatopil wszystkich statkow
 	void wygrana(sf::RenderWindow* ,char nick[]);//funkcja wyswietla statystyki jezeli ktos wygral i konczy gre(wraca do menu)
-	void podawanie_orientacji_statku(unsigned int* orientacja);//funkcja w ktorej uzytkownik podaje orientacje przy stawianiu statku
-	int czy_moze_tu_stac(unsigned int wspolrzedna_x, unsigned int wspolrzedna_y, char plansza[10][10]);//funkcja sprawdza czy na podanych koordynatach moze stac statek
 	void ustawienie_statkow(char plansza1[10][10], char plansza2[10][10], sf::RenderWindow*);//funkcja w ktorej ustawia sie statki
 public:
 	void zapisywanie(sf::RenderWindow* Window);//funkcja do zapisania postepu gry do pliku

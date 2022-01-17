@@ -39,7 +39,6 @@ int gracz::gra(sf::RenderWindow* Window, render_api* renderer)//funkcja do przep
 			if (trafienia_1 != 0 && trafienia_2 != 0)wygrana(Window, nick1);//wyswietlenie statystyk
 			return 1;
 		}
-		//opóŸnienie, ¿eby wyœwietliæ komunikat o pudle
 		
 		
 		wyszedl_z_okna = false;
@@ -48,12 +47,10 @@ int gracz::gra(sf::RenderWindow* Window, render_api* renderer)//funkcja do przep
 				if (przekazkomputerevent.type == sf::Event::MouseButtonPressed) {
 
 				}
-				//std::cout << "MA PRZEKAZAC KOMPUTER";
 				renderer->przeka¿_komputer(Window);
 				if (przekazkomputerevent.type == sf::Event::KeyPressed) {
 					if (przekazkomputerevent.key.code == sf::Keyboard::Return)
 					{
-						//std::cout << "WCISNIETO ENTER KIEDY MA PRZEKAZAC KOMPUTER";
 						wyszedl_z_okna = true;
 						Window->clear();
 						break;
@@ -300,7 +297,7 @@ void bot::ustawienie_statkow_bot(T plansza1[10][10], T plansza2[10][10])//funkcj
 			//komputer losuje 2 liczby z przedzialu 1-10
 			wspolrzedna_x = (rand() % 10) + 1;
 			wspolrzedna_y = (rand() % 10) + 1;
-			odpowiedz = czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);//sprawdzanie czy w wylosowanej pozycji moze stac statek
+			odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);//sprawdzanie czy w wylosowanej pozycji moze stac statek
 		} while (odpowiedz != 1);//losuje do poki nie wylosuje dobrej pozycji
 		plansza1[wspolrzedna_y - 1][wspolrzedna_x - 1] = '1';//wpisanie statku do tablicy w odpowiednie miejsce
 	}
@@ -315,31 +312,31 @@ void bot::ustawienie_statkow_bot(T plansza1[10][10], T plansza2[10][10])//funkcj
 			//sprawdzanie czy w danej orientacji moze stac statek poprzez wywolywanie funkcji sprawdzajacej to dla kazdej wspolrzednej w ktorej bedzie sie znajdowal statek
 			if (orientacja == 1)
 			{
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
 				if (odpowiedz == 0) continue;
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y - 1, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y - 1, plansza1);
 				if (odpowiedz == 0) continue;
 			}
 			else if (orientacja == 2)
 			{
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
 				if (odpowiedz == 0) continue;
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y, plansza1);
 				if (odpowiedz == 0) continue;
 
 			}
 			else if (orientacja == 3)
 			{
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
 				if (odpowiedz == 0) continue;
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x - 1, wspolrzedna_y, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x - 1, wspolrzedna_y, plansza1);
 				if (odpowiedz == 0) continue;
 			}
 			else if (orientacja == 4)
 			{
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
 				if (odpowiedz == 0) continue;
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y + 1, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y + 1, plansza1);
 				if (odpowiedz == 0) continue;
 			}
 			break;//jezeli moze stac w takim miejscu przerwanie petli
@@ -377,39 +374,39 @@ void bot::ustawienie_statkow_bot(T plansza1[10][10], T plansza2[10][10])//funkcj
 			//sprawdzanie czy w danej orientacji moze stac statek poprzez wywolywanie funkcji sprawdzajacej to dla kazdej wspolrzednej w ktorej bedzie sie znajdowal statek
 			if (orientacja == 1)
 			{
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
 				if (odpowiedz == 0) continue;
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y - 1, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y - 1, plansza1);
 				if (odpowiedz == 0) continue;
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y - 2, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y - 2, plansza1);
 				if (odpowiedz == 0) continue;
 			}
 			else if (orientacja == 2)
 			{
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
 				if (odpowiedz == 0) continue;
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y, plansza1);
 				if (odpowiedz == 0) continue;
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 2, wspolrzedna_y, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x + 2, wspolrzedna_y, plansza1);
 				if (odpowiedz == 0) continue;
 
 			}
 			else if (orientacja == 3)
 			{
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
 				if (odpowiedz == 0) continue;
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x - 1, wspolrzedna_y, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x - 1, wspolrzedna_y, plansza1);
 				if (odpowiedz == 0) continue;
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x - 2, wspolrzedna_y, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x - 2, wspolrzedna_y, plansza1);
 				if (odpowiedz == 0) continue;
 			}
 			else if (orientacja == 4)
 			{
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
 				if (odpowiedz == 0) continue;
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y + 1, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y + 1, plansza1);
 				if (odpowiedz == 0) continue;
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y + 2, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y + 2, plansza1);
 				if (odpowiedz == 0) continue;
 			}
 			break;//jezeli moze stac w takim miejscu przerwanie petli
@@ -451,46 +448,46 @@ void bot::ustawienie_statkow_bot(T plansza1[10][10], T plansza2[10][10])//funkcj
 			//sprawdzanie czy w danej orientacji moze stac statek poprzez wywolywanie funkcji sprawdzajacej to dla kazdej wspolrzednej w ktorej bedzie sie znajdowal statek
 			if (orientacja == 1)
 			{
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
 				if (odpowiedz == 0) continue;
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y - 1, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y - 1, plansza1);
 				if (odpowiedz == 0) continue;
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y - 2, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y - 2, plansza1);
 				if (odpowiedz == 0) continue;
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y - 3, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y - 3, plansza1);
 				if (odpowiedz == 0) continue;
 			}
 			else if (orientacja == 2)
 			{
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
 				if (odpowiedz == 0) continue;
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y, plansza1);
 				if (odpowiedz == 0) continue;
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 2, wspolrzedna_y, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x + 2, wspolrzedna_y, plansza1);
 				if (odpowiedz == 0) continue;
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 3, wspolrzedna_y, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x + 3, wspolrzedna_y, plansza1);
 				if (odpowiedz == 0) continue;
 			}
 			else if (orientacja == 3)
 			{
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
 				if (odpowiedz == 0) continue;
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x - 1, wspolrzedna_y, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x - 1, wspolrzedna_y, plansza1);
 				if (odpowiedz == 0) continue;
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x - 2, wspolrzedna_y, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x - 2, wspolrzedna_y, plansza1);
 				if (odpowiedz == 0) continue;
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x - 3, wspolrzedna_y, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x - 3, wspolrzedna_y, plansza1);
 				if (odpowiedz == 0) continue;
 			}
 			else if (orientacja == 4)
 			{
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
 				if (odpowiedz == 0) continue;
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y + 1, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y + 1, plansza1);
 				if (odpowiedz == 0) continue;
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y + 2, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y + 2, plansza1);
 				if (odpowiedz == 0) continue;
-				odpowiedz = czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y + 3, plansza1);
+				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y + 3, plansza1);
 				if (odpowiedz == 0) continue;
 			}
 			break;//jezeli moze stac w takim miejscu przerwanie petli
