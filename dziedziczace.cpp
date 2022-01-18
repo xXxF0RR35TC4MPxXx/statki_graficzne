@@ -18,7 +18,7 @@ gra_z_graczem::gra_z_graczem() :rozgrywka()//konstruktor
 	tryb_gry = 2;
 }
 
-int gra_z_graczem::gra(sf::RenderWindow* Window, render_api* renderer)//funkcja do przeprowadzenia tury gry(gracz vs gracz)
+int gra_z_graczem::przebieg_jednej_tury(sf::RenderWindow* Window, render_api* renderer)//funkcja do przeprowadzenia tury gry(gracz vs gracz)
 {
 	int czy_trafione = 0;
 	int jezeli_wygrana = 0;
@@ -196,7 +196,7 @@ OstatnioTrafionePole* gra_z_botem::strzal_bot(char plansza1[10][10], char plansz
 	return kontekst_strategii_bota->nastêpnyStrza³Bota(plansza1_1, plansza2_2, x, y);
 }
 
-int gra_z_botem::gra(sf::RenderWindow* Window, render_api* renderer)//funkcja do przeprowadzenia tury gry(gracz vs komputer)
+int gra_z_botem::przebieg_jednej_tury(sf::RenderWindow* Window, render_api* renderer)//funkcja do przeprowadzenia tury gry(gracz vs komputer)
 {
 	int czy_trafione = 0;
 	int jezeli_wygrana = 0;
@@ -243,7 +243,7 @@ int gra_z_botem::gra(sf::RenderWindow* Window, render_api* renderer)//funkcja do
 				}
 			}
 
-
+			int trafienia_bota_z_rzêdu = 0;
 		do
 		{
 			OstatnioTrafionePole* ostatnio_trafione = strzal_bot(plansza1_1, plansza2_2, ostatnio_trafiony_x, ostatnio_trafiony_y);//wywolanie funkcji w ktorej komputer wybiera gdzie strzelic i sprawdzenie gdzie trafil
@@ -255,7 +255,8 @@ int gra_z_botem::gra(sf::RenderWindow* Window, render_api* renderer)//funkcja do
 			//sprawdzanie czy trafil
 			if (czy_trafione == 1)
 			{
-				
+				trafienia_bota_z_rzêdu++;
+				if (trafienia_bota_z_rzêdu == 4) { kontekst_strategii_bota->zmieñ_strategiê(new StrategiaBota_Strza³Losowy()); trafienia_bota_z_rzêdu = 0; }
 				//w przypadku trafienia zmiena strategii na strzelanie w okolice tego trafienia do momentu spud³owania
 				if(nowa_zmiana)kontekst_strategii_bota->zmieñ_strategiê(new StrategiaBota_Atak_Blisko_Trafienia());
 				nowa_zmiana = false;

@@ -90,7 +90,7 @@ T menu(RenderWindow *Window, render_api* renderer)//menu glowne
 											{
 												nowa_gra = false;
 
-												czy_wygrana = rozgrywka->gra(Window, renderer);//wywolanie funkcji do przeprowadzenia 1 tury gry i pobranie wartosci czy ktos wygral
+												czy_wygrana = rozgrywka->przebieg_jednej_tury(Window, renderer);//wywolanie funkcji do przeprowadzenia 1 tury gry i pobranie wartosci czy ktos wygral
 												licznik++;//inkrementacja licznika do zapisania gry
 												if (czy_wygrana == 1)//jezeli ktos wygral
 												{
@@ -156,7 +156,7 @@ T menu(RenderWindow *Window, render_api* renderer)//menu glowne
 											while (Window->isOpen() && !czy_exit)
 											{
 												nowa_gra = false;
-												czy_wygrana = rozgrywka->gra(Window, renderer);//wywolanie funkcji do przeprowadzenia 1 tury gry i pobranie wartosci czy ktos wygral
+												czy_wygrana = rozgrywka->przebieg_jednej_tury(Window, renderer);//wywolanie funkcji do przeprowadzenia 1 tury gry i pobranie wartosci czy ktos wygral
 												licznik++;//inkrementacja licznika do zapisania gry
 												if (czy_wygrana == 1)//jezeli ktos wygral
 												{
@@ -324,7 +324,7 @@ T menu(RenderWindow *Window, render_api* renderer)//menu glowne
 												int licznik = 0, czy_zapisac = 0, czy_wygrana = 0;
 												while (Window->isOpen() && !czy_exit)
 												{
-													czy_wygrana = rozgrywka->gra(Window, renderer);//wywolanie funkcji do przeprowadzenia 1 tury gry i pobranie wartosci czy ktos wygral
+													czy_wygrana = rozgrywka->przebieg_jednej_tury(Window, renderer);//wywolanie funkcji do przeprowadzenia 1 tury gry i pobranie wartosci czy ktos wygral
 													licznik++;//inkrementacja licznika do zapisania gry
 													if (czy_wygrana == 1)//jezeli ktos wygral
 													{

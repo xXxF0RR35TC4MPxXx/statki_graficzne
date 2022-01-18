@@ -44,6 +44,11 @@ public:
 		unsigned int wspolrzedna_x = (rand() % 10) + 1;//losowanie wspolrzednej X 1-10
 		unsigned int wspolrzedna_y = (rand() % 10) + 1;//losowanie wspolrzednej Y 1-10
 
+		while (plansza1[wspolrzedna_y - 1][wspolrzedna_x - 1] == '.' || plansza1[wspolrzedna_y - 1][wspolrzedna_x - 1] == 'x')
+		{
+			wspolrzedna_x = (rand() % 10) + 1;//losowanie wspolrzednej X 1-10
+			wspolrzedna_y = (rand() % 10) + 1;//losowanie wspolrzednej Y 1-10
+		}
 		//sprawdzanie gdzie trafily wylosowane wspolrzedne
 		std::cout << "Strzal bota: X=" + std::to_string(wspolrzedna_y-1) + ", Y=" + std::to_string(wspolrzedna_x-1) + "\n";
 		if (plansza1[wspolrzedna_y - 1][wspolrzedna_x - 1] == ' ')//jezeli trafienie w puste pole
