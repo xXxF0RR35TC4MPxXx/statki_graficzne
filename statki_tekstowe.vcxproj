@@ -159,9 +159,11 @@
     <ClInclude Include="bazowa.h" />
     <ClInclude Include="dziedziczace.h" />
     <ClInclude Include="game_screen.h" />
+    <ClInclude Include="KontekstStrategiiBota.h" />
     <ClInclude Include="mainmenu.h" />
     <ClInclude Include="odczyt_save.h" />
     <ClInclude Include="render_api.h" />
+    <ClInclude Include="StrategiaStrzałuBota.h" />
     <ClInclude Include="wybor_typu_gry.h" />
     <ClInclude Include="zapis_save_name.h" />
     <ClInclude Include="zapis_save_yes_no.h" />

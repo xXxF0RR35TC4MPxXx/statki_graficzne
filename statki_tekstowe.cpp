@@ -5,6 +5,7 @@
 #include <time.h>
 #include <iostream>
 #include "dziedziczace.h"
+
 #include "render_api.h"
 #include "mainmenu.h"
 #include "wybor_typu_gry.h"
@@ -81,7 +82,7 @@ T menu(RenderWindow *Window, render_api* renderer)//menu glowne
 									{
 										int y = wybor_typu_gry.WyborTypuGryPressed();
 										if (y == 0) {
-											bot bot;//inicjalizacja klasy dla gry gracz vs bot
+											gra_z_botem bot;//inicjalizacja klasy dla gry gracz vs bot
 											rozgrywka = &bot;
 											if(nowa_gra)rozgrywka->ustawienia(Window);//wywolanie funkcji w ktorej uzytkownicy ustawiaja nicki i statki
 											int licznik = 0, czy_zapisac = 0, czy_wygrana = 0;
@@ -148,7 +149,7 @@ T menu(RenderWindow *Window, render_api* renderer)//menu glowne
 										}
 										else if (y == 1) 
 										{ 
-											gracz gracz;//inicjalizacja klasy dla gry gracz vs gracz
+											gra_z_graczem gracz;//inicjalizacja klasy dla gry gracz vs gracz
 											rozgrywka = &gracz;
 											if(nowa_gra)rozgrywka->ustawienia(Window);//wywolanie funkcji w ktorej uzytkownicy ustawiaja nicki i statki
 											int licznik = 0, czy_zapisac = 0, czy_wygrana = 0;
@@ -298,13 +299,13 @@ T menu(RenderWindow *Window, render_api* renderer)//menu glowne
 											if (rodzaj == 1)//jezeli tryb to gracz vs komputer
 											{
 												nowa_gra = false;
-												bot bot;//inicjalizacja klasy dla gry gracz vs komputer
+												gra_z_botem bot;//inicjalizacja klasy dla gry gracz vs komputer
 												rozgrywka = &bot;
 											}
 											else if (rodzaj == 2)//jezeli tryb to komputer vs komputer
 											{
 												nowa_gra = false;
-												gracz gracz;//inicjalizacja klasy dla gry gracz vs gracz
+												gra_z_graczem gracz;//inicjalizacja klasy dla gry gracz vs gracz
 												rozgrywka = &gracz;
 											}
 											else//w wyjatkowej sytuacji

@@ -1,5 +1,4 @@
 #include <SFML/Graphics.hpp>
-
 #include "render_api.h"
 class rozgrywka
 {
@@ -18,7 +17,7 @@ protected:
 	unsigned int trafienia_2 ;
 public:
 	rozgrywka();//konstruktor
-	virtual void ustawienia(sf::RenderWindow* Window)=0;//funkcja polimorficzna do ustawienia rzeczy przed rozpoczeciem stzrelania (nick i statki)
+	virtual void ustawienia(sf::RenderWindow* Window)=0;//funkcja polimorficzna do ustawienia rzeczy przed rozpoczeciem strzelania (nick i statki)
 	virtual int gra(sf::RenderWindow* Window, render_api* renderer) = 0;//funkcja polimorficzna ktora "przeprowadza" gre
 protected:
 	void pokaz_plansze_przy_ustawianiu(char plansza1[10][10], char plansza2[10][10], sf::RenderWindow*);//funkcja pokazujaca odpowiednie plansze

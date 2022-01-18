@@ -26,9 +26,6 @@ rozgrywka::rozgrywka() :tryb_gry(0), nick1("Gracz1"), nick2("Gracz2"), oddane_st
 	}
 }
 
-void rozgrywka::ustawienia(sf::RenderWindow* Window)
-{
-}
 
 void rozgrywka::pokaz_plansze_przy_ustawianiu(char plansza1[10][10], char plansza2[10][10], sf::RenderWindow* Window)//funkcja tworzy i pokazuje plansze z przeslanych dwoch tablic dwuwymiarowych
 {

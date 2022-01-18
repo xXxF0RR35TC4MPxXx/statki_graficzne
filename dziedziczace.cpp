@@ -1,18 +1,24 @@
 #pragma warning( disable : 6386 )
 #pragma warning(disable:4996)
 #include "dziedziczace.h"
+
 #include <string>
 #include <Windows.h>
 #include "render_api.h"
 #include <iostream>
+#include "KontekstStrategiiBota.h"
+
 #define WINDOW_HEIGHT 613
 #define WINDOW_WIDTH 822
-gracz::gracz() :rozgrywka()//konstruktor
+
+#define ATAKBLISKOTRAFIENIA 2
+#define STRZA£LOSOWY 1
+gra_z_graczem::gra_z_graczem() :rozgrywka()//konstruktor
 {
 	tryb_gry = 2;
 }
 
-int gracz::gra(sf::RenderWindow* Window, render_api* renderer)//funkcja do przeprowadzenia tury gry(gracz vs gracz)
+int gra_z_graczem::gra(sf::RenderWindow* Window, render_api* renderer)//funkcja do przeprowadzenia tury gry(gracz vs gracz)
 {
 	int czy_trafione = 0;
 	int jezeli_wygrana = 0;
@@ -98,7 +104,7 @@ int gracz::gra(sf::RenderWindow* Window, render_api* renderer)//funkcja do przep
 	}
 }
 
-void gracz::ustawienia(sf::RenderWindow* Window)//gracze ustawiaja nicki oraz statki
+void gra_z_graczem::ustawienia(sf::RenderWindow* Window)//gracze ustawiaja nicki oraz statki
 {
 	sf::Event przekazkomputerevent;
 	bool wyszedl_z_okna = false;
@@ -154,12 +160,13 @@ void gracz::ustawienia(sf::RenderWindow* Window)//gracze ustawiaja nicki oraz st
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-bot::bot() :rozgrywka() //konstruktor
+gra_z_botem::gra_z_botem() :rozgrywka() //konstruktor
 {
+	kontekst_strategii_bota = new KontekstStrategiiBota(new StrategiaBota_Strza³Losowy);
 	tryb_gry = 1;
 }
 
-void bot::ustawienia(sf::RenderWindow* Window)//gracz oraz komputer uswtaiaja nicki oraz statki
+void gra_z_botem::ustawienia(sf::RenderWindow* Window)//gracz oraz komputer uswtaiaja nicki oraz statki
 {
 
 	render_api* renderer = new render_api();
@@ -182,46 +189,21 @@ void bot::ustawienia(sf::RenderWindow* Window)//gracz oraz komputer uswtaiaja ni
 	ustawienie_statkow_bot(plansza2_1, plansza2_2);//funkcja gdzie komputer ustawia statki
 }
 
-template <class T>
-int bot::strzal_bot(T plansza1[10][10], T plansza2[10][10])//funkcja gdzie komputer losuje w ktore pole strzelic
+
+OstatnioTrafionePole* gra_z_botem::strzal_bot(char plansza1[10][10], char plansza2[10][10], int x, int y)//funkcja gdzie komputer losuje w ktore pole strzelic
 {
-	unsigned int wspolrzedna_x = (rand() % 10) + 1;//losowanie wspolrzednej X 1-10
-	unsigned int wspolrzedna_y = (rand() % 10) + 1;//losowanie wspolrzednej Y 1-10
-
-	//sprawdzanie gdzie trafily wylosowane wspolrzedne
-	std::cout << "Strzal bota: X="+ std::to_string(wspolrzedna_x) + ", Y="+ std::to_string(wspolrzedna_y)+  "\n";
-	if (plansza1[wspolrzedna_y - 1][wspolrzedna_x - 1] == ' ')//jezeli trafienie w puste pole
-	{
-		std::cout << "Bot trafil w puste\n";
-		//ustawienie oznaczen strzalu na odpowiednich planszach i zwrocenie oznaczenia nietrafienia
-		plansza1[wspolrzedna_y - 1][wspolrzedna_x - 1] = '.';
-		plansza2[wspolrzedna_y - 1][wspolrzedna_x - 1] = '.';
-		return 0;
-	}
-	//jezeli trafienie w pole gdzie juz strzelano
-	else if (plansza1[wspolrzedna_y - 1][wspolrzedna_x - 1] == 'x' || plansza1[wspolrzedna_y - 1][wspolrzedna_x - 1] == '.')
-	{
-		std::cout << "Bot trafil w x\n";
-		return 2;//wrocenie oznaczenia nietrafienia
-	}
-	else//jezeli trafiono
-	{
-		std::cout << "Bot trafil w statek\n";
-
-		//wstawienie odpowiedniego oznaczenia na planszy przeciwnika widzianej przez gracza
-		plansza2[wspolrzedna_y - 1][wspolrzedna_x - 1] = 'x';
-		plansza1[wspolrzedna_y - 1][wspolrzedna_x - 1] = 'x';//ustawienie oznaczenia ze wrog trafil na planszy przeciwnika
-		return 1;//zwrocenie oznaczenia trafienia
-	}
+	//KontekstStrategiiBota strategia_bota_atak_blisko_trafienia(new StrategiaBota_Atak_Blisko_Trafienia());
+	return kontekst_strategii_bota->nastêpnyStrza³Bota(plansza1_1, plansza2_2, x, y);
 }
 
-int bot::gra(sf::RenderWindow* Window, render_api* renderer)//funkcja do przeprowadzenia tury gry(gracz vs komputer)
+int gra_z_botem::gra(sf::RenderWindow* Window, render_api* renderer)//funkcja do przeprowadzenia tury gry(gracz vs komputer)
 {
 	int czy_trafione = 0;
 	int jezeli_wygrana = 0;
+	
 	while (1)
 	{
-
+			bool nowa_zmiana = true;
 			sf::Event ruch_komputera_event;
 			jezeli_wygrana = czy_wygrana(plansza2_1);//sprawdzenie czy gracz wygral
 
@@ -264,12 +246,19 @@ int bot::gra(sf::RenderWindow* Window, render_api* renderer)//funkcja do przepro
 
 		do
 		{
-			czy_trafione = strzal_bot(plansza1_1, plansza2_2);//wywolanie funkcji w ktorej komputer losuje gdzie strzelic i sprawdzenie gdzie trafil
+			OstatnioTrafionePole* ostatnio_trafione = strzal_bot(plansza1_1, plansza2_2, ostatnio_trafiony_x, ostatnio_trafiony_y);//wywolanie funkcji w ktorej komputer wybiera gdzie strzelic i sprawdzenie gdzie trafil
+			czy_trafione = ostatnio_trafione->wynik_trafienia;
+			ostatnio_trafiony_x = ostatnio_trafione->x;
+			ostatnio_trafiony_y = ostatnio_trafione->y;
 			printf("Czy bot trafil: %d\n", czy_trafione);
 			oddane_strzaly_2++;//doliczenie do statystyk oddane strzaly
 			//sprawdzanie czy trafil
 			if (czy_trafione == 1)
 			{
+				
+				//w przypadku trafienia zmiena strategii na strzelanie w okolice tego trafienia do momentu spud³owania
+				if(nowa_zmiana)kontekst_strategii_bota->zmieñ_strategiê(new StrategiaBota_Atak_Blisko_Trafienia());
+				nowa_zmiana = false;
 				trafienia_2++;//doliczenie do statystyk trafione strzaly
 			}
 			jezeli_wygrana = czy_wygrana(plansza1_1);//sprawdzenie czy komputer wygral
@@ -280,12 +269,12 @@ int bot::gra(sf::RenderWindow* Window, render_api* renderer)//funkcja do przepro
 				return 1;
 			}
 		} while (czy_trafione == 1 || czy_trafione == 2);//strzela do poki trafia lub trafil w to w co juz strzelal(bot nie marnuje strzalow na stzrelanie w cos co juz strzelal)
+		kontekst_strategii_bota->zmieñ_strategiê(new StrategiaBota_Strza³Losowy());
 		return 0;//koniec tury
 	}
 }
 
-template<class T>
-void bot::ustawienie_statkow_bot(T plansza1[10][10], T plansza2[10][10])//funkcja w ktorej komputer losuje gdzie postawic statki
+void gra_z_botem::ustawienie_statkow_bot(char plansza1[10][10], char plansza2[10][10])//funkcja w ktorej komputer losuje gdzie postawic statki
 {
 	render_api* renderer = new render_api();
 	unsigned int wspolrzedna_x, wspolrzedna_y, orientacja;
