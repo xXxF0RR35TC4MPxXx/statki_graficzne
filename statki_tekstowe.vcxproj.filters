@@ -62,9 +62,6 @@
     <ClInclude Include="zapis_save_yes_no.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="zapis_save_name.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
     <ClInclude Include="StrategiaStrzałuBota.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>

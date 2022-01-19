@@ -243,7 +243,7 @@ int gra_z_botem::przebieg_jednej_tury(sf::RenderWindow* Window, render_api* rend
 }
 
 void gra_z_botem::ustawienie_statków_jednomasztowych(render_api* renderer, char plansza1[10][10]) {
-	unsigned int wspolrzedna_x, wspolrzedna_y, orientacja;
+	unsigned int wspolrzedna_x, wspolrzedna_y;
 	int odpowiedz = 0;
 	for (int i = 0; i < 4; i++)//ustawianie statkow jednomasztowych
 	{
@@ -451,7 +451,6 @@ void gra_z_botem::ustawienie_statków_czteromasztowych(render_api* renderer, char
 void gra_z_botem::ustawienie_statkow_bot(char plansza1[10][10], char plansza2[10][10])//funkcja w ktorej komputer losuje gdzie postawic statki
 {
 	render_api* renderer = new render_api();
-	unsigned int wspolrzedna_x, wspolrzedna_y, orientacja;
 	int odpowiedz = 0;
 
 	gra_z_botem::ustawienie_statków_jednomasztowych(renderer, plansza1);

@@ -163,7 +163,6 @@
     <ClInclude Include="render_api.h" />
     <ClInclude Include="StrategiaStrzałuBota.h" />
     <ClInclude Include="wybor_typu_gry.h" />
-    <ClInclude Include="zapis_save_name.h" />
     <ClInclude Include="zapis_save_yes_no.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
