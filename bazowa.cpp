@@ -27,18 +27,6 @@ rozgrywka::rozgrywka() :tryb_gry(0), nick1("Gracz1"), nick2("Gracz2"), oddane_st
 }
 
 
-void rozgrywka::pokaz_plansze_przy_ustawianiu(char plansza1[10][10], char plansza2[10][10], sf::RenderWindow* Window)//funkcja tworzy i pokazuje plansze z przeslanych dwoch tablic dwuwymiarowych
-{
-	render_api* renderer = new render_api();
-	renderer->render_planszy_przy_ustawianiu(plansza1, plansza2, Window);
-}
-void rozgrywka::pokaz_plansze_gra(char plansza1[10][10], char plansza2[10][10], char plansza2_1[10][10], char plansza2_2[10][10], sf::RenderWindow* Window, int typ, unsigned int oddane_strzaly_1, unsigned  int oddane_strzaly_2, unsigned  int trafienia_1, unsigned  int trafienia_2)//funkcja tworzy i pokazuje plansze z przeslanych dwoch tablic dwuwymiarowych
-{
-	render_api* renderer = new render_api();
-	//cout << "pokaz_plansze\n";
-	renderer->render_planszy_gra(plansza1, plansza2, plansza2_1, plansza2_2, Window, typ, oddane_strzaly_1, oddane_strzaly_2, trafienia_1, trafienia_2);
-	//cout << "Wyrenderowano calosc!\n";
-}
 int rozgrywka::czy_wygrana(char plansza[10][10])//funkcja sprawdza czy w przeslanej tablicy znajduja sie jeszcze symbole oznaczajace niezatopiony statek i zwraca odpowiednia informacje
 {
 	for (int i = 0; i < 10; i++)
@@ -87,10 +75,6 @@ void rozgrywka::wygrana(sf::RenderWindow* Window, char nick[])//funkcja ktora wy
 }
 
 
-void rozgrywka::ustawienie_statkow(char plansza1[10][10], char plansza2[10][10], sf::RenderWindow* Window)//funkcja  ustawia statki na planszy(wersja dla gracza)
-{
-	pokaz_plansze_przy_ustawianiu(plansza1, plansza2, Window);//pokazanie odpowiedniej planszy
-}
 
 void rozgrywka::zapisywanie(sf::RenderWindow* Window)//funkcja do zapisania stanu gry
 {

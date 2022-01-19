@@ -34,7 +34,6 @@ int gra_z_graczem::przebieg_jednej_tury(sf::RenderWindow* Window, render_api* re
 		}
 		
 		std::cout << "Wartosci zmiennych przed ta tura: " + std::to_string(oddane_strzaly_1) + ", " + std::to_string(oddane_strzaly_2) + ", " + std::to_string(trafienia_1) + ", " + std::to_string(trafienia_2) + "\n";
-
 		renderer->render_planszy_gra(plansza1_1, plansza1_2, plansza2_1, plansza2_2, Window, 1, oddane_strzaly_1, oddane_strzaly_2, trafienia_1, trafienia_2);
 		std::cout << "Wartosci zmiennych po tej turze: " + std::to_string(oddane_strzaly_1) + ", " + std::to_string(oddane_strzaly_2) + ", " + std::to_string(trafienia_1) + ", " + std::to_string(trafienia_2) + "\n";
 		sf::sleep(sf::milliseconds(1000));
@@ -72,10 +71,9 @@ int gra_z_graczem::przebieg_jednej_tury(sf::RenderWindow* Window, render_api* re
 			if(trafienia_1 !=0 && trafienia_2 !=0) wygrana(Window, nick2);//wyswietlenie statystyk
 			return 1;
 		}
+
 		std::cout << "Wartosci zmiennych przed ta tura: " + std::to_string(oddane_strzaly_1) + ", " + std::to_string(oddane_strzaly_2) + ", " + std::to_string(trafienia_1) + ", " + std::to_string(trafienia_2) + "\n";
-
 		renderer->render_planszy_gra(plansza2_1, plansza2_2, plansza1_1, plansza1_2, Window, 2, oddane_strzaly_1, oddane_strzaly_2, trafienia_1, trafienia_2);
-
 		std::cout << "Wartosci zmiennych po tej turze: " + std::to_string(oddane_strzaly_1) + ", " + std::to_string(oddane_strzaly_2) + ", " + std::to_string(trafienia_1) + ", " + std::to_string(trafienia_2) + "\n";
 		sf::sleep(sf::milliseconds(1000));
 
@@ -88,7 +86,6 @@ int gra_z_graczem::przebieg_jednej_tury(sf::RenderWindow* Window, render_api* re
 		while (Window->isOpen() && !wyszedl_z_okna) {
 			while (Window->pollEvent(przekazkomputerevent)) {
 				if (przekazkomputerevent.type == sf::Event::MouseButtonPressed) {}
-
 				renderer->przeka¿_komputer(Window);
 				if (przekazkomputerevent.type == sf::Event::KeyPressed) {
 					if (przekazkomputerevent.key.code == sf::Keyboard::Return)
@@ -96,10 +93,8 @@ int gra_z_graczem::przebieg_jednej_tury(sf::RenderWindow* Window, render_api* re
 						wyszedl_z_okna = true;
 						renderer->clear_screen(Window);
 						break;
-					}
-				}
-			}
-		}
+					}}}}
+
 		return 0;//koniec tury
 	}
 }
@@ -111,7 +106,7 @@ void gra_z_graczem::ustawienia(sf::RenderWindow* Window)//gracze ustawiaja nicki
 	render_api* renderer = new render_api();
 
 	strcpy_s(nick1, renderer->podaj_nick(Window).c_str()); //wpisanie nicku przez gracza1
-	ustawienie_statkow(plansza1_1, plansza1_2, Window);//funkcja w ktorej gracz1 ustawia wszystkie swoje statki
+	renderer->render_planszy_przy_ustawianiu(plansza1_1, plansza1_2, Window);//funkcja w ktorej gracz1 ustawia wszystkie swoje statki
 	
 	//rysowanie okna mówi¹cego graczowi1, aby przekaza³ komputer drugiej osobie.
 	while (Window->isOpen() && !wyszedl_z_okna) {
@@ -131,7 +126,7 @@ void gra_z_graczem::ustawienia(sf::RenderWindow* Window)//gracze ustawiaja nicki
 
 
 	strcpy_s(nick2, renderer->podaj_nick(Window).c_str());  //wpisanie nicku przez gracza2
-	ustawienie_statkow(plansza2_1, plansza2_2, Window);//funkcja w ktorej gracz2 ustawia wszystkie swoje statki
+	renderer->render_planszy_przy_ustawianiu(plansza2_1, plansza2_2, Window);//funkcja w ktorej gracz1 ustawia wszystkie swoje statki
 	
 	//rysowanie okna mówi¹cego graczowi2, aby przekaza³ komputer pierwszej osobie.
 	while (Window->isOpen() && !wyszedl_z_okna) {
@@ -171,7 +166,7 @@ void gra_z_botem::ustawienia(sf::RenderWindow* Window)//gracz oraz komputer uswt
 
 	render_api* renderer = new render_api();
 	strcpy_s(nick1, renderer->podaj_nick(Window).c_str()); //podanie nicku przez gracza1
-	ustawienie_statkow(plansza1_1, plansza1_2, Window);//funkcja gdzie gracz1 ustawia statki
+	renderer->render_planszy_przy_ustawianiu(plansza1_1, plansza1_2, Window);//funkcja w ktorej gracz1 ustawia wszystkie swoje statki
 
 	sf::Event ruch_komputera_event;
 	bool wyjsc_z_okna = false;
@@ -204,6 +199,8 @@ int gra_z_botem::przebieg_jednej_tury(sf::RenderWindow* Window, render_api* rend
 	while (1)
 	{
 			bool nowa_zmiana = true;
+			bool wyjsc_z_okna = false;
+			int trafienia_bota_z_rzêdu = 0;
 			sf::Event ruch_komputera_event;
 			jezeli_wygrana = czy_wygrana(plansza2_1);//sprawdzenie czy gracz wygral
 
@@ -217,7 +214,7 @@ int gra_z_botem::przebieg_jednej_tury(sf::RenderWindow* Window, render_api* rend
 			renderer->render_planszy_gra(plansza1_1, plansza1_2, plansza2_1, plansza2_2, Window, 3, oddane_strzaly_1, oddane_strzaly_2, trafienia_1, trafienia_2);
 
 			std::cout << "Wartosci zmiennych po tej turze: " + std::to_string(oddane_strzaly_1) + ", " + std::to_string(oddane_strzaly_2) + ", " + std::to_string(trafienia_1) + ", " + std::to_string(trafienia_2) + "\n";
-			bool wyjsc_z_okna = false;
+			
 			jezeli_wygrana = czy_wygrana(plansza2_1);//sprawdzenie czy gracz wygral
 			if (jezeli_wygrana == 1)//jezeli wygral
 			{
@@ -242,8 +239,6 @@ int gra_z_botem::przebieg_jednej_tury(sf::RenderWindow* Window, render_api* rend
 					break;
 				}
 			}
-
-			int trafienia_bota_z_rzêdu = 0;
 		do
 		{
 			OstatnioTrafionePole* ostatnio_trafione = strzal_bot(plansza1_1, plansza2_2, ostatnio_trafiony_x, ostatnio_trafiony_y);//wywolanie funkcji w ktorej komputer wybiera gdzie strzelic i sprawdzenie gdzie trafil
@@ -257,7 +252,7 @@ int gra_z_botem::przebieg_jednej_tury(sf::RenderWindow* Window, render_api* rend
 			{
 				trafienia_bota_z_rzêdu++;
 				if (trafienia_bota_z_rzêdu == 4) { kontekst_strategii_bota->zmieñ_strategiê(new StrategiaBota_Strza³Losowy()); trafienia_bota_z_rzêdu = 0; }
-				//w przypadku trafienia zmiena strategii na strzelanie w okolice tego trafienia do momentu spud³owania
+				//w przypadku trafienia zmiana strategii na strzelanie w okolice tego trafienia do momentu spud³owania
 				if(nowa_zmiana)kontekst_strategii_bota->zmieñ_strategiê(new StrategiaBota_Atak_Blisko_Trafienia());
 				nowa_zmiana = false;
 				trafienia_2++;//doliczenie do statystyk trafione strzaly
@@ -275,9 +270,7 @@ int gra_z_botem::przebieg_jednej_tury(sf::RenderWindow* Window, render_api* rend
 	}
 }
 
-void gra_z_botem::ustawienie_statkow_bot(char plansza1[10][10], char plansza2[10][10])//funkcja w ktorej komputer losuje gdzie postawic statki
-{
-	render_api* renderer = new render_api();
+void gra_z_botem::ustawienie_statków_jednomasztowych(render_api* renderer, char plansza1[10][10]) {
 	unsigned int wspolrzedna_x, wspolrzedna_y, orientacja;
 	int odpowiedz = 0;
 	for (int i = 0; i < 4; i++)//ustawianie statkow jednomasztowych
@@ -291,10 +284,16 @@ void gra_z_botem::ustawienie_statkow_bot(char plansza1[10][10], char plansza2[10
 		} while (odpowiedz != 1);//losuje do poki nie wylosuje dobrej pozycji
 		plansza1[wspolrzedna_y - 1][wspolrzedna_x - 1] = '1';//wpisanie statku do tablicy w odpowiednie miejsce
 	}
+}
+
+void gra_z_botem::ustawienie_statków_dwumasztowych(render_api* renderer, char plansza1[10][10]) {
+	unsigned int wspolrzedna_x, wspolrzedna_y, orientacja;
+	int odpowiedz = -1;
 	for (int i = 0; i < 3; i++)//ustawianie statkow dwumasztowych
 	{
 		while (1)
 		{
+			odpowiedz = -1;
 			//komputer losuje 2 liczby z przedzialu 1-10 oraz orientacji statku 1-4
 			wspolrzedna_x = (rand() % 10) + 1;
 			wspolrzedna_y = (rand() % 10) + 1;
@@ -302,31 +301,34 @@ void gra_z_botem::ustawienie_statkow_bot(char plansza1[10][10], char plansza2[10
 			//sprawdzanie czy w danej orientacji moze stac statek poprzez wywolywanie funkcji sprawdzajacej to dla kazdej wspolrzednej w ktorej bedzie sie znajdowal statek
 			if (orientacja == 1)
 			{
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
-				if (odpowiedz == 0) continue;
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y - 1, plansza1);
+				for (int j = 0; j < 2 && odpowiedz != 0; j++) {
+					odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y - j, plansza1);
+					if (odpowiedz == 0) break;
+				}
 				if (odpowiedz == 0) continue;
 			}
 			else if (orientacja == 2)
 			{
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
+				for (int j = 0; j < 2 && odpowiedz != 0; j++) {
+					odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x + j, wspolrzedna_y, plansza1);
+					if (odpowiedz == 0) break;
+				}
 				if (odpowiedz == 0) continue;
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y, plansza1);
-				if (odpowiedz == 0) continue;
-
 			}
 			else if (orientacja == 3)
 			{
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
-				if (odpowiedz == 0) continue;
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x - 1, wspolrzedna_y, plansza1);
+				for (int j = 0; j < 2 && odpowiedz != 0; j++) {
+					odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x - j, wspolrzedna_y, plansza1);
+					if (odpowiedz == 0) break;
+				}
 				if (odpowiedz == 0) continue;
 			}
 			else if (orientacja == 4)
 			{
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
-				if (odpowiedz == 0) continue;
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y + 1, plansza1);
+				for (int j = 0; j < 2 && odpowiedz != 0; j++) {
+					odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y + j, plansza1);
+					if (odpowiedz == 0) break;
+				}
 				if (odpowiedz == 0) continue;
 			}
 			break;//jezeli moze stac w takim miejscu przerwanie petli
@@ -353,10 +355,16 @@ void gra_z_botem::ustawienie_statkow_bot(char plansza1[10][10], char plansza2[10
 			plansza1[wspolrzedna_y][wspolrzedna_x - 1] = '2';
 		}
 	}
+}
+
+void gra_z_botem::ustawienie_statków_trójmasztowych(render_api* renderer, char plansza1[10][10]) {
+	unsigned int wspolrzedna_x, wspolrzedna_y, orientacja;
+	int odpowiedz = 0;
 	for (int i = 0; i < 2; i++)//ustawianie statkow trzymasztowych
 	{
 		while (1)
 		{
+			odpowiedz = -1;
 			//komputer losuje 2 liczby z przedzialu 1-10 oraz orientacji statku 1-4
 			wspolrzedna_x = (rand() % 10) + 1;
 			wspolrzedna_y = (rand() % 10) + 1;
@@ -364,73 +372,59 @@ void gra_z_botem::ustawienie_statkow_bot(char plansza1[10][10], char plansza2[10
 			//sprawdzanie czy w danej orientacji moze stac statek poprzez wywolywanie funkcji sprawdzajacej to dla kazdej wspolrzednej w ktorej bedzie sie znajdowal statek
 			if (orientacja == 1)
 			{
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
-				if (odpowiedz == 0) continue;
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y - 1, plansza1);
-				if (odpowiedz == 0) continue;
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y - 2, plansza1);
+				for (int j = 0; j < 3 && odpowiedz != 0; j++) {
+					odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y - j, plansza1);
+					if (odpowiedz == 0) break;
+				}
 				if (odpowiedz == 0) continue;
 			}
 			else if (orientacja == 2)
 			{
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
+				for (int j = 0; j < 3 && odpowiedz != 0; j++) {
+					odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x + j, wspolrzedna_y, plansza1);
+					if (odpowiedz == 0) break;
+				}
 				if (odpowiedz == 0) continue;
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y, plansza1);
-				if (odpowiedz == 0) continue;
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x + 2, wspolrzedna_y, plansza1);
-				if (odpowiedz == 0) continue;
-
 			}
 			else if (orientacja == 3)
 			{
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
-				if (odpowiedz == 0) continue;
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x - 1, wspolrzedna_y, plansza1);
-				if (odpowiedz == 0) continue;
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x - 2, wspolrzedna_y, plansza1);
+				for (int j = 0; j < 3 && odpowiedz != 0; j++) {
+					odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x - j, wspolrzedna_y, plansza1);
+					if (odpowiedz == 0) break;
+				}
 				if (odpowiedz == 0) continue;
 			}
 			else if (orientacja == 4)
 			{
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
-				if (odpowiedz == 0) continue;
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y + 1, plansza1);
-				if (odpowiedz == 0) continue;
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y + 2, plansza1);
+				for (int j = 0; j < 3 && odpowiedz != 0; j++) {
+					odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y + j, plansza1);
+					if (odpowiedz == 0) break;
+				}
 				if (odpowiedz == 0) continue;
 			}
 			break;//jezeli moze stac w takim miejscu przerwanie petli
 		}
 		//wpisaniu statku do tablicy w odpowiednie miejsce(w zaleznosci od orientacji)
-		if (orientacja == 1)
-		{
-			plansza1[wspolrzedna_y - 1][wspolrzedna_x - 1] = '3';
-			plansza1[wspolrzedna_y - 2][wspolrzedna_x - 1] = '3';
-			plansza1[wspolrzedna_y - 3][wspolrzedna_x - 1] = '3';
-		}
+		if (orientacja == 1) 
+			for (int j = 1;j < 4; j++) plansza1[wspolrzedna_y - j][wspolrzedna_x - 1] = '3';
 		else if (orientacja == 2)
-		{
-			plansza1[wspolrzedna_y - 1][wspolrzedna_x - 1] = '3';
-			plansza1[wspolrzedna_y - 1][wspolrzedna_x] = '3';
-			plansza1[wspolrzedna_y - 1][wspolrzedna_x + 1] = '3';
-		}
+			for (int j = -1;j< 2; j++) plansza1[wspolrzedna_y - 1][wspolrzedna_x + j] = '3';
 		else if (orientacja == 3)
-		{
-			plansza1[wspolrzedna_y - 1][wspolrzedna_x - 1] = '3';
-			plansza1[wspolrzedna_y - 1][wspolrzedna_x - 2] = '3';
-			plansza1[wspolrzedna_y - 1][wspolrzedna_x - 3] = '3';
-		}
+			for (int j = 1; j < 4; j++) plansza1[wspolrzedna_y - 1][wspolrzedna_x - j] = '3';
 		else if (orientacja == 4)
-		{
-			plansza1[wspolrzedna_y - 1][wspolrzedna_x - 1] = '3';
-			plansza1[wspolrzedna_y][wspolrzedna_x - 1] = '3';
-			plansza1[wspolrzedna_y + 1][wspolrzedna_x - 1] = '3';
-		}
+			for (int j = -1; j< 2; j++) plansza1[wspolrzedna_y + j][wspolrzedna_x - 1] = '3';
 	}
+}
+
+void gra_z_botem::ustawienie_statków_czteromasztowych(render_api* renderer, char plansza1[10][10]) {
+	unsigned int wspolrzedna_x, wspolrzedna_y, orientacja;
+	int odpowiedz = -1;
 	for (int i = 0; i < 1; i++)//ustawianie statkow czteromasztowego
 	{
+		
 		while (1)
 		{
+			odpowiedz = -1;
 			//komputer losuje 2 liczby z przedzialu 1-10 oraz orientacji statku 1-4
 			wspolrzedna_x = (rand() % 10) + 1;
 			wspolrzedna_y = (rand() % 10) + 1;
@@ -438,80 +432,64 @@ void gra_z_botem::ustawienie_statkow_bot(char plansza1[10][10], char plansza2[10
 			//sprawdzanie czy w danej orientacji moze stac statek poprzez wywolywanie funkcji sprawdzajacej to dla kazdej wspolrzednej w ktorej bedzie sie znajdowal statek
 			if (orientacja == 1)
 			{
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
-				if (odpowiedz == 0) continue;
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y - 1, plansza1);
-				if (odpowiedz == 0) continue;
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y - 2, plansza1);
-				if (odpowiedz == 0) continue;
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y - 3, plansza1);
+				for (int j = 0; j < 4 && odpowiedz != 0; j++) {
+					odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y - j, plansza1);
+					if (odpowiedz == 0) break;
+				}
 				if (odpowiedz == 0) continue;
 			}
 			else if (orientacja == 2)
 			{
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
-				if (odpowiedz == 0) continue;
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y, plansza1);
-				if (odpowiedz == 0) continue;
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x + 2, wspolrzedna_y, plansza1);
-				if (odpowiedz == 0) continue;
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x + 3, wspolrzedna_y, plansza1);
+				for (int j = 0; j < 4 && odpowiedz != 0; j++) {
+					odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x + j, wspolrzedna_y, plansza1);
+					if (odpowiedz == 0) break;
+				}
 				if (odpowiedz == 0) continue;
 			}
 			else if (orientacja == 3)
 			{
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
-				if (odpowiedz == 0) continue;
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x - 1, wspolrzedna_y, plansza1);
-				if (odpowiedz == 0) continue;
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x - 2, wspolrzedna_y, plansza1);
-				if (odpowiedz == 0) continue;
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x - 3, wspolrzedna_y, plansza1);
+				for (int j = 0; j < 4 && odpowiedz != 0; j++) {
+					odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x - j, wspolrzedna_y, plansza1);
+					if (odpowiedz == 0) break;
+				}
 				if (odpowiedz == 0) continue;
 			}
 			else if (orientacja == 4)
 			{
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);
-				if (odpowiedz == 0) continue;
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y + 1, plansza1);
-				if (odpowiedz == 0) continue;
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y + 2, plansza1);
-				if (odpowiedz == 0) continue;
-				odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y + 3, plansza1);
+				for (int j = 0; j < 4 && odpowiedz != 0; j++) {
+					odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y + j, plansza1);
+					if (odpowiedz == 0) break;
+				}
 				if (odpowiedz == 0) continue;
 			}
 			break;//jezeli moze stac w takim miejscu przerwanie petli
 		}
 		//wpisaniu statku do tablicy w odpowiednie miejsce(w zaleznosci od orientacji)
 		if (orientacja == 1)
-		{
-			plansza1[wspolrzedna_y - 1][wspolrzedna_x - 1] = '4';
-			plansza1[wspolrzedna_y - 2][wspolrzedna_x - 1] = '4';
-			plansza1[wspolrzedna_y - 3][wspolrzedna_x - 1] = '4';
-			plansza1[wspolrzedna_y - 4][wspolrzedna_x - 1] = '4';
-		}
+			for (int j = 1; j < 5; j++) plansza1[wspolrzedna_y - j][wspolrzedna_x - 1] = '4';
 		else if (orientacja == 2)
-		{
-			plansza1[wspolrzedna_y - 1][wspolrzedna_x - 1] = '4';
-			plansza1[wspolrzedna_y - 1][wspolrzedna_x] = '4';
-			plansza1[wspolrzedna_y - 1][wspolrzedna_x + 1] = '4';
-			plansza1[wspolrzedna_y - 1][wspolrzedna_x + 2] = '4';
-		}
+			for (int j = -1; j < 3; j++) plansza1[wspolrzedna_y - 1][wspolrzedna_x + j] = '4';
 		else if (orientacja == 3)
-		{
-			plansza1[wspolrzedna_y - 1][wspolrzedna_x - 1] = '4';
-			plansza1[wspolrzedna_y - 1][wspolrzedna_x - 2] = '4';
-			plansza1[wspolrzedna_y - 1][wspolrzedna_x - 3] = '4';
-			plansza1[wspolrzedna_y - 1][wspolrzedna_x - 4] = '4';
-		}
+			for (int j = 1; j < 5; j++) plansza1[wspolrzedna_y - 1][wspolrzedna_x -j] = '4';
 		else if (orientacja == 4)
-		{
-			plansza1[wspolrzedna_y - 1][wspolrzedna_x - 1] = '4';
-			plansza1[wspolrzedna_y][wspolrzedna_x - 1] = '4';
-			plansza1[wspolrzedna_y + 1][wspolrzedna_x - 1] = '4';
-			plansza1[wspolrzedna_y + 2][wspolrzedna_x - 1] = '4';
-		}
+			for (int j = -1; j< 3; j++) plansza1[wspolrzedna_y + j][wspolrzedna_x - 1] = '4';
 	}
+}
+
+void gra_z_botem::ustawienie_statkow_bot(char plansza1[10][10], char plansza2[10][10])//funkcja w ktorej komputer losuje gdzie postawic statki
+{
+	render_api* renderer = new render_api();
+	unsigned int wspolrzedna_x, wspolrzedna_y, orientacja;
+	int odpowiedz = 0;
+
+	gra_z_botem::ustawienie_statków_jednomasztowych(renderer, plansza1);
+	
+	gra_z_botem::ustawienie_statków_dwumasztowych(renderer, plansza1);
+	
+	gra_z_botem::ustawienie_statków_trójmasztowych(renderer, plansza1);
+
+	gra_z_botem::ustawienie_statków_czteromasztowych(renderer, plansza1);
+	
 	std::cout << "WYGENEROWANA PLANSZA BOTA\n";
 	for (int i = 0; i < 10; i++) {
 		for (int j = 0; j < 10; j++) {
