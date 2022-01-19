@@ -1,6 +1,5 @@
 #include "wybor_typu_gry.h"
 #include "zapis_save_yes_no.h"
-#include "odczyt_save.h"
 #include "mainmenu.h"
 #pragma once
 class render_api {

@@ -149,7 +149,6 @@
     <ClCompile Include="dziedziczace.cpp" />
     <ClCompile Include="game_screen.cpp" />
     <ClCompile Include="mainmenu.cpp" />
-    <ClCompile Include="odczyt_save.cpp" />
     <ClCompile Include="render_api.cpp" />
     <ClCompile Include="statki_tekstowe.cpp" />
     <ClCompile Include="wybor_typu_gry.cpp" />
@@ -161,7 +160,6 @@
     <ClInclude Include="game_screen.h" />
     <ClInclude Include="KontekstStrategiiBota.h" />
     <ClInclude Include="mainmenu.h" />
-    <ClInclude Include="odczyt_save.h" />
     <ClInclude Include="render_api.h" />
     <ClInclude Include="StrategiaStrzałuBota.h" />
     <ClInclude Include="wybor_typu_gry.h" />

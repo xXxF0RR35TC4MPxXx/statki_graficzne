@@ -10,7 +10,6 @@
 #include "mainmenu.h"
 #include "wybor_typu_gry.h"
 #include "zapis_save_yes_no.h"
-#include "odczyt_save.h"
 #pragma warning(disable:4996)
 #define WINDOW_HEIGHT 613
 #define WINDOW_WIDTH 822
@@ -25,7 +24,6 @@ T menu(RenderWindow *Window, render_api* renderer)//menu glowne
 	mainmenu mainMenu(Window->getSize().x, Window->getSize().y);
 	wybor_typu_gry wybor_typu_gry(Window->getSize().x, Window->getSize().y);
 	zapis_save_yes_no zapis_yes_no(Window->getSize().x, Window->getSize().y);
-	odczyt_save odczyt_save(Window->getSize().x, Window->getSize().y);
 	rozgrywka* rozgrywka = NULL;
 
 	while (Window->isOpen())

@@ -19,11 +19,11 @@ public:
 	rozgrywka();//konstruktor
 	virtual void ustawienia(sf::RenderWindow* Window)=0;//funkcja polimorficzna do ustawienia rzeczy przed rozpoczeciem strzelania (nick i statki)
 	virtual int przebieg_jednej_tury(sf::RenderWindow* Window, render_api* renderer) = 0;//funkcja polimorficzna ktora "przeprowadza" gre
+	void zapisywanie(sf::RenderWindow* Window);//funkcja do zapisania postepu gry do pliku
+	int wczytywanie(FILE* plik, sf::RenderWindow* Window);//funkcja do odczytania postepu gry z pliku
+	bool operacja_zapisu_danych_do_pliku(string nazwa_pliku_od_usera);
 protected:
 	int czy_wygrana(char plansza[10][10]);//funkcja sprawdza czy ktos juz nie zatopil wszystkich statkow
 	void wygrana(sf::RenderWindow* ,char nick[]);//funkcja wyswietla statystyki jezeli ktos wygral i konczy gre(wraca do menu)
 	
-public:
-	void zapisywanie(sf::RenderWindow* Window);//funkcja do zapisania postepu gry do pliku
-	int wczytywanie(FILE* plik, sf::RenderWindow* Window);//funkcja do odczytania postepu gry z pliku
 };

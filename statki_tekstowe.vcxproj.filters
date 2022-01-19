@@ -33,9 +33,6 @@
     <ClCompile Include="wybor_typu_gry.cpp">
       <Filter>Pliki zasobów</Filter>
     </ClCompile>
-    <ClCompile Include="odczyt_save.cpp">
-      <Filter>Pliki zasobów</Filter>
-    </ClCompile>
     <ClCompile Include="game_screen.cpp">
       <Filter>Pliki zasobów</Filter>
     </ClCompile>
@@ -57,9 +54,6 @@
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="wybor_typu_gry.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
-    <ClInclude Include="odczyt_save.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="game_screen.h">

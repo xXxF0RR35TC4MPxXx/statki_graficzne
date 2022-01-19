@@ -130,12 +130,14 @@ public:
 			}
 		}
 		
-
+		int selectedIndex,temp_x,temp_y;
 		//ustawienie losowego kierunku ruchu z mo¿liwych (spe³niaj¹cych warunki)
-		int selectedIndex = rand() % mo¿liwe_miejsca_nastêpnego_trafienia.size();
-		int temp_x = mo¿liwe_miejsca_nastêpnego_trafienia[selectedIndex].x;
-		int temp_y = mo¿liwe_miejsca_nastêpnego_trafienia[selectedIndex].y;
-
+		if(mo¿liwe_miejsca_nastêpnego_trafienia.size()!=0){
+			selectedIndex = rand() % mo¿liwe_miejsca_nastêpnego_trafienia.size();
+			temp_x = mo¿liwe_miejsca_nastêpnego_trafienia[selectedIndex].x;
+			temp_y = mo¿liwe_miejsca_nastêpnego_trafienia[selectedIndex].y;
+		}
+		else return new OstatnioTrafionePole(0,0,-1);
 
 
 
