@@ -6,7 +6,6 @@
 #include <Windows.h>
 #include "render_api.h"
 #include <iostream>
-#include "KontekstStrategiiBota.h"
 
 #define WINDOW_HEIGHT 613
 #define WINDOW_WIDTH 822
@@ -46,7 +45,7 @@ int gra_z_graczem::przebieg_jednej_tury(sf::RenderWindow* Window, render_api* re
 	{
 		if (czy_wygrana(plansza2_1) == 1)//jezeli gracz1 wygral
 		{
-			wygrana(Window, nick1);//wyswietlenie ekranu ze statystykami
+			if (trafienia_1 != 0 && trafienia_2 != 0) wygrana(Window, nick1);//wyswietlenie ekranu ze statystykami
 			return 1;
 		}
 		
@@ -116,7 +115,7 @@ void gra_z_graczem::ustawienia(sf::RenderWindow* Window)//gracze ustawiaja nicki
 
 gra_z_botem::gra_z_botem() :rozgrywka() //konstruktor
 {
-	kontekst_strategii_bota = new KontekstStrategiiBota(new StrategiaBota_Strza³Losowy);
+	KontekstStrategiiBota(new StrategiaBota_Strza³Losowy);
 	tryb_gry = 1;
 }
 
@@ -145,7 +144,7 @@ void gra_z_botem::ustawienia(sf::RenderWindow* Window)//gracz oraz komputer usta
 
 OstatnioTrafionePole* gra_z_botem::strzal_bot(char plansza1[10][10], char plansza2[10][10], int x, int y)//funkcja gdzie komputer losuje w ktore pole strzelic
 {
-	return kontekst_strategii_bota->nastêpnyStrza³Bota(plansza1_1, plansza2_2, x, y);
+	return obecna_strategia->strza³_bota(plansza1, plansza2, x, y);
 }
 
 int gra_z_botem::przebieg_jednej_tury(sf::RenderWindow* Window, render_api* renderer)//funkcja do przeprowadzenia tury gry(gracz vs komputer)
@@ -207,11 +206,11 @@ int gra_z_botem::przebieg_jednej_tury(sf::RenderWindow* Window, render_api* rend
 
 			//sprawdzanie czy trafil
 			if (czy_trafione == -1) {
-				kontekst_strategii_bota->zmieñ_strategiê(new StrategiaBota_Strza³Losowy());
+				zmieñ_strategiê(new StrategiaBota_Strza³Losowy());
 				trafienia_bota_z_rzêdu = 0;
 			}
 			if (czy_trafione == 2) {
-				kontekst_strategii_bota->zmieñ_strategiê(new StrategiaBota_Strza³Losowy());
+				zmieñ_strategiê(new StrategiaBota_Strza³Losowy());
 				trafienia_bota_z_rzêdu = 0;
 			}
 			if (czy_trafione == 1)
@@ -219,12 +218,12 @@ int gra_z_botem::przebieg_jednej_tury(sf::RenderWindow* Window, render_api* rend
 				trafienia_bota_z_rzêdu++;
 				if (trafienia_bota_z_rzêdu == 4) 
 				{ 
-					kontekst_strategii_bota->zmieñ_strategiê(new StrategiaBota_Strza³Losowy()); 
+					zmieñ_strategiê(new StrategiaBota_Strza³Losowy()); 
 					trafienia_bota_z_rzêdu = 0; 
 				}
 
 				//w przypadku trafienia zmiana strategii na strzelanie w okolice tego trafienia do momentu spud³owania
-				if(nowa_zmiana)kontekst_strategii_bota->zmieñ_strategiê(new StrategiaBota_Atak_Blisko_Trafienia());
+				if(nowa_zmiana) zmieñ_strategiê(new StrategiaBota_Atak_Blisko_Trafienia());
 				nowa_zmiana = false;
 				trafienia_2++;//doliczenie do statystyk trafione strzaly
 			}
@@ -237,7 +236,7 @@ int gra_z_botem::przebieg_jednej_tury(sf::RenderWindow* Window, render_api* rend
 				return 1;
 			}
 		} while (czy_trafione == 1 || czy_trafione == 2);//strzela do poki trafia lub trafil w to w co juz strzelal(bot nie marnuje strzalow na stzrelanie w cos co juz strzelal)
-		kontekst_strategii_bota->zmieñ_strategiê(new StrategiaBota_Strza³Losowy()); //po zakoñczeniu tury powrót do strategii losowych strza³ów
+		zmieñ_strategiê(new StrategiaBota_Strza³Losowy()); //po zakoñczeniu tury powrót do strategii losowych strza³ów
 		return 0;//koniec tury
 	}
 }

@@ -1,6 +1,6 @@
 
 #include "bazowa.h"
-#include "KontekstStrategiiBota.h"
+#include "StrategiaStrza³uBota.h"
 class gra_z_graczem : public rozgrywka
 {
 public:
@@ -15,6 +15,20 @@ class gra_z_botem : public rozgrywka
 {
 public:
 	gra_z_botem();//konstruktor
+	int ostatnio_trafiony_x = -1;
+	int ostatnio_trafiony_y = -1;
+	IStrategiaStrza³uBota* obecna_strategia;
+
+	void KontekstStrategiiBota(IStrategiaStrza³uBota* const s) { obecna_strategia = s; };
+
+
+	void zmieñ_strategiê(IStrategiaStrza³uBota* nowa_strategia) {
+		cout << "Zmiana strategii!";
+		//delete this->obecna_strategia;
+		this->obecna_strategia = nowa_strategia;
+	}
+
+	
 protected:
 	int przebieg_jednej_tury(sf::RenderWindow*, render_api* renderer);//funkcja ktora "przeprowadza" gre(wersja dla gracz vs komputer)
 	void ustawienia(sf::RenderWindow*);//funkcja sluzaca do ustawienia rzeczy przed rozpoczeciem stzrelania (nick i statki)(wersja dla gracz vs komputer)
@@ -26,7 +40,5 @@ protected:
 	void ustawienie_statków_trójmasztowych(render_api*, char plansza1[10][10]);
 	void ustawienie_statków_czteromasztowych(render_api*, char plansza1[10][10]);
 	
-	KontekstStrategiiBota* kontekst_strategii_bota;
-	int ostatnio_trafiony_x = -1;
-	int ostatnio_trafiony_y = -1;
+	
 };

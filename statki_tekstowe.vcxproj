@@ -158,7 +158,6 @@
     <ClInclude Include="bazowa.h" />
     <ClInclude Include="dziedziczace.h" />
     <ClInclude Include="game_screen.h" />
-    <ClInclude Include="KontekstStrategiiBota.h" />
     <ClInclude Include="mainmenu.h" />
     <ClInclude Include="render_api.h" />
     <ClInclude Include="StrategiaStrzałuBota.h" />

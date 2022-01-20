@@ -65,8 +65,5 @@
     <ClInclude Include="StrategiaStrzałuBota.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="KontekstStrategiiBota.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
