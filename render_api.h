@@ -15,7 +15,6 @@ public:
 	virtual void wybor_typ_gry(sf::RenderWindow*, wybor_typu_gry);				//wypisanie opcji wyboru typu gry
 	virtual std::string podaj_nick(sf::RenderWindow* Window);					//wypisanie ekranu wczytania nicku od gracza i pobranie tego nicku
 	virtual void ustawiasz_statek(int, int, sf::RenderWindow*, int, sf::Text);	//wypisanie informacji o typie i numerze stawianego statku
-	virtual int czy_moze_tu_stac(unsigned int wspolrzedna_x, unsigned int wspolrzedna_y, Plansza plansza);//funkcja sprawdza czy na podanych koordynatach moze stac statek
 	virtual void render_planszy_przy_ustawianiu(Plansza plansza1, Plansza plansza2, sf::RenderWindow*); //funkcja rysuj¹ca plansze podczas ustawiania statków i wczytuje pozycje od gracza
 	//funkcja rysuj¹ca plansze graczy podczas oddawania strza³ów i zliczanie statystyk
 	virtual void render_planszy_gra(Plansza plansza1, Plansza plansza2, Plansza plansza2_1, Plansza plansza2_2, sf::RenderWindow*, int typ, unsigned int& oddane_strzaly_1, unsigned int& oddane_strzaly_2, unsigned int& trafienia_1, unsigned int& trafienia_2);

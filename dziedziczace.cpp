@@ -251,7 +251,7 @@ void gra_z_botem::ustawienie_statków_jednomasztowych(render_api* renderer, Plans
 			//komputer losuje 2 liczby z przedzialu 1-10
 			wspolrzedna_x = (rand() % 10) + 1;
 			wspolrzedna_y = (rand() % 10) + 1;
-			odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);//sprawdzanie czy w wylosowanej pozycji moze stac statek
+			odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y);//sprawdzanie czy w wylosowanej pozycji moze stac statek
 		} while (odpowiedz != 1);//losuje do poki nie wylosuje dobrej pozycji
 		plansza1.pola_planszy[wspolrzedna_y - 1][wspolrzedna_x - 1]->symbol = '1';//wpisanie statku do tablicy w odpowiednie miejsce
 	}
@@ -273,7 +273,7 @@ void gra_z_botem::ustawienie_statków_dwumasztowych(render_api* renderer, Plansza
 			if (orientacja == 1)
 			{
 				for (int j = 0; j < 2 && odpowiedz != 0; j++) {
-					odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y - j, plansza1);
+					odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y - j);
 					//odp=plansza1->czymozetustaæ(x,y);
 					//plansza{
 					//	char tab[10][10];
@@ -287,7 +287,7 @@ void gra_z_botem::ustawienie_statków_dwumasztowych(render_api* renderer, Plansza
 			else if (orientacja == 2)
 			{
 				for (int j = 0; j < 2 && odpowiedz != 0; j++) {
-					odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x + j, wspolrzedna_y, plansza1);
+					odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x + j, wspolrzedna_y);
 					if (odpowiedz == 0) break;
 				}
 				if (odpowiedz == 0) continue;
@@ -295,7 +295,7 @@ void gra_z_botem::ustawienie_statków_dwumasztowych(render_api* renderer, Plansza
 			else if (orientacja == 3)
 			{
 				for (int j = 0; j < 2 && odpowiedz != 0; j++) {
-					odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x - j, wspolrzedna_y, plansza1);
+					odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x - j, wspolrzedna_y);
 					if (odpowiedz == 0) break;
 				}
 				if (odpowiedz == 0) continue;
@@ -303,7 +303,7 @@ void gra_z_botem::ustawienie_statków_dwumasztowych(render_api* renderer, Plansza
 			else if (orientacja == 4)
 			{
 				for (int j = 0; j < 2 && odpowiedz != 0; j++) {
-					odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y + j, plansza1);
+					odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y + j);
 					if (odpowiedz == 0) break;
 				}
 				if (odpowiedz == 0) continue;
@@ -350,7 +350,7 @@ void gra_z_botem::ustawienie_statków_trójmasztowych(render_api* renderer, Plansz
 			if (orientacja == 1)
 			{
 				for (int j = 0; j < 3 && odpowiedz != 0; j++) {
-					odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y - j, plansza1);
+					odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y - j);
 					if (odpowiedz == 0) break;
 				}
 				if (odpowiedz == 0) continue;
@@ -358,7 +358,7 @@ void gra_z_botem::ustawienie_statków_trójmasztowych(render_api* renderer, Plansz
 			else if (orientacja == 2)
 			{
 				for (int j = 0; j < 3 && odpowiedz != 0; j++) {
-					odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x + j, wspolrzedna_y, plansza1);
+					odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x + j, wspolrzedna_y);
 					if (odpowiedz == 0) break;
 				}
 				if (odpowiedz == 0) continue;
@@ -366,7 +366,7 @@ void gra_z_botem::ustawienie_statków_trójmasztowych(render_api* renderer, Plansz
 			else if (orientacja == 3)
 			{
 				for (int j = 0; j < 3 && odpowiedz != 0; j++) {
-					odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x - j, wspolrzedna_y, plansza1);
+					odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x - j, wspolrzedna_y);
 					if (odpowiedz == 0) break;
 				}
 				if (odpowiedz == 0) continue;
@@ -374,7 +374,7 @@ void gra_z_botem::ustawienie_statków_trójmasztowych(render_api* renderer, Plansz
 			else if (orientacja == 4)
 			{
 				for (int j = 0; j < 3 && odpowiedz != 0; j++) {
-					odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y + j, plansza1);
+					odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y + j);
 					if (odpowiedz == 0) break;
 				}
 				if (odpowiedz == 0) continue;
@@ -410,7 +410,7 @@ void gra_z_botem::ustawienie_statków_czteromasztowych(render_api* renderer, Plan
 			if (orientacja == 1)
 			{
 				for (int j = 0; j < 4 && odpowiedz != 0; j++) {
-					odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y - j, plansza1);
+					odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y - j);
 					if (odpowiedz == 0) break;
 				}
 				if (odpowiedz == 0) continue;
@@ -418,7 +418,7 @@ void gra_z_botem::ustawienie_statków_czteromasztowych(render_api* renderer, Plan
 			else if (orientacja == 2)
 			{
 				for (int j = 0; j < 4 && odpowiedz != 0; j++) {
-					odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x + j, wspolrzedna_y, plansza1);
+					odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x + j, wspolrzedna_y);
 					if (odpowiedz == 0) break;
 				}
 				if (odpowiedz == 0) continue;
@@ -426,7 +426,7 @@ void gra_z_botem::ustawienie_statków_czteromasztowych(render_api* renderer, Plan
 			else if (orientacja == 3)
 			{
 				for (int j = 0; j < 4 && odpowiedz != 0; j++) {
-					odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x - j, wspolrzedna_y, plansza1);
+					odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x - j, wspolrzedna_y);
 					if (odpowiedz == 0) break;
 				}
 				if (odpowiedz == 0) continue;
@@ -434,7 +434,7 @@ void gra_z_botem::ustawienie_statków_czteromasztowych(render_api* renderer, Plan
 			else if (orientacja == 4)
 			{
 				for (int j = 0; j < 4 && odpowiedz != 0; j++) {
-					odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y + j, plansza1);
+					odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y + j);
 					if (odpowiedz == 0) break;
 				}
 				if (odpowiedz == 0) continue;

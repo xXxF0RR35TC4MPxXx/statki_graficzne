@@ -144,109 +144,7 @@ void render_api::ustawiasz_statek(int typ, int nr, sf::RenderWindow* Window, int
 	Window->draw(napis);
 
 }
-int render_api::czy_moze_tu_stac(unsigned int wspolrzedna_x, unsigned int wspolrzedna_y, Plansza plansza)//funkcja sprawdza czy postawiony statek w tej pozycji nie
-{																											//bedzie kolidowal z juz postawionymi statkami lub czy nie
-	//czy nie wychodzi za tablice																			//wychodzi za plansze
-	if (wspolrzedna_x > 10 || wspolrzedna_x < 1 || wspolrzedna_y > 10 || wspolrzedna_y < 1)					//zwraca 0 jezeli nie moze stac na tej pozycji lub 1 jezeli moze
-	{
-		return 0;
-	}
-	if (plansza.pola_planszy[wspolrzedna_y - 1][wspolrzedna_x - 1]->symbol != ' ')
-	{
-		return 0;
-	}
-	if (wspolrzedna_x == 10)//jezeli dotyka prawej sciany(sprawdzamy tylko czy czegos nie dotyka po lewej)
-	{
-		if (plansza.pola_planszy[wspolrzedna_y - 1][wspolrzedna_x - 2]->symbol != ' ')
-		{
-			return 0;
-		}
-	}
-	else if (wspolrzedna_x == 1)//jezeli dotyka lewej sciany(sprawdzamy tylko czy czegos nie dotyka po prawej)
-	{
-		if (plansza.pola_planszy[wspolrzedna_y - 1][wspolrzedna_x]->symbol != ' ')
-		{
-			return 0;
-		}
-	}
-	else//jezeli nie dotyka zadnej sciany(lewej lub prawej)(sprawdzamy czy nie dotyka czegos z obu stron)
-	{
-		if (plansza.pola_planszy[wspolrzedna_y - 1][wspolrzedna_x]->symbol != ' ' || plansza.pola_planszy[wspolrzedna_y - 1][wspolrzedna_x - 2]->symbol != ' ')
-		{
-			return 0;
-		}
-	}
-	if (wspolrzedna_y == 10)//jezeli dotyka dolna sciane(sprawdzamy tylko czy czegos nie dotyka u gory)
-	{
-		if (plansza.pola_planszy[wspolrzedna_y - 2][wspolrzedna_x - 1]->symbol != ' ')
-		{
-			return 0;
-		}
-	}
-	else if (wspolrzedna_y == 1)//jezeli dotyka dolna sciane(sprawdzamy tylko czy czegos nie dotyka u dolu)
-	{
-		if (plansza.pola_planszy[wspolrzedna_y][wspolrzedna_x - 1]->symbol != ' ')
-		{
-			return 0;
-		}
-	}
-	else//jezeli nie dotyka dotyka zadnej sciany(gornej lub dolnej)(sprawdzamy czy nie dotyka czegos u gory i dolu)
-	{
-		if (plansza.pola_planszy[wspolrzedna_y - 2][wspolrzedna_x - 1]->symbol != ' ' || plansza.pola_planszy[wspolrzedna_y][wspolrzedna_x - 1]->symbol != ' ')
-		{
-			return 0;
-		}
-	}
-	if (wspolrzedna_y > 1)//jezeli nie dotyka gornej sciany
-	{
-		if (wspolrzedna_x == 10)//jezeli dotyka prawej sciany(sprawdzamy tylko czy lewy gorny rog jest wolny)
-		{
-			if (plansza.pola_planszy[wspolrzedna_y - 2][wspolrzedna_x - 2]->symbol != ' ')
-			{
-				return 0;
-			}
-		}
-		else if (wspolrzedna_x == 1)//jezeli dotyka lewej sciany(sprawdzamy tylko czy prawy gorny rog jest wolny)
-		{
-			if (plansza.pola_planszy[wspolrzedna_y - 2][wspolrzedna_x]->symbol != ' ')
-			{
-				return 0;
-			}
-		}
-		else//jezeli nie dotyka zadnej sciany(lewej lub prawej)(sprawdzamy czy gorne rogi sa wolne)
-		{
-			if (plansza.pola_planszy[wspolrzedna_y - 2][wspolrzedna_x - 2]->symbol != ' ' || plansza.pola_planszy[wspolrzedna_y - 2][wspolrzedna_x]->symbol != ' ')
-			{
-				return 0;
-			}
-		}
-	}
-	if (wspolrzedna_y < 10)//jezeli nie dotyka dolnej sciany
-	{
-		if (wspolrzedna_x == 10)//jezeli dotyka prawej sciany(sprawdzamy tylko czy lewy dolny rog jest wolny)
-		{
-			if (plansza.pola_planszy[wspolrzedna_y][wspolrzedna_x - 2]->symbol != ' ')
-			{
-				return 0;
-			}
-		}
-		else if (wspolrzedna_x == 1)//jezeli dotyka lewej sciany(sprawdzamy tylko czy prawy dolny rog jest wolny)
-		{
-			if (plansza.pola_planszy[wspolrzedna_y][wspolrzedna_x]->symbol != ' ')
-			{
-				return 0;
-			}
-		}
-		else//jezeli nie dotyka zadnej sciany(lewej lub prawej)(sprawdzamy czy dolne rogi sa wolne)
-		{
-			if (plansza.pola_planszy[wspolrzedna_y][wspolrzedna_x - 2]->symbol != ' ' || plansza.pola_planszy[wspolrzedna_y][wspolrzedna_x]->symbol != ' ')
-			{
-				return 0;
-			}
-		}
-	}
-	return 1;
-}
+
 void render_api::render_planszy_przy_ustawianiu(Plansza plansza1, Plansza plansza2, sf::RenderWindow* Window) {
 
 	//t³o planszy
@@ -355,7 +253,7 @@ void render_api::render_planszy_przy_ustawianiu(Plansza plansza1, Plansza plansz
 						if (typ == 1) {
 							wspolrzedna_y = floor(game_screen.PoleSelected / 10);
 							wspolrzedna_x = game_screen.PoleSelected % 10;
-							odpowiedz = czy_moze_tu_stac(wspolrzedna_y + 1, wspolrzedna_x + 1, plansza1);//sprawdzanie czy w wylosowanej pozycji moze stac statek
+							odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_y + 1, wspolrzedna_x + 1);//sprawdzanie czy w wylosowanej pozycji moze stac statek
 							if (odpowiedz == 0)
 							{
 								czy_error = true;
@@ -393,12 +291,12 @@ void render_api::render_planszy_przy_ustawianiu(Plansza plansza1, Plansza plansz
 									if (kierunekevent.key.code == Keyboard::Up)
 									{
 										orientacja = 1;
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1);
 										if (odpowiedz == 0)
 										{
 											czy_error = true; podaje_kierunek = false; break;
 										}
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y + 1, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y + 1);
 										if (odpowiedz == 0)
 										{
 											czy_error = true; podaje_kierunek = false; break;
@@ -418,12 +316,12 @@ void render_api::render_planszy_przy_ustawianiu(Plansza plansza1, Plansza plansz
 									if (kierunekevent.key.code == Keyboard::Down)
 									{
 										orientacja = 4;
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1);
 										if (odpowiedz == 0)
 										{
 											czy_error = true; podaje_kierunek = false; break;
 										}
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 2, wspolrzedna_y + 1, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x + 2, wspolrzedna_y + 1);
 										if (odpowiedz == 0)
 										{
 											czy_error = true; podaje_kierunek = false; break;
@@ -444,12 +342,12 @@ void render_api::render_planszy_przy_ustawianiu(Plansza plansza1, Plansza plansz
 									if (kierunekevent.key.code == Keyboard::Left)
 									{
 										orientacja = 3;
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1);
 										if (odpowiedz == 0)
 										{
 											czy_error = true; podaje_kierunek = false; break;
 										}
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y);
 										if (odpowiedz == 0)
 										{
 											czy_error = true; podaje_kierunek = false; break;
@@ -470,12 +368,12 @@ void render_api::render_planszy_przy_ustawianiu(Plansza plansza1, Plansza plansz
 									if (kierunekevent.key.code == Keyboard::Right)
 									{
 										orientacja = 2;
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1);
 										if (odpowiedz == 0)
 										{
 											czy_error = true; podaje_kierunek = false; break;
 										}
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 2, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 2);
 										if (odpowiedz == 0)
 										{
 											czy_error = true; podaje_kierunek = false; break;
@@ -517,17 +415,17 @@ void render_api::render_planszy_przy_ustawianiu(Plansza plansza1, Plansza plansz
 									if (kierunekevent.key.code == Keyboard::Up)
 									{
 										orientacja = 1;
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1);
 										if (odpowiedz == 0)
 										{
 											czy_error = true; podaje_kierunek = false; break;
 										}
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y + 1, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y + 1);
 										if (odpowiedz == 0)
 										{
 											czy_error = true; podaje_kierunek = false; break;
 										}
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x - 1, wspolrzedna_y + 1, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x - 1, wspolrzedna_y + 1);
 										if (odpowiedz == 0)
 										{
 											czy_error = true; podaje_kierunek = false; break;
@@ -548,17 +446,17 @@ void render_api::render_planszy_przy_ustawianiu(Plansza plansza1, Plansza plansz
 									if (kierunekevent.key.code == Keyboard::Down)
 									{
 										orientacja = 4;
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1);
 										if (odpowiedz == 0)
 										{
 											czy_error = true; podaje_kierunek = false; break;
 										}
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 2, wspolrzedna_y + 1, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x + 2, wspolrzedna_y + 1);
 										if (odpowiedz == 0)
 										{
 											czy_error = true; podaje_kierunek = false; break;
 										}
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 3, wspolrzedna_y + 1, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x + 3, wspolrzedna_y + 1);
 										if (odpowiedz == 0)
 										{
 											czy_error = true; podaje_kierunek = false; break;
@@ -579,17 +477,17 @@ void render_api::render_planszy_przy_ustawianiu(Plansza plansza1, Plansza plansz
 									if (kierunekevent.key.code == Keyboard::Left)
 									{
 										orientacja = 3;
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1);
 										if (odpowiedz == 0)
 										{
 											czy_error = true;  podaje_kierunek = false; break;
 										}
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y);
 										if (odpowiedz == 0)
 										{
 											czy_error = true; podaje_kierunek = false; break;
 										}
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y - 1, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y - 1);
 										if (odpowiedz == 0)
 										{
 											czy_error = true; podaje_kierunek = false; break;
@@ -610,17 +508,17 @@ void render_api::render_planszy_przy_ustawianiu(Plansza plansza1, Plansza plansz
 									if (kierunekevent.key.code == Keyboard::Right)
 									{
 										orientacja = 2;
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1);
 										if (odpowiedz == 0)
 										{
 											czy_error = true; podaje_kierunek = false; break;
 										}
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 2, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 2);
 										if (odpowiedz == 0)
 										{
 											czy_error = true; podaje_kierunek = false; break;
 										}
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 3, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 3);
 										if (odpowiedz == 0)
 										{
 											czy_error = true; podaje_kierunek = false; break;
@@ -662,22 +560,22 @@ void render_api::render_planszy_przy_ustawianiu(Plansza plansza1, Plansza plansz
 									if (kierunekevent.key.code == Keyboard::Up)
 									{
 										orientacja = 1;
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1);
 										if (odpowiedz == 0)
 										{
 											czy_error = true; podaje_kierunek = false; break;
 										}
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y + 1, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y + 1);
 										if (odpowiedz == 0)
 										{
 											czy_error = true; podaje_kierunek = false; break;
 										}
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x - 1, wspolrzedna_y + 1, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x - 1, wspolrzedna_y + 1);
 										if (odpowiedz == 0)
 										{
 											czy_error = true; podaje_kierunek = false; break;
 										}
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x - 2, wspolrzedna_y + 1, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x - 2, wspolrzedna_y + 1);
 										if (odpowiedz == 0)
 										{
 											podaje_kierunek = false; break;
@@ -698,22 +596,22 @@ void render_api::render_planszy_przy_ustawianiu(Plansza plansza1, Plansza plansz
 									if (kierunekevent.key.code == Keyboard::Down)
 									{
 										orientacja = 4;
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1);
 										if (odpowiedz == 0)
 										{
 											czy_error = true; podaje_kierunek = false; break;
 										}
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 2, wspolrzedna_y + 1, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x + 2, wspolrzedna_y + 1);
 										if (odpowiedz == 0)
 										{
 											czy_error = true; podaje_kierunek = false; break;
 										}
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 3, wspolrzedna_y + 1, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x + 3, wspolrzedna_y + 1);
 										if (odpowiedz == 0)
 										{
 											czy_error = true; podaje_kierunek = false; break;
 										}
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 4, wspolrzedna_y + 1, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x + 4, wspolrzedna_y + 1);
 										if (odpowiedz == 0)
 										{
 											czy_error = true; podaje_kierunek = false; break;
@@ -734,22 +632,22 @@ void render_api::render_planszy_przy_ustawianiu(Plansza plansza1, Plansza plansz
 									if (kierunekevent.key.code == Keyboard::Left)
 									{
 										orientacja = 3;
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1);
 										if (odpowiedz == 0)
 										{
 											czy_error = true; podaje_kierunek = false; break;
 										}
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y);
 										if (odpowiedz == 0)
 										{
 											czy_error = true; podaje_kierunek = false; break;
 										}
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y - 1, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y - 1);
 										if (odpowiedz == 0)
 										{
 											czy_error = true; podaje_kierunek = false; break;
 										}
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y - 2, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y - 2);
 										if (odpowiedz == 0)
 										{
 											czy_error = true; podaje_kierunek = false; break;
@@ -770,22 +668,22 @@ void render_api::render_planszy_przy_ustawianiu(Plansza plansza1, Plansza plansz
 									if (kierunekevent.key.code == Keyboard::Right)
 									{
 										orientacja = 2;
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 1);
 										if (odpowiedz == 0)
 										{
 											czy_error = true; podaje_kierunek = false; break;
 										}
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 2, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 2);
 										if (odpowiedz == 0)
 										{
 											czy_error = true; podaje_kierunek = false; break;
 										}
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 3, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 3);
 										if (odpowiedz == 0)
 										{
 											czy_error = true; podaje_kierunek = false; break;
 										}
-										odpowiedz = czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 4, plansza1);
+										odpowiedz = plansza1.czy_moze_tu_stac(wspolrzedna_x + 1, wspolrzedna_y + 4);
 										if (odpowiedz == 0)
 										{
 											czy_error = true; podaje_kierunek = false; break;
