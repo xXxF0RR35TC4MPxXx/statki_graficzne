@@ -16,7 +16,7 @@ game_screen::~game_screen() {
 }
 
 
-void game_screen::draw(RenderWindow& window, char plansza1[10][10], char plansza2[10][10], int typ) {
+void game_screen::draw(RenderWindow& window, Plansza plansza1, Plansza plansza2, int typ) {
 	Texture sprite_pustego_pola_texture;
 	sprite_pustego_pola_texture.loadFromFile("Texture/empty_tile.png");
 	Texture sprite_1_tile;
@@ -37,27 +37,27 @@ void game_screen::draw(RenderWindow& window, char plansza1[10][10], char plansza
 			int p1 = PoleSelected % 10;
 			RectangleShape sprite_pustego_pola;
 			sprite_pustego_pola.setSize(Vector2f(30, 30));
-			if (plansza1[i][j] == '1')
+			if (plansza1.pola_planszy[i][j]->symbol == '1')
 			{
 				sprite_pustego_pola.setTexture(&sprite_1_tile);
 			}
-			else if (plansza1[i][j] == '2')
+			else if (plansza1.pola_planszy[i][j]->symbol == '2')
 			{
 				sprite_pustego_pola.setTexture(&sprite_2_tile);
 			}
-			else if (plansza1[i][j] == '3')
+			else if (plansza1.pola_planszy[i][j]->symbol == '3')
 			{
 				sprite_pustego_pola.setTexture(&sprite_3_tile);
 			}
-			else if (plansza1[i][j] == '4')
+			else if (plansza1.pola_planszy[i][j]->symbol == '4')
 			{
 				sprite_pustego_pola.setTexture(&sprite_4_tile);
 			}
-			else if (plansza1[i][j] == 'x')
+			else if (plansza1.pola_planszy[i][j]->symbol == 'x')
 			{
 				sprite_pustego_pola.setTexture(&sprite_hit_tile);
 			}
-			else if (plansza1[i][j] == '.')
+			else if (plansza1.pola_planszy[i][j]->symbol == '.')
 			{
 				sprite_pustego_pola.setTexture(&sprite_miss_tile);
 			}
@@ -67,7 +67,7 @@ void game_screen::draw(RenderWindow& window, char plansza1[10][10], char plansza
 			
 			sprite_pustego_pola.setPosition(69 + (i * TILE_WIDTH), 160 + (j * TILE_HEIGHT));
 			Window->draw(sprite_pustego_pola);
-			std::string var = "Wyrenderowano: plansza1[" + std::to_string(i) + "][" + std::to_string(j) + "] == " + std::to_string(plansza1[i][j]) + "\n";
+			std::string var = "Wyrenderowano: plansza1[" + std::to_string(i) + "][" + std::to_string(j) + "] == " + std::to_string(plansza1.pola_planszy[i][j]->symbol) + "\n";
 
 			//cout << var;
 		}
@@ -76,11 +76,11 @@ void game_screen::draw(RenderWindow& window, char plansza1[10][10], char plansza
 		for (int j = 0; j < 10; j++) {
 			RectangleShape sprite_pustego_pola;
 			sprite_pustego_pola.setSize(Vector2f(30, 30));
-			if (plansza2[i][j] == 'x')
+			if (plansza2.pola_planszy[i][j]->symbol == 'x')
 			{
 				sprite_pustego_pola.setTexture(&sprite_hit_tile);
 			}
-			else if (plansza2[i][j] == '.')
+			else if (plansza2.pola_planszy[i][j]->symbol == '.')
 			{
 				sprite_pustego_pola.setTexture(&sprite_miss_tile);
 			}
@@ -89,7 +89,7 @@ void game_screen::draw(RenderWindow& window, char plansza1[10][10], char plansza
 			}
 			sprite_pustego_pola.setPosition(450 + (j * TILE_WIDTH), 160 + (i * TILE_HEIGHT));
 			Window->draw(sprite_pustego_pola);
-			std::string var = "Wyrenderowano: plansza2[" + std::to_string(i) + "][" + std::to_string(j) + "] == " + std::to_string(plansza1[i][j]) + "\n";
+			std::string var = "Wyrenderowano: plansza2[" + std::to_string(i) + "][" + std::to_string(j) + "] == " + std::to_string(plansza1.pola_planszy[i][j]->symbol) + "\n";
 			//cout << var;
 		}
 	}
@@ -114,7 +114,7 @@ void game_screen::draw(RenderWindow& window, char plansza1[10][10], char plansza
 	Window->draw(sprite_podœwietlonego_pola);
 }
 
-void game_screen::MoveUp(char plansza[10][10], int typ) {
+void game_screen::MoveUp(Plansza plansza, int typ) {
 	
 	if (PoleSelected > 9)
 	{
@@ -136,7 +136,7 @@ void game_screen::MoveUp(char plansza[10][10], int typ) {
 		sprite_pustego_pola.setSize(Vector2f(30, 30));
 		int p2 = floor(PoleSelected/10);
 		int p1 = PoleSelected % 10;
-		char temp_char = plansza[p1][p2];
+		char temp_char = plansza.pola_planszy[p1][p2]->symbol;
 		if (temp_char == '1')
 		{
 			sprite_pustego_pola.setTexture(&sprite_1_tile);
@@ -189,7 +189,7 @@ void game_screen::MoveUp(char plansza[10][10], int typ) {
 	}
 }
 
-void game_screen::MoveDown(char plansza[10][10], int typ) {
+void game_screen::MoveDown(Plansza plansza, int typ) {
 	if (PoleSelected < 90) {
 		Texture sprite_pustego_pola_texture;
 		sprite_pustego_pola_texture.loadFromFile("Texture/empty_tile.png");
@@ -209,7 +209,7 @@ void game_screen::MoveDown(char plansza[10][10], int typ) {
 		sprite_pustego_pola.setSize(Vector2f(30, 30));
 		int p1 = floor(PoleSelected / 10);
 		int p2 = PoleSelected % 10;
-		char temp_char = plansza[p1][p2];
+		char temp_char = plansza.pola_planszy[p1][p2]->symbol;
 		if (temp_char == '1')
 		{
 			sprite_pustego_pola.setTexture(&sprite_1_tile);
@@ -263,7 +263,7 @@ void game_screen::MoveDown(char plansza[10][10], int typ) {
 	}
 }
 
-void game_screen::MoveLeft(char plansza[10][10], int typ) {
+void game_screen::MoveLeft(Plansza plansza, int typ) {
 
 	if (PoleSelected % 10 != 0) {
 		Texture sprite_pustego_pola_texture;
@@ -284,7 +284,7 @@ void game_screen::MoveLeft(char plansza[10][10], int typ) {
 		sprite_pustego_pola.setSize(Vector2f(30, 30));
 		int p1 = floor(PoleSelected / 10);
 		int p2 = PoleSelected % 10;
-		char temp_char = plansza[p1][p2];
+		char temp_char = plansza.pola_planszy[p1][p2]->symbol;
 		if (temp_char == '1')
 		{
 			sprite_pustego_pola.setTexture(&sprite_1_tile);
@@ -338,7 +338,7 @@ void game_screen::MoveLeft(char plansza[10][10], int typ) {
 	}
 }
 
-void game_screen::MoveRight(char plansza[10][10], int typ) {
+void game_screen::MoveRight(Plansza plansza, int typ) {
 	if (PoleSelected % 10 != 9) {
 		Texture sprite_pustego_pola_texture;
 		sprite_pustego_pola_texture.loadFromFile("Texture/empty_tile.png");
@@ -358,7 +358,7 @@ void game_screen::MoveRight(char plansza[10][10], int typ) {
 		sprite_pustego_pola.setSize(Vector2f(30, 30));
 		int p1 = floor(PoleSelected / 10);
 		int p2 = PoleSelected % 10;
-		char temp_char = plansza[p1][p2];
+		char temp_char = plansza.pola_planszy[p1][p2]->symbol;
 		if (temp_char == '1')
 		{
 			sprite_pustego_pola.setTexture(&sprite_1_tile);

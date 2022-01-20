@@ -32,13 +32,13 @@ public:
 protected:
 	int przebieg_jednej_tury(sf::RenderWindow*, render_api* renderer);//funkcja ktora "przeprowadza" gre(wersja dla gracz vs komputer)
 	void ustawienia(sf::RenderWindow*);//funkcja sluzaca do ustawienia rzeczy przed rozpoczeciem stzrelania (nick i statki)(wersja dla gracz vs komputer)
-	OstatnioTrafionePole* strzal_bot(char plansza1[10][10], char plansza2[10][10], int, int);//funkcja w ktorej komputer wybiera wspolrzedna gdzie strzelic
-	void ustawienie_statkow_bot(char plansza1[10][10], char plansza2[10][10]);//funkcja w ktorej komputer losuje gdzie postawic statki
+	OstatnioTrafionePole* strzal_bot(Plansza plansza1, Plansza plansza2, int, int);//funkcja w ktorej komputer wybiera wspolrzedna gdzie strzelic
+	void ustawienie_statkow_bot(Plansza plansza1, Plansza plansza2);//funkcja w ktorej komputer losuje gdzie postawic statki
 
-	void ustawienie_statków_jednomasztowych(render_api*, char plansza1[10][10]);
-	void ustawienie_statków_dwumasztowych(render_api*, char plansza1[10][10]);
-	void ustawienie_statków_trójmasztowych(render_api*, char plansza1[10][10]);
-	void ustawienie_statków_czteromasztowych(render_api*, char plansza1[10][10]);
+	void ustawienie_statków_jednomasztowych(render_api*, Plansza plansza1);
+	void ustawienie_statków_dwumasztowych(render_api*, Plansza plansza1);
+	void ustawienie_statków_trójmasztowych(render_api*, Plansza plansza1);
+	void ustawienie_statków_czteromasztowych(render_api*, Plansza plansza1);
 	
 	
 };

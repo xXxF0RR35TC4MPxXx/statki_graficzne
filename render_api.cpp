@@ -4,11 +4,9 @@
 #include <time.h>
 #include <iostream>
 #include "dziedziczace.h"
-
 #include "render_api.h"
-
-
 #include "game_screen.h"
+
 #pragma warning(disable:4996)
 #define WINDOW_HEIGHT 613
 #define WINDOW_WIDTH 822
@@ -146,55 +144,55 @@ void render_api::ustawiasz_statek(int typ, int nr, sf::RenderWindow* Window, int
 	Window->draw(napis);
 
 }
-int render_api::czy_moze_tu_stac(unsigned int wspolrzedna_x, unsigned int wspolrzedna_y, char plansza[10][10])//funkcja sprawdza czy postawiony statek w tej pozycji nie
+int render_api::czy_moze_tu_stac(unsigned int wspolrzedna_x, unsigned int wspolrzedna_y, Plansza plansza)//funkcja sprawdza czy postawiony statek w tej pozycji nie
 {																											//bedzie kolidowal z juz postawionymi statkami lub czy nie
 	//czy nie wychodzi za tablice																			//wychodzi za plansze
 	if (wspolrzedna_x > 10 || wspolrzedna_x < 1 || wspolrzedna_y > 10 || wspolrzedna_y < 1)					//zwraca 0 jezeli nie moze stac na tej pozycji lub 1 jezeli moze
 	{
 		return 0;
 	}
-	if (plansza[wspolrzedna_y - 1][wspolrzedna_x - 1] != ' ')
+	if (plansza.pola_planszy[wspolrzedna_y - 1][wspolrzedna_x - 1]->symbol != ' ')
 	{
 		return 0;
 	}
 	if (wspolrzedna_x == 10)//jezeli dotyka prawej sciany(sprawdzamy tylko czy czegos nie dotyka po lewej)
 	{
-		if (plansza[wspolrzedna_y - 1][wspolrzedna_x - 2] != ' ')
+		if (plansza.pola_planszy[wspolrzedna_y - 1][wspolrzedna_x - 2]->symbol != ' ')
 		{
 			return 0;
 		}
 	}
 	else if (wspolrzedna_x == 1)//jezeli dotyka lewej sciany(sprawdzamy tylko czy czegos nie dotyka po prawej)
 	{
-		if (plansza[wspolrzedna_y - 1][wspolrzedna_x] != ' ')
+		if (plansza.pola_planszy[wspolrzedna_y - 1][wspolrzedna_x]->symbol != ' ')
 		{
 			return 0;
 		}
 	}
 	else//jezeli nie dotyka zadnej sciany(lewej lub prawej)(sprawdzamy czy nie dotyka czegos z obu stron)
 	{
-		if (plansza[wspolrzedna_y - 1][wspolrzedna_x] != ' ' || plansza[wspolrzedna_y - 1][wspolrzedna_x - 2] != ' ')
+		if (plansza.pola_planszy[wspolrzedna_y - 1][wspolrzedna_x]->symbol != ' ' || plansza.pola_planszy[wspolrzedna_y - 1][wspolrzedna_x - 2]->symbol != ' ')
 		{
 			return 0;
 		}
 	}
 	if (wspolrzedna_y == 10)//jezeli dotyka dolna sciane(sprawdzamy tylko czy czegos nie dotyka u gory)
 	{
-		if (plansza[wspolrzedna_y - 2][wspolrzedna_x - 1] != ' ')
+		if (plansza.pola_planszy[wspolrzedna_y - 2][wspolrzedna_x - 1]->symbol != ' ')
 		{
 			return 0;
 		}
 	}
 	else if (wspolrzedna_y == 1)//jezeli dotyka dolna sciane(sprawdzamy tylko czy czegos nie dotyka u dolu)
 	{
-		if (plansza[wspolrzedna_y][wspolrzedna_x - 1] != ' ')
+		if (plansza.pola_planszy[wspolrzedna_y][wspolrzedna_x - 1]->symbol != ' ')
 		{
 			return 0;
 		}
 	}
 	else//jezeli nie dotyka dotyka zadnej sciany(gornej lub dolnej)(sprawdzamy czy nie dotyka czegos u gory i dolu)
 	{
-		if (plansza[wspolrzedna_y - 2][wspolrzedna_x - 1] != ' ' || plansza[wspolrzedna_y][wspolrzedna_x - 1] != ' ')
+		if (plansza.pola_planszy[wspolrzedna_y - 2][wspolrzedna_x - 1]->symbol != ' ' || plansza.pola_planszy[wspolrzedna_y][wspolrzedna_x - 1]->symbol != ' ')
 		{
 			return 0;
 		}
@@ -203,21 +201,21 @@ int render_api::czy_moze_tu_stac(unsigned int wspolrzedna_x, unsigned int wspolr
 	{
 		if (wspolrzedna_x == 10)//jezeli dotyka prawej sciany(sprawdzamy tylko czy lewy gorny rog jest wolny)
 		{
-			if (plansza[wspolrzedna_y - 2][wspolrzedna_x - 2] != ' ')
+			if (plansza.pola_planszy[wspolrzedna_y - 2][wspolrzedna_x - 2]->symbol != ' ')
 			{
 				return 0;
 			}
 		}
 		else if (wspolrzedna_x == 1)//jezeli dotyka lewej sciany(sprawdzamy tylko czy prawy gorny rog jest wolny)
 		{
-			if (plansza[wspolrzedna_y - 2][wspolrzedna_x] != ' ')
+			if (plansza.pola_planszy[wspolrzedna_y - 2][wspolrzedna_x]->symbol != ' ')
 			{
 				return 0;
 			}
 		}
 		else//jezeli nie dotyka zadnej sciany(lewej lub prawej)(sprawdzamy czy gorne rogi sa wolne)
 		{
-			if (plansza[wspolrzedna_y - 2][wspolrzedna_x - 2] != ' ' || plansza[wspolrzedna_y - 2][wspolrzedna_x] != ' ')
+			if (plansza.pola_planszy[wspolrzedna_y - 2][wspolrzedna_x - 2]->symbol != ' ' || plansza.pola_planszy[wspolrzedna_y - 2][wspolrzedna_x]->symbol != ' ')
 			{
 				return 0;
 			}
@@ -227,21 +225,21 @@ int render_api::czy_moze_tu_stac(unsigned int wspolrzedna_x, unsigned int wspolr
 	{
 		if (wspolrzedna_x == 10)//jezeli dotyka prawej sciany(sprawdzamy tylko czy lewy dolny rog jest wolny)
 		{
-			if (plansza[wspolrzedna_y][wspolrzedna_x - 2] != ' ')
+			if (plansza.pola_planszy[wspolrzedna_y][wspolrzedna_x - 2]->symbol != ' ')
 			{
 				return 0;
 			}
 		}
 		else if (wspolrzedna_x == 1)//jezeli dotyka lewej sciany(sprawdzamy tylko czy prawy dolny rog jest wolny)
 		{
-			if (plansza[wspolrzedna_y][wspolrzedna_x] != ' ')
+			if (plansza.pola_planszy[wspolrzedna_y][wspolrzedna_x]->symbol != ' ')
 			{
 				return 0;
 			}
 		}
 		else//jezeli nie dotyka zadnej sciany(lewej lub prawej)(sprawdzamy czy dolne rogi sa wolne)
 		{
-			if (plansza[wspolrzedna_y][wspolrzedna_x - 2] != ' ' || plansza[wspolrzedna_y][wspolrzedna_x] != ' ')
+			if (plansza.pola_planszy[wspolrzedna_y][wspolrzedna_x - 2]->symbol != ' ' || plansza.pola_planszy[wspolrzedna_y][wspolrzedna_x]->symbol != ' ')
 			{
 				return 0;
 			}
@@ -249,7 +247,7 @@ int render_api::czy_moze_tu_stac(unsigned int wspolrzedna_x, unsigned int wspolr
 	}
 	return 1;
 }
-void render_api::render_planszy_przy_ustawianiu(char plansza1[10][10], char plansza2[10][10], sf::RenderWindow* Window) {
+void render_api::render_planszy_przy_ustawianiu(Plansza plansza1, Plansza plansza2, sf::RenderWindow* Window) {
 
 	//t³o planszy
 	RectangleShape game_background;
@@ -368,7 +366,7 @@ void render_api::render_planszy_przy_ustawianiu(char plansza1[10][10], char plan
 								czy_error = false;
 								komunikat_bledu.setString("");
 								Window->clear();
-								plansza1[wspolrzedna_x][wspolrzedna_y] = '1';//wpisanie statku do tablicy w odpowiednie miejsce
+								plansza1.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol = '1';//wpisanie statku do tablicy w odpowiednie miejsce
 								game_screen.PoleSelected = 0;
 								nr++;
 								renderer->wypisz_plansze(plansza1);
@@ -409,8 +407,8 @@ void render_api::render_planszy_przy_ustawianiu(char plansza1[10][10], char plan
 											czy_error = false;
 											komunikat_bledu.setString("");
 											Window->clear();
-											plansza1[wspolrzedna_y][wspolrzedna_x] = '2';
-											plansza1[wspolrzedna_y][wspolrzedna_x - 1] = '2';
+											plansza1.pola_planszy[wspolrzedna_y][wspolrzedna_x]->symbol = '2';
+											plansza1.pola_planszy[wspolrzedna_y][wspolrzedna_x - 1]->symbol = '2';
 											game_screen.PoleSelected = 0;
 											nr++;
 											if (nr == 4) { typ++; nr = 1; }renderer->wypisz_plansze(plansza1);
@@ -434,8 +432,8 @@ void render_api::render_planszy_przy_ustawianiu(char plansza1[10][10], char plan
 											czy_error = false;
 											komunikat_bledu.setString("");
 											Window->clear();
-											plansza1[wspolrzedna_y][wspolrzedna_x] = '2';
-											plansza1[wspolrzedna_y][wspolrzedna_x + 1] = '2';
+											plansza1.pola_planszy[wspolrzedna_y][wspolrzedna_x]->symbol = '2';
+											plansza1.pola_planszy[wspolrzedna_y][wspolrzedna_x + 1]->symbol = '2';
 											game_screen.PoleSelected = 0;
 											nr++; renderer->wypisz_plansze(plansza1);
 											if (nr == 4) { typ++; nr = 1; }
@@ -460,8 +458,8 @@ void render_api::render_planszy_przy_ustawianiu(char plansza1[10][10], char plan
 											czy_error = false;
 											komunikat_bledu.setString("");
 											Window->clear();
-											plansza1[wspolrzedna_y][wspolrzedna_x] = '2';
-											plansza1[wspolrzedna_y - 1][wspolrzedna_x] = '2';
+											plansza1.pola_planszy[wspolrzedna_y][wspolrzedna_x]->symbol = '2';
+											plansza1.pola_planszy[wspolrzedna_y - 1][wspolrzedna_x]->symbol = '2';
 											game_screen.PoleSelected = 0;
 											nr++; renderer->wypisz_plansze(plansza1);
 											if (nr == 4) { typ++; nr = 1; }
@@ -486,8 +484,8 @@ void render_api::render_planszy_przy_ustawianiu(char plansza1[10][10], char plan
 											czy_error = false;
 											komunikat_bledu.setString("");
 											Window->clear();
-											plansza1[wspolrzedna_y][wspolrzedna_x] = '2';
-											plansza1[wspolrzedna_y + 1][wspolrzedna_x] = '2';
+											plansza1.pola_planszy[wspolrzedna_y][wspolrzedna_x]->symbol = '2';
+											plansza1.pola_planszy[wspolrzedna_y + 1][wspolrzedna_x]->symbol = '2';
 											game_screen.PoleSelected = 0;
 											nr++; renderer->wypisz_plansze(plansza1);
 											if (nr == 4) { typ++; nr = 1; }
@@ -538,9 +536,9 @@ void render_api::render_planszy_przy_ustawianiu(char plansza1[10][10], char plan
 											czy_error = false;
 											komunikat_bledu.setString("");
 											Window->clear();
-											plansza1[wspolrzedna_y][wspolrzedna_x] = '3';
-											plansza1[wspolrzedna_y][wspolrzedna_x - 1] = '3';
-											plansza1[wspolrzedna_y][wspolrzedna_x - 2] = '3';
+											plansza1.pola_planszy[wspolrzedna_y][wspolrzedna_x]->symbol = '3';
+											plansza1.pola_planszy[wspolrzedna_y][wspolrzedna_x - 1]->symbol = '3';
+											plansza1.pola_planszy[wspolrzedna_y][wspolrzedna_x - 2]->symbol = '3';
 											game_screen.PoleSelected = 0;
 											nr++; renderer->wypisz_plansze(plansza1);
 											if (nr == 3) { typ++; nr = 1; }
@@ -568,9 +566,9 @@ void render_api::render_planszy_przy_ustawianiu(char plansza1[10][10], char plan
 										else {
 											czy_error = false; komunikat_bledu.setString("");
 											Window->clear();
-											plansza1[wspolrzedna_y][wspolrzedna_x] = '3';
-											plansza1[wspolrzedna_y][wspolrzedna_x + 1] = '3';
-											plansza1[wspolrzedna_y][wspolrzedna_x + 2] = '3';
+											plansza1.pola_planszy[wspolrzedna_y][wspolrzedna_x]->symbol = '3';
+											plansza1.pola_planszy[wspolrzedna_y][wspolrzedna_x + 1]->symbol = '3';
+											plansza1.pola_planszy[wspolrzedna_y][wspolrzedna_x + 2]->symbol = '3';
 											game_screen.PoleSelected = 0;
 											nr++; renderer->wypisz_plansze(plansza1);
 											if (nr == 3) { typ++; nr = 1; }
@@ -599,9 +597,9 @@ void render_api::render_planszy_przy_ustawianiu(char plansza1[10][10], char plan
 										else {
 											czy_error = false; komunikat_bledu.setString("");
 											Window->clear();
-											plansza1[wspolrzedna_y][wspolrzedna_x] = '3';
-											plansza1[wspolrzedna_y - 1][wspolrzedna_x] = '3';
-											plansza1[wspolrzedna_y - 2][wspolrzedna_x] = '3';
+											plansza1.pola_planszy[wspolrzedna_y][wspolrzedna_x]->symbol = '3';
+											plansza1.pola_planszy[wspolrzedna_y - 1][wspolrzedna_x]->symbol = '3';
+											plansza1.pola_planszy[wspolrzedna_y - 2][wspolrzedna_x]->symbol = '3';
 											game_screen.PoleSelected = 0;
 											nr++; renderer->wypisz_plansze(plansza1);
 											if (nr == 3) { typ++; nr = 1; }
@@ -630,9 +628,9 @@ void render_api::render_planszy_przy_ustawianiu(char plansza1[10][10], char plan
 										else {
 											czy_error = false; komunikat_bledu.setString("");
 											Window->clear();
-											plansza1[wspolrzedna_y][wspolrzedna_x] = '3';
-											plansza1[wspolrzedna_y + 1][wspolrzedna_x] = '3';
-											plansza1[wspolrzedna_y + 2][wspolrzedna_x] = '3';
+											plansza1.pola_planszy[wspolrzedna_y][wspolrzedna_x]->symbol = '3';
+											plansza1.pola_planszy[wspolrzedna_y + 1][wspolrzedna_x]->symbol = '3';
+											plansza1.pola_planszy[wspolrzedna_y + 2][wspolrzedna_x]->symbol = '3';
 											game_screen.PoleSelected = 0;
 											nr++; renderer->wypisz_plansze(plansza1);
 											if (nr == 3) { typ++; nr = 1; }
@@ -687,10 +685,10 @@ void render_api::render_planszy_przy_ustawianiu(char plansza1[10][10], char plan
 										}
 										else {
 											czy_error = false; komunikat_bledu.setString("");
-											plansza1[wspolrzedna_y][wspolrzedna_x] = '4';
-											plansza1[wspolrzedna_y][wspolrzedna_x - 1] = '4';
-											plansza1[wspolrzedna_y][wspolrzedna_x - 2] = '4';
-											plansza1[wspolrzedna_y][wspolrzedna_x - 3] = '4';
+											plansza1.pola_planszy[wspolrzedna_y][wspolrzedna_x]->symbol = '4';
+											plansza1.pola_planszy[wspolrzedna_y][wspolrzedna_x - 1]->symbol = '4';
+											plansza1.pola_planszy[wspolrzedna_y][wspolrzedna_x - 2]->symbol = '4';
+											plansza1.pola_planszy[wspolrzedna_y][wspolrzedna_x - 3]->symbol = '4';
 											game_screen.PoleSelected = 0;
 											nr++; renderer->wypisz_plansze(plansza1);
 											if (nr == 2) { typ++; nr = 1; }
@@ -722,10 +720,10 @@ void render_api::render_planszy_przy_ustawianiu(char plansza1[10][10], char plan
 										}
 										else {
 											czy_error = false; komunikat_bledu.setString("");
-											plansza1[wspolrzedna_y][wspolrzedna_x] = '4';
-											plansza1[wspolrzedna_y][wspolrzedna_x + 1] = '4';
-											plansza1[wspolrzedna_y][wspolrzedna_x + 2] = '4';
-											plansza1[wspolrzedna_y][wspolrzedna_x + 3] = '4';
+											plansza1.pola_planszy[wspolrzedna_y][wspolrzedna_x]->symbol = '4';
+											plansza1.pola_planszy[wspolrzedna_y][wspolrzedna_x + 1]->symbol = '4';
+											plansza1.pola_planszy[wspolrzedna_y][wspolrzedna_x + 2]->symbol = '4';
+											plansza1.pola_planszy[wspolrzedna_y][wspolrzedna_x + 3]->symbol = '4';
 											game_screen.PoleSelected = 0;
 											nr++; renderer->wypisz_plansze(plansza1);
 											if (nr == 2) { typ++; nr = 1; }
@@ -758,10 +756,10 @@ void render_api::render_planszy_przy_ustawianiu(char plansza1[10][10], char plan
 										}
 										else {
 											czy_error = false; komunikat_bledu.setString("");
-											plansza1[wspolrzedna_y][wspolrzedna_x] = '4';
-											plansza1[wspolrzedna_y - 1][wspolrzedna_x] = '4';
-											plansza1[wspolrzedna_y - 2][wspolrzedna_x] = '4';
-											plansza1[wspolrzedna_y - 3][wspolrzedna_x] = '4';
+											plansza1.pola_planszy[wspolrzedna_y][wspolrzedna_x]->symbol = '4';
+											plansza1.pola_planszy[wspolrzedna_y - 1][wspolrzedna_x]->symbol = '4';
+											plansza1.pola_planszy[wspolrzedna_y - 2][wspolrzedna_x]->symbol = '4';
+											plansza1.pola_planszy[wspolrzedna_y - 3][wspolrzedna_x]->symbol = '4';
 											game_screen.PoleSelected = 0;
 											nr++; renderer->wypisz_plansze(plansza1);
 											if (nr == 2) { typ++; nr = 1; }
@@ -794,10 +792,10 @@ void render_api::render_planszy_przy_ustawianiu(char plansza1[10][10], char plan
 										}
 										else {
 											czy_error = false; komunikat_bledu.setString("");
-											plansza1[wspolrzedna_y][wspolrzedna_x] = '4';
-											plansza1[wspolrzedna_y + 1][wspolrzedna_x] = '4';
-											plansza1[wspolrzedna_y + 2][wspolrzedna_x] = '4';
-											plansza1[wspolrzedna_y + 3][wspolrzedna_x] = '4';
+											plansza1.pola_planszy[wspolrzedna_y][wspolrzedna_x]->symbol = '4';
+											plansza1.pola_planszy[wspolrzedna_y + 1][wspolrzedna_x]->symbol = '4';
+											plansza1.pola_planszy[wspolrzedna_y + 2][wspolrzedna_x]->symbol = '4';
+											plansza1.pola_planszy[wspolrzedna_y + 3][wspolrzedna_x]->symbol = '4';
 											game_screen.PoleSelected = 0;
 
 											nr++; renderer->wypisz_plansze(plansza1);
@@ -821,7 +819,7 @@ void render_api::render_planszy_przy_ustawianiu(char plansza1[10][10], char plan
 
 	}
 }
-void render_api::render_planszy_gra(char plansza1[10][10], char plansza2[10][10], char plansza2_1[10][10], char plansza2_2[10][10], sf::RenderWindow* Window, int typ, unsigned int& oddane_strzaly_1, unsigned int& oddane_strzaly_2, unsigned int& trafienia_1, unsigned int& trafienia_2) {
+void render_api::render_planszy_gra(Plansza plansza1, Plansza plansza2, Plansza plansza2_1, Plansza plansza2_2, sf::RenderWindow* Window, int typ, unsigned int& oddane_strzaly_1, unsigned int& oddane_strzaly_2, unsigned int& trafienia_1, unsigned int& trafienia_2) {
 
 	//t³o planszy
 	RectangleShape game_background;
@@ -925,7 +923,7 @@ void render_api::render_planszy_gra(char plansza1[10][10], char plansza2[10][10]
 
 
 					if (typ == 1 || typ == 2) {
-						if (plansza2_1[wspolrzedna_y][wspolrzedna_x] == ' ')//jezeli uzytkownik strzelil w puste pole
+						if (plansza2_1.pola_planszy[wspolrzedna_y][wspolrzedna_x]->symbol == ' ')//jezeli uzytkownik strzelil w puste pole
 						{
 							if (typ == 1) {
 								oddane_strzaly_1++;
@@ -947,12 +945,12 @@ void render_api::render_planszy_gra(char plansza1[10][10], char plansza2[10][10]
 							Window->draw(komunikat);
 							game_screen.draw(*Window, plansza1, plansza2, 2);
 							Window->display();
-							plansza2_1[wspolrzedna_y][wspolrzedna_x] = '.';
-							plansza2[wspolrzedna_x][wspolrzedna_y] = '.';
+							plansza2_1.pola_planszy[wspolrzedna_y][wspolrzedna_x]->symbol = '.';
+							plansza2.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol = '.';
 							czy_trafione = 0;
 							czy_kontynuowaæ = false;
 						}
-						else if (plansza2_1[wspolrzedna_y][wspolrzedna_x] == 'x' || plansza2_1[wspolrzedna_y][wspolrzedna_x] == '.')//jezeli uzytkownik strzelil w juz strzelane pole
+						else if (plansza2_1.pola_planszy[wspolrzedna_y][wspolrzedna_x]->symbol == 'x' || plansza2_1.pola_planszy[wspolrzedna_y][wspolrzedna_x]->symbol == '.')//jezeli uzytkownik strzelil w juz strzelane pole
 						{
 
 							if (typ == 1) {
@@ -1008,23 +1006,23 @@ void render_api::render_planszy_gra(char plansza1[10][10], char plansza2[10][10]
 							game_screen.draw(*Window, plansza1, plansza2, 2);
 							Window->display();
 							//umieszczanie odpowiednich oznaczen statkow na tablicach
-							if (plansza2_1[wspolrzedna_y][wspolrzedna_x] == '1')//jezeli statek jednomasztowy
+							if (plansza2_1.pola_planszy[wspolrzedna_y][wspolrzedna_x]->symbol == '1')//jezeli statek jednomasztowy
 							{
-								plansza2[wspolrzedna_x][wspolrzedna_y] = 'x';
+								plansza2.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol = 'x';
 							}
-							else if (plansza2_1[wspolrzedna_y][wspolrzedna_x] == '2')//jezeli statek dwumasztowy
+							else if (plansza2_1.pola_planszy[wspolrzedna_y][wspolrzedna_x]->symbol == '2')//jezeli statek dwumasztowy
 							{
-								plansza2[wspolrzedna_x][wspolrzedna_y] = 'x';
+								plansza2.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol = 'x';
 							}
-							else if (plansza2_1[wspolrzedna_y][wspolrzedna_x] == '3')//jezeli statek trzymasztowy
+							else if (plansza2_1.pola_planszy[wspolrzedna_y][wspolrzedna_x]->symbol == '3')//jezeli statek trzymasztowy
 							{
-								plansza2[wspolrzedna_x][wspolrzedna_y] = 'x';
+								plansza2.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol = 'x';
 							}
-							else if (plansza2_1[wspolrzedna_y][wspolrzedna_x] == '4')//jezeli statek czteromasztowy
+							else if (plansza2_1.pola_planszy[wspolrzedna_y][wspolrzedna_x]->symbol == '4')//jezeli statek czteromasztowy
 							{
-								plansza2[wspolrzedna_x][wspolrzedna_y] = 'x';
+								plansza2.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol = 'x';
 							}
-							plansza2_1[wspolrzedna_y][wspolrzedna_x] = 'x';//ustawienie na planszy drugiego gracza oznaczenia, ze przeciwnik trafil
+							plansza2_1.pola_planszy[wspolrzedna_y][wspolrzedna_x]->symbol = 'x';//ustawienie na planszy drugiego gracza oznaczenia, ze przeciwnik trafil
 							czy_trafione = 1;
 							jezeli_wygrana = czy_wygrana(plansza2_1);//sprawdzenie czy gracz wygral
 							if (jezeli_wygrana == 1)//jezeli wygral
@@ -1037,15 +1035,15 @@ void render_api::render_planszy_gra(char plansza1[10][10], char plansza2[10][10]
 						std::cout << "PLANSZA2_1\n";
 						for (int i = 0; i < 10; i++) {
 							for (int j = 0; j < 10; j++) {
-								if (plansza2_1[j][i] != ' ')
-									std::cout << plansza2_1[j][i];
+								if (plansza2_1.pola_planszy[j][i]->symbol != ' ')
+									std::cout << plansza2_1.pola_planszy[j][i]->symbol;
 								else std::cout << '-';
 							}std::cout << "\n";
 						}
 					}
 					//typ 3 jest ok - NIE RUSZAC!
 					else if (typ == 3) {
-						if (plansza2_1[wspolrzedna_x][wspolrzedna_y] == ' ')//jezeli uzytkownik strzelil w puste pole
+						if (plansza2_1.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol == ' ')//jezeli uzytkownik strzelil w puste pole
 						{
 							//ustawianie oznaczenia strzalu w odpowiednich tablicach
 
@@ -1062,12 +1060,12 @@ void render_api::render_planszy_gra(char plansza1[10][10], char plansza2[10][10]
 							Window->draw(komunikat);
 							game_screen.draw(*Window, plansza1, plansza2, 2);
 							Window->display();
-							plansza2_1[wspolrzedna_x][wspolrzedna_y] = '.';
-							plansza2[wspolrzedna_x][wspolrzedna_y] = '.';
+							plansza2_1.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol = '.';
+							plansza2.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol = '.';
 							czy_trafione = 0;
 							czy_kontynuowaæ = false;
 						}
-						else if (plansza2_1[wspolrzedna_x][wspolrzedna_y] == 'x' || plansza2_1[wspolrzedna_x][wspolrzedna_y] == '.')//jezeli uzytkownik strzelil w juz strzelane pole
+						else if (plansza2_1.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol == 'x' || plansza2_1.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol == '.')//jezeli uzytkownik strzelil w juz strzelane pole
 						{
 
 							oddane_strzaly_1++;
@@ -1103,23 +1101,23 @@ void render_api::render_planszy_gra(char plansza1[10][10], char plansza2[10][10]
 							game_screen.draw(*Window, plansza1, plansza2, 2);
 							Window->display();
 							//umieszczanie odpowiednich oznaczen statkow na tablicach
-							if (plansza2_1[wspolrzedna_x][wspolrzedna_y] == '1')//jezeli statek jednomasztowy
+							if (plansza2_1.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol == '1')//jezeli statek jednomasztowy
 							{
-								plansza2[wspolrzedna_x][wspolrzedna_y] = 'x';
+								plansza2.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol = 'x';
 							}
-							else if (plansza2_1[wspolrzedna_x][wspolrzedna_y] == '2')//jezeli statek dwumasztowy
+							else if (plansza2_1.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol == '2')//jezeli statek dwumasztowy
 							{
-								plansza2[wspolrzedna_x][wspolrzedna_y] = 'x';
+								plansza2.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol = 'x';
 							}
-							else if (plansza2_1[wspolrzedna_x][wspolrzedna_y] == '3')//jezeli statek trzymasztowy
+							else if (plansza2_1.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol == '3')//jezeli statek trzymasztowy
 							{
-								plansza2[wspolrzedna_x][wspolrzedna_y] = 'x';
+								plansza2.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol = 'x';
 							}
-							else if (plansza2_1[wspolrzedna_x][wspolrzedna_y] == '4')//jezeli statek czteromasztowy
+							else if (plansza2_1.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol == '4')//jezeli statek czteromasztowy
 							{
-								plansza2[wspolrzedna_x][wspolrzedna_y] = 'x';
+								plansza2.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol = 'x';
 							}
-							plansza2_1[wspolrzedna_x][wspolrzedna_y] = 'x';//ustawienie na planszy drugiego gracza oznaczenia, ze przeciwnik trafil
+							plansza2_1.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol = 'x';//ustawienie na planszy drugiego gracza oznaczenia, ze przeciwnik trafil
 							czy_trafione = 1;
 							jezeli_wygrana = czy_wygrana(plansza2_1);//sprawdzenie czy gracz wygral
 							if (jezeli_wygrana == 1)//jezeli wygral
@@ -1132,16 +1130,16 @@ void render_api::render_planszy_gra(char plansza1[10][10], char plansza2[10][10]
 						std::cout << "PLANSZA1_2\n";
 						for (int i = 0; i < 10; i++) {
 							for (int j = 0; j < 10; j++) {
-								if (plansza2[i][j] != ' ')
-									std::cout << plansza2[i][j];
+								if (plansza2.pola_planszy[i][j]->symbol != ' ')
+									std::cout << plansza2.pola_planszy[i][j]->symbol;
 								else std::cout << '-';
 							}std::cout << "\n";
 						}
 						std::cout << "PLANSZA2_1\n";
 						for (int i = 0; i < 10; i++) {
 							for (int j = 0; j < 10; j++) {
-								if (plansza2_1[i][j] != ' ')
-									std::cout << plansza2_1[i][j];
+								if (plansza2_1.pola_planszy[i][j]->symbol != ' ')
+									std::cout << plansza2_1.pola_planszy[i][j]->symbol;
 								else std::cout << '-';
 							}std::cout << "\n";
 						}
@@ -1233,13 +1231,13 @@ void render_api::ruch_wykonuje_komputer(sf::RenderWindow* Window) {
 	sf::sleep(sf::milliseconds(1000));
 	Window->clear();
 }
-int render_api::czy_wygrana(char plansza[10][10])//funkcja sprawdza czy w przeslanej tablicy znajduja sie jeszcze symbole oznaczajace niezatopiony statek i zwraca odpowiednia informacje
+int render_api::czy_wygrana(Plansza plansza)//funkcja sprawdza czy w przeslanej tablicy znajduja sie jeszcze symbole oznaczajace niezatopiony statek i zwraca odpowiednia informacje
 {
 	for (int i = 0; i < 10; i++)
 	{
 		for (int k = 0; k < 10; k++)
 		{
-			if (plansza[i][k] == '1' || plansza[i][k] == '2' || plansza[i][k] == '3' || plansza[i][k] == '4')
+			if (plansza.pola_planszy[i][k]->symbol == '1' || plansza.pola_planszy[i][k]->symbol == '2' || plansza.pola_planszy[i][k]->symbol == '3' || plansza.pola_planszy[i][k]->symbol == '4')
 			{
 				return 0;
 			}
@@ -1495,11 +1493,11 @@ void render_api::draw_empty_background(sf::RenderWindow* Window)
 	Window->draw(background);
 	Window->display();
 }
-void render_api::wypisz_plansze(char plansza[10][10]) {
+void render_api::wypisz_plansze(Plansza plansza) {
 	for (int i = 0; i < 10; i++) {
 		for (int j = 0; j < 10; j++) {
-			if (plansza[j][i] == ' ') cout << '-';
-			else cout << plansza[j][i];
+			if (plansza.pola_planszy[j][i]->symbol == ' ') cout << '-';
+			else cout << plansza.pola_planszy[j][i]->symbol;
 		}cout << "\n";
 	}
 	cout << "\n";

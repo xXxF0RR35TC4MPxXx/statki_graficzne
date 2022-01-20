@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include "render_api.h"
+
 #pragma warning( disable : 6386 )
 #pragma warning(disable:4996)
 
@@ -12,28 +13,16 @@
 using namespace std;
 
 rozgrywka::rozgrywka() :tryb_gry(0), nick1("Gracz1"), nick2("Gracz2"), oddane_strzaly_1(0), oddane_strzaly_2(0), trafienia_1(0), trafienia_2(0)//konstruktor
+{}
+
+
+int rozgrywka::czy_wygrana(Plansza plansza)//funkcja sprawdza czy w przeslanej tablicy znajduja sie jeszcze symbole oznaczajace niezatopiony statek i zwraca odpowiednia informacje
 {
 	for (int i = 0; i < 10; i++)
 	{
 		for (int k = 0; k < 10; k++)
 		{
-			//uzupelnianie tablic(plansz) pustymi polami
-			plansza1_1[i][k] = { ' ' };
-			plansza1_2[i][k] = { ' ' };
-			plansza2_1[i][k] = { ' ' };
-			plansza2_2[i][k] = { ' ' };
-		}
-	}
-}
-
-
-int rozgrywka::czy_wygrana(char plansza[10][10])//funkcja sprawdza czy w przeslanej tablicy znajduja sie jeszcze symbole oznaczajace niezatopiony statek i zwraca odpowiednia informacje
-{
-	for (int i = 0; i < 10; i++)
-	{
-		for (int k = 0; k < 10; k++)
-		{
-			if (plansza[i][k] == '1' || plansza[i][k] == '2' || plansza[i][k] == '3' || plansza[i][k] == '4')
+			if (plansza.pola_planszy[i][k]->symbol == '1' || plansza.pola_planszy[i][k]->symbol == '2' || plansza.pola_planszy[i][k]->symbol == '3' || plansza.pola_planszy[i][k]->symbol == '4')
 			{
 				return 0;
 			}
@@ -138,10 +127,10 @@ bool rozgrywka::operacja_zapisu_danych_do_pliku(string nazwa_pliku_od_usera) {
 	{
 		for (int k = 0; k < 10; k++)
 		{
-			if (plansza1_1[i][k] == ' ') plansza1_1[i][k] = '0';
-			if (plansza1_2[i][k] == ' ') plansza1_2[i][k] = '0';
-			if (plansza2_1[i][k] == ' ') plansza2_1[i][k] = '0';
-			if (plansza2_2[i][k] == ' ') plansza2_2[i][k] = '0';
+			if (plansza1_1.pola_planszy[i][k]->symbol == ' ') plansza1_1.pola_planszy[i][k]->symbol = '0';
+			if (plansza1_2.pola_planszy[i][k]->symbol == ' ') plansza1_2.pola_planszy[i][k]->symbol = '0';
+			if (plansza2_1.pola_planszy[i][k]->symbol == ' ') plansza2_1.pola_planszy[i][k]->symbol = '0';
+			if (plansza2_2.pola_planszy[i][k]->symbol == ' ') plansza2_2.pola_planszy[i][k]->symbol = '0';
 		}
 	}
 	//zapisywanie wszystkich danych do pliku
@@ -150,7 +139,7 @@ bool rozgrywka::operacja_zapisu_danych_do_pliku(string nazwa_pliku_od_usera) {
 	{
 		for (int k = 0; k < 10; k++)
 		{
-			plik << plansza1_1[i][k] << "\t";
+			plik << plansza1_1.pola_planszy[i][k]->symbol << "\t";
 		}
 	}
 	plik << endl;
@@ -158,7 +147,7 @@ bool rozgrywka::operacja_zapisu_danych_do_pliku(string nazwa_pliku_od_usera) {
 	{
 		for (int k = 0; k < 10; k++)
 		{
-			plik << plansza1_2[i][k] << "\t";
+			plik << plansza1_2.pola_planszy[i][k]->symbol << "\t";
 		}
 	}
 	plik << endl;
@@ -166,7 +155,7 @@ bool rozgrywka::operacja_zapisu_danych_do_pliku(string nazwa_pliku_od_usera) {
 	{
 		for (int k = 0; k < 10; k++)
 		{
-			plik << plansza2_1[i][k] << "\t";
+			plik << plansza2_1.pola_planszy[i][k]->symbol << "\t";
 		}
 	}
 	plik << endl;
@@ -174,7 +163,7 @@ bool rozgrywka::operacja_zapisu_danych_do_pliku(string nazwa_pliku_od_usera) {
 	{
 		for (int k = 0; k < 10; k++)
 		{
-			plik << plansza2_2[i][k] << "\t";
+			plik << plansza2_2.pola_planszy[i][k]->symbol << "\t";
 		}
 	}
 	plik << endl;
@@ -197,8 +186,8 @@ int rozgrywka::wczytywanie(FILE* plik, sf::RenderWindow* Window)//funkcja do wcz
 	{
 		for (int k = 0; k < 10; k++)
 		{
-			fscanf(plik, "%s", &plansza1_1[i][k]);
-			if (plansza1_1[i][k] != '0' && plansza1_1[i][k] != '.' && plansza1_1[i][k] != '1' && plansza1_1[i][k] != '2' && plansza1_1[i][k] != '3' && plansza1_1[i][k] != '4' && plansza1_1[i][k] != 'x')
+			fscanf(plik, "%s", &plansza1_1.pola_planszy[i][k]->symbol);
+			if (plansza1_1.pola_planszy[i][k]->symbol != '0' && plansza1_1.pola_planszy[i][k]->symbol != '.' && plansza1_1.pola_planszy[i][k]->symbol != '1' && plansza1_1.pola_planszy[i][k]->symbol != '2' && plansza1_1.pola_planszy[i][k]->symbol != '3' && plansza1_1.pola_planszy[i][k]->symbol != '4' && plansza1_1.pola_planszy[i][k]->symbol != 'x')
 			{
 				return 0;
 			}
@@ -208,8 +197,8 @@ int rozgrywka::wczytywanie(FILE* plik, sf::RenderWindow* Window)//funkcja do wcz
 	{
 		for (int k = 0; k < 10; k++)
 		{
-			fscanf(plik, "%s", &plansza1_2[i][k]);
-			if ((plansza1_2[i][k] != '0') && plansza1_2[i][k] != '.' && plansza1_2[i][k] != 'x')
+			fscanf(plik, "%s", &plansza1_2.pola_planszy[i][k]->symbol);
+			if ((plansza1_2.pola_planszy[i][k]->symbol != '0') && plansza1_2.pola_planszy[i][k]->symbol != '.' && plansza1_2.pola_planszy[i][k]->symbol != 'x')
 			{
 				return 0;
 			}
@@ -219,8 +208,8 @@ int rozgrywka::wczytywanie(FILE* plik, sf::RenderWindow* Window)//funkcja do wcz
 	{
 		for (int k = 0; k < 10; k++)
 		{
-			fscanf(plik, "%s", &plansza2_1[i][k]);
-			if (plansza2_1[i][k] != '0' && plansza2_1[i][k] != '.' && plansza2_1[i][k] != '1' && plansza2_1[i][k] != '2' && plansza2_1[i][k] != '3' && plansza2_1[i][k] != '4' && plansza2_1[i][k] != 'x')
+			fscanf(plik, "%s", &plansza2_1.pola_planszy[i][k]->symbol);
+			if (plansza2_1.pola_planszy[i][k]->symbol != '0' && plansza2_1.pola_planszy[i][k]->symbol != '.' && plansza2_1.pola_planszy[i][k]->symbol != '1' && plansza2_1.pola_planszy[i][k]->symbol != '2' && plansza2_1.pola_planszy[i][k]->symbol != '3' && plansza2_1.pola_planszy[i][k]->symbol != '4' && plansza2_1.pola_planszy[i][k]->symbol != 'x')
 			{
 				return 0;
 			}
@@ -230,8 +219,8 @@ int rozgrywka::wczytywanie(FILE* plik, sf::RenderWindow* Window)//funkcja do wcz
 	{
 		for (int k = 0; k < 10; k++)
 		{
-			fscanf(plik, "%s", &plansza2_2[i][k]);
-			if (plansza2_2[i][k] != '0' && plansza2_2[i][k] != '.' && plansza2_2[i][k] != 'x')
+			fscanf(plik, "%s", &plansza2_2.pola_planszy[i][k]->symbol);
+			if (plansza2_2.pola_planszy[i][k]->symbol != '0' && plansza2_2.pola_planszy[i][k]->symbol != '.' && plansza2_2.pola_planszy[i][k]->symbol != 'x')
 			{
 				return 0;
 			}
@@ -243,21 +232,21 @@ int rozgrywka::wczytywanie(FILE* plik, sf::RenderWindow* Window)//funkcja do wcz
 	{
 		for (int k = 0; k < 10; k++)
 		{
-			if (plansza1_1[i][k] == '0')
+			if (plansza1_1.pola_planszy[i][k]->symbol == '0')
 			{
-				plansza1_1[i][k] = ' ';
+				plansza1_1.pola_planszy[i][k]->symbol = ' ';
 			}
-			if (plansza1_2[i][k] == '0')
+			if (plansza1_2.pola_planszy[i][k]->symbol == '0')
 			{
-				plansza1_2[i][k] = ' ';
+				plansza1_2.pola_planszy[i][k]->symbol = ' ';
 			}
-			if (plansza2_1[i][k] == '0')
+			if (plansza2_1.pola_planszy[i][k]->symbol == '0')
 			{
-				plansza2_1[i][k] = ' ';
+				plansza2_1.pola_planszy[i][k]->symbol = ' ';
 			}
-			if (plansza2_2[i][k] == '0')
+			if (plansza2_2.pola_planszy[i][k]->symbol == '0')
 			{
-				plansza2_2[i][k] = ' ';
+				plansza2_2.pola_planszy[i][k]->symbol = ' ';
 			}
 		}
 	}

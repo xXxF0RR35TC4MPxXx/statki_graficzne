@@ -1,5 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "render_api.h"
+#include "Plansza.h"
+
 class rozgrywka
 {
 protected:
@@ -7,10 +9,15 @@ protected:
 	unsigned int tryb_gry;
 	char nick1[21];
 	char nick2[21];
-	char plansza1_1[10][10];
-	char plansza1_2[10][10];
-	char plansza2_1[10][10];
-	char plansza2_2[10][10];
+	Plansza plansza1_1;
+	Plansza plansza1_2;
+	Plansza plansza2_1;
+	Plansza plansza2_2;
+
+	//char plansza1_2[10][10];
+	//char plansza1_1[10][10];
+	//char plansza2_1[10][10];
+	//char plansza2_2[10][10];
 	unsigned int oddane_strzaly_1;
 	unsigned int oddane_strzaly_2;
 	unsigned int trafienia_1;
@@ -23,7 +30,7 @@ public:
 	int wczytywanie(FILE* plik, sf::RenderWindow* Window);//funkcja do odczytania postepu gry z pliku
 	bool operacja_zapisu_danych_do_pliku(string nazwa_pliku_od_usera);
 protected:
-	int czy_wygrana(char plansza[10][10]);//funkcja sprawdza czy ktos juz nie zatopil wszystkich statkow
+	int czy_wygrana(Plansza plansza);//funkcja sprawdza czy ktos juz nie zatopil wszystkich statkow
 	void wygrana(sf::RenderWindow* ,char nick[]);//funkcja wyswietla statystyki jezeli ktos wygral i konczy gre(wraca do menu)
 	
 };

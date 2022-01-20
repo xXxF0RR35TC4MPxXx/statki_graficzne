@@ -142,7 +142,7 @@ void gra_z_botem::ustawienia(sf::RenderWindow* Window)//gracz oraz komputer usta
 }
 
 
-OstatnioTrafionePole* gra_z_botem::strzal_bot(char plansza1[10][10], char plansza2[10][10], int x, int y)//funkcja gdzie komputer losuje w ktore pole strzelic
+OstatnioTrafionePole* gra_z_botem::strzal_bot(Plansza plansza1, Plansza plansza2, int x, int y)//funkcja gdzie komputer losuje w ktore pole strzelic
 {
 	return obecna_strategia->strza³_bota(plansza1, plansza2, x, y);
 }
@@ -225,7 +225,7 @@ int gra_z_botem::przebieg_jednej_tury(sf::RenderWindow* Window, render_api* rend
 				//w przypadku trafienia zmiana strategii na strzelanie w okolice tego trafienia do momentu spud³owania
 				if(nowa_zmiana) zmieñ_strategiê(new StrategiaBota_Atak_Blisko_Trafienia());
 				nowa_zmiana = false;
-				trafienia_2++;//doliczenie do statystyk trafione strzaly
+				trafienia_2++;//doliczenie do statystyvk trafione strzaly
 			}
 
 			jezeli_wygrana = czy_wygrana(plansza1_1);//sprawdzenie czy komputer wygral
@@ -241,7 +241,7 @@ int gra_z_botem::przebieg_jednej_tury(sf::RenderWindow* Window, render_api* rend
 	}
 }
 
-void gra_z_botem::ustawienie_statków_jednomasztowych(render_api* renderer, char plansza1[10][10]) {
+void gra_z_botem::ustawienie_statków_jednomasztowych(render_api* renderer, Plansza plansza1) {
 	unsigned int wspolrzedna_x, wspolrzedna_y;
 	int odpowiedz = 0;
 	for (int i = 0; i < 4; i++)//ustawianie statkow jednomasztowych
@@ -253,11 +253,11 @@ void gra_z_botem::ustawienie_statków_jednomasztowych(render_api* renderer, char 
 			wspolrzedna_y = (rand() % 10) + 1;
 			odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y, plansza1);//sprawdzanie czy w wylosowanej pozycji moze stac statek
 		} while (odpowiedz != 1);//losuje do poki nie wylosuje dobrej pozycji
-		plansza1[wspolrzedna_y - 1][wspolrzedna_x - 1] = '1';//wpisanie statku do tablicy w odpowiednie miejsce
+		plansza1.pola_planszy[wspolrzedna_y - 1][wspolrzedna_x - 1]->symbol = '1';//wpisanie statku do tablicy w odpowiednie miejsce
 	}
 }
 
-void gra_z_botem::ustawienie_statków_dwumasztowych(render_api* renderer, char plansza1[10][10]) {
+void gra_z_botem::ustawienie_statków_dwumasztowych(render_api* renderer, Plansza plansza1) {
 	unsigned int wspolrzedna_x, wspolrzedna_y, orientacja;
 	int odpowiedz = -1;
 	for (int i = 0; i < 3; i++)//ustawianie statkow dwumasztowych
@@ -274,6 +274,12 @@ void gra_z_botem::ustawienie_statków_dwumasztowych(render_api* renderer, char pl
 			{
 				for (int j = 0; j < 2 && odpowiedz != 0; j++) {
 					odpowiedz = renderer->czy_moze_tu_stac(wspolrzedna_x, wspolrzedna_y - j, plansza1);
+					//odp=plansza1->czymozetustaæ(x,y);
+					//plansza{
+					//	char tab[10][10];
+					//	czy_moze_tu_stac(int x, int y){};
+					//}
+
 					if (odpowiedz == 0) break;
 				}
 				if (odpowiedz == 0) continue;
@@ -307,28 +313,28 @@ void gra_z_botem::ustawienie_statków_dwumasztowych(render_api* renderer, char pl
 		//wpisaniu statku do tablicy w odpowiednie miejsce(w zaleznosci od orientacji)
 		if (orientacja == 1)
 		{
-			plansza1[wspolrzedna_y - 1][wspolrzedna_x - 1] = '2';
-			plansza1[wspolrzedna_y - 2][wspolrzedna_x - 1] = '2';
+			plansza1.pola_planszy[wspolrzedna_y - 1][wspolrzedna_x - 1]->symbol = '2';
+			plansza1.pola_planszy[wspolrzedna_y - 2][wspolrzedna_x - 1]->symbol = '2';
 		}
 		else if (orientacja == 2)
 		{
-			plansza1[wspolrzedna_y - 1][wspolrzedna_x - 1] = '2';
-			plansza1[wspolrzedna_y - 1][wspolrzedna_x] = '2';
+			plansza1.pola_planszy[wspolrzedna_y - 1][wspolrzedna_x - 1]->symbol = '2';
+			plansza1.pola_planszy[wspolrzedna_y - 1][wspolrzedna_x]->symbol = '2';
 		}
 		else if (orientacja == 3)
 		{
-			plansza1[wspolrzedna_y - 1][wspolrzedna_x - 1] = '2';
-			plansza1[wspolrzedna_y - 1][wspolrzedna_x - 2] = '2';
+			plansza1.pola_planszy[wspolrzedna_y - 1][wspolrzedna_x - 1]->symbol = '2';
+			plansza1.pola_planszy[wspolrzedna_y - 1][wspolrzedna_x - 2]->symbol = '2';
 		}
 		else if (orientacja == 4)
 		{
-			plansza1[wspolrzedna_y - 1][wspolrzedna_x - 1] = '2';
-			plansza1[wspolrzedna_y][wspolrzedna_x - 1] = '2';
+			plansza1.pola_planszy[wspolrzedna_y - 1][wspolrzedna_x - 1]->symbol = '2';
+			plansza1.pola_planszy[wspolrzedna_y][wspolrzedna_x - 1]->symbol = '2';
 		}
 	}
 }
 
-void gra_z_botem::ustawienie_statków_trójmasztowych(render_api* renderer, char plansza1[10][10]) {
+void gra_z_botem::ustawienie_statków_trójmasztowych(render_api* renderer, Plansza plansza1) {
 	unsigned int wspolrzedna_x, wspolrzedna_y, orientacja;
 	int odpowiedz = 0;
 	for (int i = 0; i < 2; i++)//ustawianie statkow trzymasztowych
@@ -377,17 +383,17 @@ void gra_z_botem::ustawienie_statków_trójmasztowych(render_api* renderer, char p
 		}
 		//wpisaniu statku do tablicy w odpowiednie miejsce(w zaleznosci od orientacji)
 		if (orientacja == 1) 
-			for (int j = 1;j < 4; j++) plansza1[wspolrzedna_y - j][wspolrzedna_x - 1] = '3';
+			for (int j = 1;j < 4; j++) plansza1.pola_planszy[wspolrzedna_y - j][wspolrzedna_x - 1]->symbol = '3';
 		else if (orientacja == 2)
-			for (int j = -1;j< 2; j++) plansza1[wspolrzedna_y - 1][wspolrzedna_x + j] = '3';
+			for (int j = -1;j< 2; j++) plansza1.pola_planszy[wspolrzedna_y - 1][wspolrzedna_x + j]->symbol = '3';
 		else if (orientacja == 3)
-			for (int j = 1; j < 4; j++) plansza1[wspolrzedna_y - 1][wspolrzedna_x - j] = '3';
+			for (int j = 1; j < 4; j++) plansza1.pola_planszy[wspolrzedna_y - 1][wspolrzedna_x - j]->symbol = '3';
 		else if (orientacja == 4)
-			for (int j = -1; j< 2; j++) plansza1[wspolrzedna_y + j][wspolrzedna_x - 1] = '3';
+			for (int j = -1; j< 2; j++) plansza1.pola_planszy[wspolrzedna_y + j][wspolrzedna_x - 1]->symbol = '3';
 	}
 }
 
-void gra_z_botem::ustawienie_statków_czteromasztowych(render_api* renderer, char plansza1[10][10]) {
+void gra_z_botem::ustawienie_statków_czteromasztowych(render_api* renderer, Plansza plansza1) {
 	unsigned int wspolrzedna_x, wspolrzedna_y, orientacja;
 	int odpowiedz = -1;
 	for (int i = 0; i < 1; i++)//ustawianie statkow czteromasztowego
@@ -437,17 +443,17 @@ void gra_z_botem::ustawienie_statków_czteromasztowych(render_api* renderer, char
 		}
 		//wpisaniu statku do tablicy w odpowiednie miejsce(w zaleznosci od orientacji)
 		if (orientacja == 1)
-			for (int j = 1; j < 5; j++) plansza1[wspolrzedna_y - j][wspolrzedna_x - 1] = '4';
+			for (int j = 1; j < 5; j++) plansza1.pola_planszy[wspolrzedna_y - j][wspolrzedna_x - 1]->symbol = '4';
 		else if (orientacja == 2)
-			for (int j = -1; j < 3; j++) plansza1[wspolrzedna_y - 1][wspolrzedna_x + j] = '4';
+			for (int j = -1; j < 3; j++) plansza1.pola_planszy[wspolrzedna_y - 1][wspolrzedna_x + j]->symbol = '4';
 		else if (orientacja == 3)
-			for (int j = 1; j < 5; j++) plansza1[wspolrzedna_y - 1][wspolrzedna_x -j] = '4';
+			for (int j = 1; j < 5; j++) plansza1.pola_planszy[wspolrzedna_y - 1][wspolrzedna_x -j]->symbol = '4';
 		else if (orientacja == 4)
-			for (int j = -1; j< 3; j++) plansza1[wspolrzedna_y + j][wspolrzedna_x - 1] = '4';
+			for (int j = -1; j< 3; j++) plansza1.pola_planszy[wspolrzedna_y + j][wspolrzedna_x - 1]->symbol = '4';
 	}
 }
 
-void gra_z_botem::ustawienie_statkow_bot(char plansza1[10][10], char plansza2[10][10])//funkcja w ktorej komputer losuje gdzie postawic statki
+void gra_z_botem::ustawienie_statkow_bot(Plansza plansza1, Plansza plansza2)//funkcja w ktorej komputer losuje gdzie postawic statki
 {
 	render_api* renderer = new render_api();
 	int odpowiedz = 0;
@@ -464,8 +470,8 @@ void gra_z_botem::ustawienie_statkow_bot(char plansza1[10][10], char plansza2[10
 	std::cout << "WYGENEROWANA PLANSZA BOTA\n";
 	for (int i = 0; i < 10; i++) {
 		for (int j = 0; j < 10; j++) {
-			if(plansza1[i][j]!=' ')
-				std::cout << plansza1[i][j];
+			if(plansza1.pola_planszy[i][j]->symbol!=' ')
+				std::cout << plansza1.pola_planszy[i][j]->symbol;
 			else std::cout << '-';
 		}std::cout << "\n";
 	}
