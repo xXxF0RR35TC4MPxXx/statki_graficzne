@@ -4,49 +4,50 @@
 #include "Plansza.h"
 #pragma once
 class render_api {
+
 public:
-	render_api(); //konstruktor domyœlny
+	render_api(); //konstruktor domyï¿½lny
 
 
 
-	//MENU, ustawienia gry i w³aœciwa rozgrywka
+	//MENU, ustawienia gry i wï¿½aï¿½ciwa rozgrywka
 
-	virtual void main_menu(sf::RenderWindow* Window, mainmenu mainMenu);		//narysowanie menu g³ównego na ekran
+	virtual void rysujMenu(sf::RenderWindow* Window, mainmenu mainMenu);		//narysowanie menu gï¿½ï¿½wnego na ekran
 	virtual void wybor_typ_gry(sf::RenderWindow*, wybor_typu_gry);				//wypisanie opcji wyboru typu gry
 	virtual std::string podaj_nick(sf::RenderWindow* Window);					//wypisanie ekranu wczytania nicku od gracza i pobranie tego nicku
-	virtual void ustawiasz_statek(int, int, sf::RenderWindow*, int, sf::Text);	//wypisanie informacji o typie i numerze stawianego statku
-	virtual void render_planszy_przy_ustawianiu(Plansza plansza1, Plansza plansza2, sf::RenderWindow*); //funkcja rysuj¹ca plansze podczas ustawiania statków i wczytuje pozycje od gracza
-	//funkcja rysuj¹ca plansze graczy podczas oddawania strza³ów i zliczanie statystyk
+	virtual void ustawiasz_statek(int, int, sf::RenderWindow*, int);	//wypisanie informacji o typie i numerze stawianego statku
+	virtual void render_planszy_przy_ustawianiu(Plansza plansza1, Plansza plansza2, sf::RenderWindow*); //funkcja rysujï¿½ca plansze podczas ustawiania statkï¿½w i wczytuje pozycje od gracza
+	//funkcja rysujï¿½ca plansze graczy podczas oddawania strzaï¿½ï¿½w i zliczanie statystyk
 	virtual void render_planszy_gra(Plansza plansza1, Plansza plansza2, Plansza plansza2_1, Plansza plansza2_2, sf::RenderWindow*, int typ, unsigned int& oddane_strzaly_1, unsigned int& oddane_strzaly_2, unsigned int& trafienia_1, unsigned int& trafienia_2);
-	virtual void przeka¿_komputer(sf::RenderWindow*);							//wyœwietlanie ekranu z proœb¹ o przekazanie komputera drugiemu graczowi
-	virtual void komputer_ustawia_statki(sf::RenderWindow* Window);				//wyœwietlanie ekranu z info o ustawianiu statków przez komputer
-	virtual void ruch_wykonuje_komputer(sf::RenderWindow*);						//wyœwietlanie ekranu z info o wykonywaniu ruchu przez komputer
+	virtual void przekaz_komputer(sf::RenderWindow*);							//wyï¿½wietlanie ekranu z proï¿½bï¿½ o przekazanie komputera drugiemu graczowi
+	virtual void komputer_ustawia_statki(sf::RenderWindow* Window);				//wyï¿½wietlanie ekranu z info o ustawianiu statkï¿½w przez komputer
+	virtual void ruch_wykonuje_komputer(sf::RenderWindow*);						//wyï¿½wietlanie ekranu z info o wykonywaniu ruchu przez komputer
 	virtual int czy_wygrana(Plansza plansza);								//funkcja sprawdza czy ktos juz nie zatopil wszystkich statkow
 	virtual void drukuj_statystyki(sf::RenderWindow* Window, char*, char*, char*, int, int, int, int); //wypisywanie ekranu ze statystykami
 
 
 
 
-	//pytanie o zapis i info o pomyœlnym zapisie
+	//pytanie o zapis i info o pomyï¿½lnym zapisie
 
-	virtual void czy_zapisac_gre(sf::RenderWindow*, zapis_save_yes_no);			//wyœwietlanie ekranu z pytaniem o chêæ zapisu i pobranie odpowiedzi od gracza
-	virtual void zapisano_pomyœlnie(sf::RenderWindow*);							//ekran z info o poprawnym zapisaniu pliku
+	virtual void czy_zapisac_gre(sf::RenderWindow*, zapis_save_yes_no);			//wyï¿½wietlanie ekranu z pytaniem o chï¿½ï¿½ zapisu i pobranie odpowiedzi od gracza
+	virtual void zapisano_pomyslnie(sf::RenderWindow*);							//ekran z info o poprawnym zapisaniu pliku
 
 
 
-	//ekrany odczytu pliku zapisu, info o uszkodzeniu pliku, b³êdzie lub kto zaczyna
+	//ekrany odczytu pliku zapisu, info o uszkodzeniu pliku, bï¿½ï¿½dzie lub kto zaczyna
 
-	virtual void wczytaj_save_background_method(sf::RenderWindow*, sf::Text);	//wyœwietlenie t³a podczas wczytywania pliku zapisu
-	virtual void plik_uszkodzony(sf::RenderWindow*);							//wyœwietlenie ekranu z info o uszkodzonym pliku zapisu
-	virtual void b³¹d_odczytu_save(sf::RenderWindow* Window, sf::Text text);	//ekran b³êdu odczytu pliku z zapisem
-	virtual void zaczyna(sf::RenderWindow*, char*);								//ekran z info o tym kto zaczyna wznowion¹ grê
+	virtual void wczytaj_save_background_method(sf::RenderWindow*, sf::Text);	//wyï¿½wietlenie tï¿½a podczas wczytywania pliku zapisu
+	virtual void plik_uszkodzony(sf::RenderWindow*);							//wyï¿½wietlenie ekranu z info o uszkodzonym pliku zapisu
+	virtual void blad_odczytu_save(sf::RenderWindow* Window, sf::Text text);	//ekran bï¿½ï¿½du odczytu pliku z zapisem
+	virtual void zaczyna(sf::RenderWindow*, char*);								//ekran z info o tym kto zaczyna wznowionï¿½ grï¿½
 	
 	
-	//pozosta³e ekrany, rysowanie samego t³a, wypisywanie planszy w konsoli (debug) i czyszczenie ekranu
+	//pozostaï¿½e ekrany, rysowanie samego tï¿½a, wypisywanie planszy w konsoli (debug) i czyszczenie ekranu
 	
-	virtual void instrukcja(sf::RenderWindow*);									//wyœwietlenie ekranu z instrukcj¹
-	virtual void twórcy(sf::RenderWindow*);										//wyœwietlenie ekranu z list¹ twórców
-	virtual void draw_empty_background(sf::RenderWindow* Window);				//wyœwietlenie pustego t³a (bez napisów)
+	virtual void instrukcja(sf::RenderWindow*);									//wyï¿½wietlenie ekranu z instrukcjï¿½
+	virtual void tworcy(sf::RenderWindow*);										//wyï¿½wietlenie ekranu z listï¿½ twï¿½rcï¿½w
+	virtual void draw_empty_background(sf::RenderWindow* Window);				//wyï¿½wietlenie pustego tï¿½a (bez napisï¿½w)
 	virtual void wypisz_plansze(Plansza plansza);							//wypisywanie wskazanej planszy do konsoli (do debugowania)
 	virtual void clear_screen(sf::RenderWindow*);								//czyszczenie ekranu
 	

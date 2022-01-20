@@ -13,10 +13,10 @@ mainmenu::mainmenu(float width, float height)
 	mainMenu[0].setCharacterSize(35);
 	mainMenu[0].setPosition(Vector2f(width / 25, height / (Max_main_menu + 1) * 1));
 
-	//Wczytaj grê
+	//Wczytaj grï¿½
 	mainMenu[1].setFont(font);
 	mainMenu[1].setFillColor(Color::Black);
-	mainMenu[1].setString(L"Wczytaj grê");
+	mainMenu[1].setString(L"Wczytaj grï¿½");
 	mainMenu[1].setCharacterSize(35);
 	mainMenu[1].setPosition(Vector2f(width / 25, height / (Max_main_menu + 1) * 2));
 
@@ -27,17 +27,17 @@ mainmenu::mainmenu(float width, float height)
 	mainMenu[2].setCharacterSize(35);
 	mainMenu[2].setPosition(Vector2f(width / 25, height / (Max_main_menu + 1) * 3));
 
-	//Zakoñcz grê
+	//Zakoï¿½cz grï¿½
 	mainMenu[3].setFont(font);
 	mainMenu[3].setFillColor(Color::Black);
-	mainMenu[3].setString(L"Twórcy");
+	mainMenu[3].setString(L"Twï¿½rcy");
 	mainMenu[3].setCharacterSize(35);
 	mainMenu[3].setPosition(Vector2f(width / 25, height / (Max_main_menu + 1) * 4));
 
-	//Zakoñcz grê
+	//Zakoï¿½cz grï¿½
 	mainMenu[4].setFont(font);
 	mainMenu[4].setFillColor(Color::Black);
-	mainMenu[4].setString(L"Zakoñcz grê");
+	mainMenu[4].setString(L"Zakoï¿½cz grï¿½");
 	mainMenu[4].setCharacterSize(35);
 	mainMenu[4].setPosition(Vector2f(width / 25, height / (Max_main_menu + 1) * 5));
 
@@ -48,7 +48,6 @@ mainmenu::mainmenu(float width, float height)
 mainmenu::~mainmenu() {
 
 }
-
 
 void mainmenu::draw(RenderWindow& window) {
 	for (int i = 0; i < Max_main_menu; i++)
@@ -79,4 +78,11 @@ void mainmenu::MoveDown() {
 		}
 		mainMenu[MainMenuSelected].setFillColor(Color::White);
 	}
+}
+
+mainmenu* mainmenu::GetInstance(float w, float h) {
+	if(mainmenu_ == nullptr) {
+		mainmenu_ = new mainmenu(w, h);
+	}
+	return mainmenu_;
 }
