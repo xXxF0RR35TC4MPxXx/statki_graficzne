@@ -1,3 +1,5 @@
+#ifndef PLANSZA_H
+#define PLANSZA_H
 #pragma once
 #include "Pojedyncze_pole.h"
 class Plansza
@@ -116,3 +118,4 @@ public:
 
 	pojedyncze_pole* pola_planszy[10][10];
 };
+#endif

@@ -1,3 +1,5 @@
+#ifndef POJEDYNCZE_POLE_H
+#define POJEDYNCZE_POLE_H
 #pragma once
 
 class pojedyncze_pole
@@ -13,3 +15,4 @@ public:
 		this->symbol = s;
 	}
 };
+#endif

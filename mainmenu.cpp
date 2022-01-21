@@ -3,7 +3,7 @@
 mainmenu::mainmenu(float width, float height)
 {
 	if (!font.loadFromFile("arial.ttf")) {
-		cout << "Nie ma takiego fontu!";
+		std::cout << "Nie ma takiego fontu!";
 	}
 
 	//Nowa gra
@@ -16,7 +16,7 @@ mainmenu::mainmenu(float width, float height)
 	//Wczytaj gr�
 	mainMenu[1].setFont(font);
 	mainMenu[1].setFillColor(Color::Black);
-	mainMenu[1].setString(L"Wczytaj gr�");
+	mainMenu[1].setString(L"Wczytaj gre");
 	mainMenu[1].setCharacterSize(35);
 	mainMenu[1].setPosition(Vector2f(width / 25, height / (Max_main_menu + 1) * 2));
 
@@ -30,23 +30,19 @@ mainmenu::mainmenu(float width, float height)
 	//Zako�cz gr�
 	mainMenu[3].setFont(font);
 	mainMenu[3].setFillColor(Color::Black);
-	mainMenu[3].setString(L"Tw�rcy");
+	mainMenu[3].setString(L"Tworcy");
 	mainMenu[3].setCharacterSize(35);
 	mainMenu[3].setPosition(Vector2f(width / 25, height / (Max_main_menu + 1) * 4));
 
 	//Zako�cz gr�
 	mainMenu[4].setFont(font);
 	mainMenu[4].setFillColor(Color::Black);
-	mainMenu[4].setString(L"Zako�cz gr�");
+	mainMenu[4].setString(L"Zakoncz gre");
 	mainMenu[4].setCharacterSize(35);
 	mainMenu[4].setPosition(Vector2f(width / 25, height / (Max_main_menu + 1) * 5));
 
 	MainMenuSelected = 0;
 	mainMenu[MainMenuSelected].setFillColor(Color::White);
-}
-
-mainmenu::~mainmenu() {
-
 }
 
 void mainmenu::draw(RenderWindow& window) {

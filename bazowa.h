@@ -1,6 +1,11 @@
+#ifndef BAZOWA_H
+#define BAZOWA_H
 #include <SFML/Graphics.hpp>
 #include "render_api.h"
 #include "Plansza.h"
+#include <string>
+
+using std::string;
 
 class rozgrywka
 {
@@ -32,5 +37,5 @@ public:
 protected:
 	int czy_wygrana(Plansza plansza);//funkcja sprawdza czy ktos juz nie zatopil wszystkich statkow
 	void wygrana(sf::RenderWindow* ,char nick[]);//funkcja wyswietla statystyki jezeli ktos wygral i konczy gre(wraca do menu)
-	
 };
+#endif

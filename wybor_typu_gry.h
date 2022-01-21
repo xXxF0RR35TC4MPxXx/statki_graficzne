@@ -1,7 +1,8 @@
+#ifndef WYBOR_TYPU_GRY_H
+#define WYBOR_TYPU_GRY_H
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <iostream>
-using namespace std;
 using namespace sf;
 
 #define Max_wybor 3
@@ -22,3 +23,4 @@ private:
 	Font font;
 	Text numer_typu_gry[Max_wybor];
 };
+#endif

@@ -1,6 +1,8 @@
-
+#ifndef DZIEDZICZACE_H
+#define DZIEDZICZACE_H
 #include "bazowa.h"
-#include "StrategiaStrza³uBota.h"
+#include "StrategiaStrzaluBota.h"
+#include "render_api.h"
 class gra_z_graczem : public rozgrywka
 {
 public:
@@ -23,7 +25,7 @@ public:
 
 
 	void zmien_strategie(IStrategiaStrzaluBota* nowa_strategia) {
-		cout << "Zmiana strategii!";
+		std::cout << "Zmiana strategii!";
 		//delete this->obecna_strategia;
 		this->obecna_strategia = nowa_strategia;
 	}
@@ -39,6 +41,5 @@ protected:
 	void ustawienie_statkow_dwumasztowych(render_api*, Plansza plansza1);
 	void ustawienie_statkow_trojmasztowych(render_api*, Plansza plansza1);
 	void ustawienie_statkow_czteromasztowych(render_api*, Plansza plansza1);
-	
-	
 };
+#endif

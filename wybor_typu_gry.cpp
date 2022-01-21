@@ -1,9 +1,11 @@
 #include "wybor_typu_gry.h"
 
+using std::cout;
+
 wybor_typu_gry::wybor_typu_gry(float width, float height)
 {
 	if (!font.loadFromFile("arial.ttf")) {
-		cout << "Nie ma takiego fontu!";
+		std::cout << "Nie ma takiego fontu!";
 	}
 
 	//Nowa gra
@@ -13,7 +15,7 @@ wybor_typu_gry::wybor_typu_gry(float width, float height)
 	numer_typu_gry[0].setCharacterSize(40);
 	numer_typu_gry[0].setPosition(Vector2f(width / 25, height / (Max_wybor + 1) * 1));
 
-	//Wczytaj grê
+	//Wczytaj grï¿½
 	numer_typu_gry[1].setFont(font);
 	numer_typu_gry[1].setFillColor(Color::Black);
 	numer_typu_gry[1].setString(L"P v P");
@@ -23,7 +25,7 @@ wybor_typu_gry::wybor_typu_gry(float width, float height)
 	//Instrukcja
 	numer_typu_gry[2].setFont(font);
 	numer_typu_gry[2].setFillColor(Color::Black);
-	numer_typu_gry[2].setString(L"Wróæ do menu");
+	numer_typu_gry[2].setString(L"Wroc do menu");
 	numer_typu_gry[2].setCharacterSize(30);
 	numer_typu_gry[2].setPosition(Vector2f(width / 25, height / (Max_wybor + 1) * 3));
 

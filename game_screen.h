@@ -1,8 +1,9 @@
+#ifndef GAME_SCREEN_H
+#define GAME_SCREEN_H
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "Plansza.h"
-using namespace std;
 using namespace sf;
 
 #define max_pol 100
@@ -26,5 +27,5 @@ private:
 	Font font;
 	RectangleShape pojedyncze_pole[max_pol];
 	RenderWindow* Window;
-
 };
+#endif

@@ -3,6 +3,7 @@
 #include <Windows.h>
 #include <time.h>
 #include <iostream>
+#include <math.h>
 #include "dziedziczace.h"
 #include "SFMLFactory.h"
 #include "render_api.h"
@@ -13,9 +14,10 @@
 #define WINDOW_WIDTH 822
 #define TILE_WIDTH 30
 #define TILE_HEIGHT 30
-using namespace std;
 
 const string FONT_DIR = "retrofont.ttf";
+
+using std::to_string;
 
 render_api::render_api() {
 
@@ -1181,11 +1183,11 @@ void render_api::draw_empty_background(sf::RenderWindow* Window)
 void render_api::wypisz_plansze(Plansza plansza) {
 	for (int i = 0; i < 10; i++) {
 		for (int j = 0; j < 10; j++) {
-			if (plansza.pola_planszy[j][i]->symbol == ' ') cout << '-';
-			else cout << plansza.pola_planszy[j][i]->symbol;
-		}cout << "\n";
+			if (plansza.pola_planszy[j][i]->symbol == ' ') std::cout << '-';
+			else std::cout << plansza.pola_planszy[j][i]->symbol;
+		} std::cout << "\n";
 	}
-	cout << "\n";
+	std::cout << "\n";
 }
 void render_api::clear_screen(sf::RenderWindow* Window) {
 	Window->clear();

@@ -1,7 +1,6 @@
 ﻿
 #include <SFML/Graphics.hpp>
 #include <string>
-#include <Windows.h>
 #include <time.h>
 #include <iostream>
 #include "dziedziczace.h"
@@ -13,7 +12,6 @@
 #pragma warning(disable:4996)
 #define WINDOW_HEIGHT 613
 #define WINDOW_WIDTH 822
-using namespace std;
 
 int zapytanie_o_zapis_gry(RenderWindow* Window, render_api* renderer, zapis_save_yes_no zapis_yes_no, bool czy_exit, rozgrywka* rozgrywka, bool nowa_gra, int licznik) {
 	Event czy_zapisać_grę_event;
@@ -59,7 +57,7 @@ int zapytanie_o_zapis_gry(RenderWindow* Window, render_api* renderer, zapis_save
 		}
 	}
 }
-void pokaż_okno_z_wyborem_typu_gry(RenderWindow* Window, render_api* renderer, mainmenu mainMenu, wybor_typu_gry wybor_typu_gry, zapis_save_yes_no zapis_yes_no, rozgrywka* rozgrywka, bool nowa_gra, bool czy_exit) {
+void pokaz_okno_z_wyborem_typu_gry(RenderWindow* Window, render_api* renderer, mainmenu mainMenu, wybor_typu_gry wybor_typu_gry, zapis_save_yes_no zapis_yes_no, rozgrywka* rozgrywka, bool nowa_gra, bool czy_exit) {
 	while (Window->isOpen())
 	{
 		Event aevent;
@@ -314,7 +312,7 @@ T menu(RenderWindow *Window, render_api* renderer)//menu glowne
 {
 
 	bool nowa_gra = true;
-	mainmenu mainMenu(Window->getSize().x, Window->getSize().y);
+	mainmenu mainMenu = mainmenu::GetInstance(Window->getSize().x, Window->getSize().y);
 	wybor_typu_gry wybor_typu_gry(Window->getSize().x, Window->getSize().y);
 	zapis_save_yes_no zapis_yes_no(Window->getSize().x, Window->getSize().y);
 	rozgrywka* rozgrywka = NULL;

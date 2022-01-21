@@ -1,3 +1,5 @@
+#ifndef RENDER_API_H
+#define RENDER_API_H
 #include "wybor_typu_gry.h"
 #include "zapis_save_yes_no.h"
 #include "mainmenu.h"
@@ -55,3 +57,4 @@ public:
 	unsigned int temp_hit1 = 0, temp_hit2 = 0, temp_shot1 = 0, temp_shot2 = 0;
 
 };
+#endif

@@ -1,3 +1,5 @@
+#ifndef STRATEGIASTRZALUBOTA_H
+#define STRATEGIASTRZALUBOTA_H
 #include "Plansza.h"
 #include <iostream>
 #include <string>
@@ -40,7 +42,7 @@ class StrategiaBota_StrzalLosowy :public IStrategiaStrzaluBota
 public:
 	~StrategiaBota_StrzalLosowy() {};
 	OstatnioTrafionePole* strzal_bota(Plansza plansza1, Plansza plansza2, int x, int y) {
-		cout << "U¿yta strategia: Strza³Losowy\n";
+		std::cout << "Uzyta strategia: StrzalLosowy\n";
 		unsigned int wspolrzedna_x = (rand() % 10) + 1;//losowanie wspolrzednej X 1-10
 		unsigned int wspolrzedna_y = (rand() % 10) + 1;//losowanie wspolrzednej Y 1-10
 
@@ -87,28 +89,28 @@ class StrategiaBota_Atak_Blisko_Trafienia :public IStrategiaStrzaluBota
 public:
 	~StrategiaBota_Atak_Blisko_Trafienia() {};
 	OstatnioTrafionePole* strzal_bota(Plansza plansza1, Plansza plansza2, int x, int y) {
-		cout << "U¿yta strategia: AtakBliskoTrafienia\n";
+		std::cout << "Uzyta strategia: AtakBliskoTrafienia\n";
 
 		std::vector<Pole> potencjalne_miejsca_nastepnego_trafienia;
 		std::vector<Pole> mozliwe_miejsca_nastepnego_trafienia;
 
-		//mo¿liwe kierunki ruchu po trafieniu
+		//moï¿½liwe kierunki ruchu po trafieniu
 		Pole* west = new Pole(y, x-1);
 		Pole* east = new Pole(y, x+1);
 		Pole* south = new Pole(y+1, x);
 		Pole* north = new Pole(y-1, x);
 
 
-		//dodanie ich na listê potencjalnych kierunków ruchu
+		//dodanie ich na listï¿½ potencjalnych kierunkï¿½w ruchu
 		potencjalne_miejsca_nastepnego_trafienia.push_back(*west);
 		potencjalne_miejsca_nastepnego_trafienia.push_back(*east);
 		potencjalne_miejsca_nastepnego_trafienia.push_back(*south);
 		potencjalne_miejsca_nastepnego_trafienia.push_back(*north);
 
 
-		//przejrzenie tej listy w celu sprawdzenia, czy nie wychodzimy poza planszê i czy nie s¹ to pola ju¿ trafione
+		//przejrzenie tej listy w celu sprawdzenia, czy nie wychodzimy poza planszï¿½ i czy nie sï¿½ to pola juï¿½ trafione
 		
-		//je¿eli w prawo mamy trafienie, to nie chcemy szukaæ w górê i w dó³, tylko szukamy na lewo
+		//jeï¿½eli w prawo mamy trafienie, to nie chcemy szukaï¿½ w gï¿½rï¿½ i w dï¿½, tylko szukamy na lewo
 		if (x!=9 && plansza1.pola_planszy[east->y][east->x]->symbol == 'x') {
 			mozliwe_miejsca_nastepnego_trafienia.push_back(*west);
 		}
@@ -131,7 +133,7 @@ public:
 		}
 		
 		int selectedIndex,temp_x,temp_y;
-		//ustawienie losowego kierunku ruchu z mo¿liwych (spe³niaj¹cych warunki)
+		//ustawienie losowego kierunku ruchu z moï¿½liwych (speï¿½niajï¿½cych warunki)
 		if(mozliwe_miejsca_nastepnego_trafienia.size()!=0){
 			selectedIndex = rand() % mozliwe_miejsca_nastepnego_trafienia.size();
 			temp_x = mozliwe_miejsca_nastepnego_trafienia[selectedIndex].x;
@@ -176,3 +178,4 @@ public:
 		}
 	};
 };
+#endif

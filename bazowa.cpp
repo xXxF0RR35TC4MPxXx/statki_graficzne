@@ -10,7 +10,8 @@
 
 #define WINDOW_HEIGHT 613
 #define WINDOW_WIDTH 822
-using namespace std;
+
+using std::string;
 
 rozgrywka::rozgrywka() :tryb_gry(0), nick1("Gracz1"), nick2("Gracz2"), oddane_strzaly_1(0), oddane_strzaly_2(0), trafienia_1(0), trafienia_2(0)//konstruktor
 {}
@@ -45,7 +46,7 @@ void rozgrywka::wygrana(sf::RenderWindow* Window, char nick[])//funkcja ktora wy
 
 				renderer->drukuj_statystyki(Window, nick, nick1, nick2, oddane_strzaly_1, oddane_strzaly_2, trafienia_1, trafienia_2);
 
-				//powrót do menu po wciœniêciu "Enter"
+				//powrï¿½t do menu po wciï¿½niï¿½ciu "Enter"
 				if (wyjdzdomenuevent.type == sf::Event::KeyPressed) {
 					if (wyjdzdomenuevent.key.code == sf::Keyboard::Return)
 					{
@@ -84,7 +85,7 @@ void rozgrywka::zapisywanie(sf::RenderWindow* Window)//funkcja do zapisania stan
 		while (Window->pollEvent(save_event)) {
 			if (save_event.type == sf::Event::Closed) Window->close();
 			if (save_event.type == sf::Event::MouseButtonPressed) {}
-			//przy wpisaniu jakiejœ literki
+			//przy wpisaniu jakiejï¿½ literki
 			if (save_event.type == sf::Event::TextEntered)
 			{
 				bool przejsc_dalej = false;
@@ -95,14 +96,14 @@ void rozgrywka::zapisywanie(sf::RenderWindow* Window)//funkcja do zapisania stan
 					nazwa_pliku_od_usera += static_cast<char>(save_event.text.unicode); //dodaj do stringa
 					text.setString(nazwa_pliku_od_usera); //ustaw napis w obiekcie tekstu na string od usera
 				}
-				//je¿eli masz co usuwaæ, to usuñ ostatnio dodany znak
+				//jeï¿½eli masz co usuwaï¿½, to usuï¿½ ostatnio dodany znak
 				else if (text.getString().getSize() > 0 && save_event.text.unicode == '\b') {
 					nazwa_pliku_od_usera.pop_back();
 					text.setString(nazwa_pliku_od_usera);
 				}
-				//jeœli wciœniemy "enter" to wysy³amy podany string i przechodzimy dalej
+				//jeï¿½li wciï¿½niemy "enter" to wysyï¿½amy podany string i przechodzimy dalej
 				else if ((save_event.text.unicode == '\n' || save_event.text.unicode == '\r') && text.getString().getSize() > 0) {
-					if (!operacja_zapisu_danych_do_pliku(nazwa_pliku_od_usera)) break; //je¿eli operacja zapisu siê nie powiedzie to wyjdŸ z pêtli
+					if (!operacja_zapisu_danych_do_pliku(nazwa_pliku_od_usera)) break; //jeï¿½eli operacja zapisu siï¿½ nie powiedzie to wyjdï¿½ z pï¿½tli
 					renderer->zapisano_pomyslnie(Window);
 					Sleep(1000);
 					koniec_zapisu = true;
@@ -116,11 +117,11 @@ void rozgrywka::zapisywanie(sf::RenderWindow* Window)//funkcja do zapisania stan
 }
 
 bool rozgrywka::operacja_zapisu_danych_do_pliku(string nazwa_pliku_od_usera) {
-	fstream plik;
-	plik.open(nazwa_pliku_od_usera, ios::out);
+	std::fstream plik;
+	plik.open(nazwa_pliku_od_usera, std::ios::out);
 	if (plik.good() == false)//jezeli nie udalo sie otworzyc pliku
 	{
-		cout << "NIE UDALO SIE ZAPISAC PLIKU\n";
+		std::cout << "NIE UDALO SIE ZAPISAC PLIKU\n";
 		return false;//powrot na poczatek petli, aby uzytkownik mogl jeszcze raz podac nazwe pliku do zapisu
 	}
 	for (int i = 0; i < 10; i++)
@@ -142,7 +143,7 @@ bool rozgrywka::operacja_zapisu_danych_do_pliku(string nazwa_pliku_od_usera) {
 			plik << plansza1_1.pola_planszy[i][k]->symbol << "\t";
 		}
 	}
-	plik << endl;
+	plik << std::endl;
 	for (int i = 0; i < 10; i++)
 	{
 		for (int k = 0; k < 10; k++)
@@ -150,7 +151,7 @@ bool rozgrywka::operacja_zapisu_danych_do_pliku(string nazwa_pliku_od_usera) {
 			plik << plansza1_2.pola_planszy[i][k]->symbol << "\t";
 		}
 	}
-	plik << endl;
+	plik << std::endl;
 	for (int i = 0; i < 10; i++)
 	{
 		for (int k = 0; k < 10; k++)
@@ -158,7 +159,7 @@ bool rozgrywka::operacja_zapisu_danych_do_pliku(string nazwa_pliku_od_usera) {
 			plik << plansza2_1.pola_planszy[i][k]->symbol << "\t";
 		}
 	}
-	plik << endl;
+	plik << std::endl;
 	for (int i = 0; i < 10; i++)
 	{
 		for (int k = 0; k < 10; k++)
@@ -166,7 +167,7 @@ bool rozgrywka::operacja_zapisu_danych_do_pliku(string nazwa_pliku_od_usera) {
 			plik << plansza2_2.pola_planszy[i][k]->symbol << "\t";
 		}
 	}
-	plik << endl;
+	plik << std::endl;
 	plik.close();//zamkniecie pliku(po tej funkcji powrot do menu glownego)
 	return true;
 }
@@ -250,6 +251,6 @@ int rozgrywka::wczytywanie(FILE* plik, sf::RenderWindow* Window)//funkcja do wcz
 			}
 		}
 	}
-	renderer->zaczyna(Window, nick1); //wyœwietlenie ekranu z info o tym kto zaczyna + odliczanie 3 sekund z widocznym timerem
+	renderer->zaczyna(Window, nick1); //wyï¿½wietlenie ekranu z info o tym kto zaczyna + odliczanie 3 sekund z widocznym timerem
 	return 1;//zwrocenie 1 jezeli wczytano pomyslnie
 }

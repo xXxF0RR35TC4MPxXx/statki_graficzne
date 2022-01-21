@@ -7,7 +7,7 @@ zapis_save_yes_no::zapis_save_yes_no(float width, float height)
 
 	opis.setFont(font);
 	opis.setFillColor(Color::Black);
-	opis.setString(L"Czy chcesz zapisaæ grê i wyjœæ?");
+	opis.setString(L"Czy chcesz zapisac gre i wyjsc?");
 	opis.setCharacterSize(20);
 	opis.setPosition(Vector2f(100, 100));
 
@@ -35,7 +35,7 @@ zapis_save_yes_no::~zapis_save_yes_no() {
 
 
 void zapis_save_yes_no::draw(RenderWindow& window) {
-	for (int i = 0; i < Max_wybor; i++)
+	for (int i = 0; i < Max_wybor_zapis; i++)
 	{
 		window.draw(numer_wyboru[i]);
 		window.draw(opis);
