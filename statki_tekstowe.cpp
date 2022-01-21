@@ -133,7 +133,7 @@ void pokaż_okno_z_wyborem_typu_gry(RenderWindow* Window, render_api* renderer, 
 						}
 					}
 					else {
-						renderer->main_menu(Window, mainMenu);
+						renderer->rysujMenu(Window, mainMenu);
 						break;
 					}
 				}
@@ -174,7 +174,7 @@ void pokaż_okno_do_wpisania_nazwy_z_plikiem_zapisu_gry(RenderWindow* Window, re
 				bool przejsc_dalej = false;
 				//if escape
 				if (sevent.text.unicode == 27) {
-					renderer->main_menu(Window, mainMenu);
+					renderer->rysujMenu(Window, mainMenu);
 					czy_exit = true;
 					break;
 				}
@@ -210,7 +210,7 @@ void pokaż_okno_do_wpisania_nazwy_z_plikiem_zapisu_gry(RenderWindow* Window, re
 						napis = "";
 						pierwszy = false;
 						text.setString(napis);
-						renderer->błąd_odczytu_save(Window, text);
+						renderer->blad_odczytu_save(Window, text);
 
 					}
 					else
@@ -294,7 +294,7 @@ void wypisz_twórców(RenderWindow* Window, render_api* renderer) {
 			if (aevent.type == sf::Event::MouseButtonPressed) {
 
 			}
-			renderer->twórcy(Window);
+			renderer->tworcy(Window);
 			if (aevent.type == Event::Closed) {
 				Window->close();
 			}
@@ -323,7 +323,7 @@ T menu(RenderWindow *Window, render_api* renderer)//menu glowne
 	{
 		bool czy_exit = false;
 		Event event;
-		renderer->main_menu(Window, mainMenu);
+		renderer->rysujMenu(Window, mainMenu);
 		while (Window->pollEvent(event)&&!czy_exit)
 		{
 			if (event.type == sf::Event::MouseButtonPressed) {
@@ -375,7 +375,7 @@ T menu(RenderWindow *Window, render_api* renderer)//menu glowne
 
 				}
 			}
-			renderer->main_menu(Window, mainMenu);
+			renderer->rysujMenu(Window, mainMenu);
 
 		}
 	}

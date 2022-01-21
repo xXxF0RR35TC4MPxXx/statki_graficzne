@@ -103,7 +103,7 @@ void rozgrywka::zapisywanie(sf::RenderWindow* Window)//funkcja do zapisania stan
 				//jeœli wciœniemy "enter" to wysy³amy podany string i przechodzimy dalej
 				else if ((save_event.text.unicode == '\n' || save_event.text.unicode == '\r') && text.getString().getSize() > 0) {
 					if (!operacja_zapisu_danych_do_pliku(nazwa_pliku_od_usera)) break; //je¿eli operacja zapisu siê nie powiedzie to wyjdŸ z pêtli
-					renderer->zapisano_pomyœlnie(Window);
+					renderer->zapisano_pomyslnie(Window);
 					Sleep(1000);
 					koniec_zapisu = true;
 					Window->clear();

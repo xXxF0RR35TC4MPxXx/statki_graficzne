@@ -160,7 +160,7 @@
     <ClInclude Include="game_screen.h" />
     <ClInclude Include="mainmenu.h" />
     <ClInclude Include="Plansza.h" />
-    <ClInclude Include="Pojedyńcze_pole.h" />
+    <ClInclude Include="Pojedyncze_pole.h" />
     <ClInclude Include="render_api.h" />
     <ClInclude Include="StrategiaStrzałuBota.h" />
     <ClInclude Include="wybor_typu_gry.h" />

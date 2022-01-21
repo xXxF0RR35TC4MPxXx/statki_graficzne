@@ -1,12 +1,12 @@
 #pragma once
-#include "Pojedyñcze_pole.h"
+#include "Pojedyncze_pole.h"
 class Plansza
 {
 public:
 	Plansza() {
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
-				pola_planszy[i][j] = new pojedyñcze_pole(i, j, ' ');
+				pola_planszy[i][j] = new pojedyncze_pole(i, j, ' ');
 			}
 		}
 	}
@@ -114,5 +114,5 @@ public:
 		return 1;
 	}
 
-	pojedyñcze_pole* pola_planszy[10][10];
+	pojedyncze_pole* pola_planszy[10][10];
 };

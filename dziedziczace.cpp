@@ -15,7 +15,7 @@ gra_z_graczem::gra_z_graczem() :rozgrywka()//konstruktor
 	tryb_gry = 2;
 }
 
-void gra_z_graczem::przeka¿_komputer(RenderWindow* Window, render_api* renderer) {
+void gra_z_graczem::przekaz_komputer(RenderWindow* Window, render_api* renderer) {
 	bool wyszedl_z_okna = false;
 
 	sf::Event przekazkomputerevent;
@@ -24,7 +24,7 @@ void gra_z_graczem::przeka¿_komputer(RenderWindow* Window, render_api* renderer)
 			if (przekazkomputerevent.type == sf::Event::MouseButtonPressed) {
 
 			}
-			renderer->przeka¿_komputer(Window);
+			renderer->przekaz_komputer(Window);
 			if (przekazkomputerevent.type == sf::Event::KeyPressed) {
 				if (przekazkomputerevent.key.code == sf::Keyboard::Return)
 				{
@@ -63,7 +63,7 @@ int gra_z_graczem::przebieg_jednej_tury(sf::RenderWindow* Window, render_api* re
 		}
 		
 		//oczekiwanie na przekazanie komputera drugiemu graczowi
-		przeka¿_komputer(Window, renderer);
+		przekaz_komputer(Window, renderer);
 		
 		if (czy_wygrana(plansza1_1) == 1)//jezeli gracz2 wygral
 		{
@@ -85,7 +85,7 @@ int gra_z_graczem::przebieg_jednej_tury(sf::RenderWindow* Window, render_api* re
 		}
 
 		//oczekiwanie na przekazanie komputera pierwszemu graczowi
-		przeka¿_komputer(Window, renderer);
+		przekaz_komputer(Window, renderer);
 		return 0;//koniec tury
 	}
 }
@@ -98,13 +98,13 @@ void gra_z_graczem::ustawienia(sf::RenderWindow* Window)//gracze ustawiaja nicki
 	renderer->render_planszy_przy_ustawianiu(plansza1_1, plansza1_2, Window);//funkcja w ktorej gracz1 ustawia wszystkie swoje statki
 	
 	//rysowanie okna mówi¹cego graczowi1, aby przekaza³ komputer drugiej osobie.
-	przeka¿_komputer(Window, renderer);
+	przekaz_komputer(Window, renderer);
 
 	strcpy_s(nick2, renderer->podaj_nick(Window).c_str());  //wpisanie nicku przez gracza2
 	renderer->render_planszy_przy_ustawianiu(plansza2_1, plansza2_2, Window);//funkcja w ktorej gracz1 ustawia wszystkie swoje statki
 	
 	//rysowanie okna mówi¹cego graczowi2, aby przekaza³ komputer pierwszej osobie.
-	przeka¿_komputer(Window, renderer);
+	przekaz_komputer(Window, renderer);
 }
 
 
@@ -115,7 +115,7 @@ void gra_z_graczem::ustawienia(sf::RenderWindow* Window)//gracze ustawiaja nicki
 
 gra_z_botem::gra_z_botem() :rozgrywka() //konstruktor
 {
-	KontekstStrategiiBota(new StrategiaBota_Strza³Losowy);
+	KontekstStrategiiBota(new StrategiaBota_StrzalLosowy);
 	tryb_gry = 1;
 }
 
@@ -144,7 +144,7 @@ void gra_z_botem::ustawienia(sf::RenderWindow* Window)//gracz oraz komputer usta
 
 OstatnioTrafionePole* gra_z_botem::strzal_bot(Plansza plansza1, Plansza plansza2, int x, int y)//funkcja gdzie komputer losuje w ktore pole strzelic
 {
-	return obecna_strategia->strza³_bota(plansza1, plansza2, x, y);
+	return obecna_strategia->strzal_bota(plansza1, plansza2, x, y);
 }
 
 int gra_z_botem::przebieg_jednej_tury(sf::RenderWindow* Window, render_api* renderer)//funkcja do przeprowadzenia tury gry(gracz vs komputer)
@@ -156,7 +156,7 @@ int gra_z_botem::przebieg_jednej_tury(sf::RenderWindow* Window, render_api* rend
 	{
 			bool nowa_zmiana = true;
 			bool wyjsc_z_okna = false;
-			int trafienia_bota_z_rzêdu = 0;
+			int trafienia_bota_z_rzedu = 0;
 			sf::Event ruch_komputera_event;
 			jezeli_wygrana = czy_wygrana(plansza2_1);//sprawdzenie czy gracz wygral
 
@@ -206,24 +206,24 @@ int gra_z_botem::przebieg_jednej_tury(sf::RenderWindow* Window, render_api* rend
 
 			//sprawdzanie czy trafil
 			if (czy_trafione == -1) {
-				zmieñ_strategiê(new StrategiaBota_Strza³Losowy());
-				trafienia_bota_z_rzêdu = 0;
+				zmien_strategie(new StrategiaBota_StrzalLosowy());
+				trafienia_bota_z_rzedu = 0;
 			}
 			if (czy_trafione == 2) {
-				zmieñ_strategiê(new StrategiaBota_Strza³Losowy());
-				trafienia_bota_z_rzêdu = 0;
+				zmien_strategie(new StrategiaBota_StrzalLosowy());
+				trafienia_bota_z_rzedu = 0;
 			}
 			if (czy_trafione == 1)
 			{
-				trafienia_bota_z_rzêdu++;
-				if (trafienia_bota_z_rzêdu == 4) 
+				trafienia_bota_z_rzedu++;
+				if (trafienia_bota_z_rzedu == 4) 
 				{ 
-					zmieñ_strategiê(new StrategiaBota_Strza³Losowy()); 
-					trafienia_bota_z_rzêdu = 0; 
+					zmien_strategie(new StrategiaBota_StrzalLosowy()); 
+					trafienia_bota_z_rzedu = 0; 
 				}
 
 				//w przypadku trafienia zmiana strategii na strzelanie w okolice tego trafienia do momentu spud³owania
-				if(nowa_zmiana) zmieñ_strategiê(new StrategiaBota_Atak_Blisko_Trafienia());
+				if(nowa_zmiana) zmien_strategie(new StrategiaBota_Atak_Blisko_Trafienia());
 				nowa_zmiana = false;
 				trafienia_2++;//doliczenie do statystyvk trafione strzaly
 			}
@@ -236,12 +236,12 @@ int gra_z_botem::przebieg_jednej_tury(sf::RenderWindow* Window, render_api* rend
 				return 1;
 			}
 		} while (czy_trafione == 1 || czy_trafione == 2);//strzela do poki trafia lub trafil w to w co juz strzelal(bot nie marnuje strzalow na stzrelanie w cos co juz strzelal)
-		zmieñ_strategiê(new StrategiaBota_Strza³Losowy()); //po zakoñczeniu tury powrót do strategii losowych strza³ów
+		zmien_strategie(new StrategiaBota_StrzalLosowy()); //po zakoñczeniu tury powrót do strategii losowych strza³ów
 		return 0;//koniec tury
 	}
 }
 
-void gra_z_botem::ustawienie_statków_jednomasztowych(render_api* renderer, Plansza plansza1) {
+void gra_z_botem::ustawienie_statkow_jednomasztowych(render_api* renderer, Plansza plansza1) {
 	unsigned int wspolrzedna_x, wspolrzedna_y;
 	int odpowiedz = 0;
 	for (int i = 0; i < 4; i++)//ustawianie statkow jednomasztowych
@@ -257,7 +257,7 @@ void gra_z_botem::ustawienie_statków_jednomasztowych(render_api* renderer, Plans
 	}
 }
 
-void gra_z_botem::ustawienie_statków_dwumasztowych(render_api* renderer, Plansza plansza1) {
+void gra_z_botem::ustawienie_statkow_dwumasztowych(render_api* renderer, Plansza plansza1) {
 	unsigned int wspolrzedna_x, wspolrzedna_y, orientacja;
 	int odpowiedz = -1;
 	for (int i = 0; i < 3; i++)//ustawianie statkow dwumasztowych
@@ -334,7 +334,7 @@ void gra_z_botem::ustawienie_statków_dwumasztowych(render_api* renderer, Plansza
 	}
 }
 
-void gra_z_botem::ustawienie_statków_trójmasztowych(render_api* renderer, Plansza plansza1) {
+void gra_z_botem::ustawienie_statkow_trojmasztowych(render_api* renderer, Plansza plansza1) {
 	unsigned int wspolrzedna_x, wspolrzedna_y, orientacja;
 	int odpowiedz = 0;
 	for (int i = 0; i < 2; i++)//ustawianie statkow trzymasztowych
@@ -393,7 +393,7 @@ void gra_z_botem::ustawienie_statków_trójmasztowych(render_api* renderer, Plansz
 	}
 }
 
-void gra_z_botem::ustawienie_statków_czteromasztowych(render_api* renderer, Plansza plansza1) {
+void gra_z_botem::ustawienie_statkow_czteromasztowych(render_api* renderer, Plansza plansza1) {
 	unsigned int wspolrzedna_x, wspolrzedna_y, orientacja;
 	int odpowiedz = -1;
 	for (int i = 0; i < 1; i++)//ustawianie statkow czteromasztowego
@@ -458,13 +458,13 @@ void gra_z_botem::ustawienie_statkow_bot(Plansza plansza1, Plansza plansza2)//fu
 	render_api* renderer = new render_api();
 	int odpowiedz = 0;
 
-	gra_z_botem::ustawienie_statków_jednomasztowych(renderer, plansza1);
+	gra_z_botem::ustawienie_statkow_jednomasztowych(renderer, plansza1);
 	
-	gra_z_botem::ustawienie_statków_dwumasztowych(renderer, plansza1);
+	gra_z_botem::ustawienie_statkow_dwumasztowych(renderer, plansza1);
 	
-	gra_z_botem::ustawienie_statków_trójmasztowych(renderer, plansza1);
+	gra_z_botem::ustawienie_statkow_trojmasztowych(renderer, plansza1);
 
-	gra_z_botem::ustawienie_statków_czteromasztowych(renderer, plansza1);
+	gra_z_botem::ustawienie_statkow_czteromasztowych(renderer, plansza1);
 	
 	//wypisywanie planszy bota w konsoli (wy³¹cznie dla ³atwego debugu)
 	std::cout << "WYGENEROWANA PLANSZA BOTA\n";

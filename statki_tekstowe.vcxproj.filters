@@ -65,7 +65,7 @@
     <ClInclude Include="StrategiaStrzałuBota.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="Pojedyńcze_pole.h">
+    <ClInclude Include="Pojedyncze_pole.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="Plansza.h">
