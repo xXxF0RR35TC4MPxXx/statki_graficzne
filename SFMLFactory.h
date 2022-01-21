@@ -8,10 +8,13 @@
 using std::string;
 
 class SFMLFactory {
+    private: 
+        SFMLFactory();
+
     public:
-        sf::RectangleShape createRectangle(int w, int h);
-        sf::RectangleShape createRectangle(int w, int h, string pathToTexture);
-        sf::Text createText(string val = "text", string font = "default", int fsize = 30, int xpos = 0, int ypos = 0);
+        static sf::RectangleShape createRectangle(int w, int h);
+        static sf::RectangleShape createRectangle(int w, int h, string pathToTexture);
+        static sf::Text createText(string val = "text", string font = "default", int fsize = 30, int xpos = 0, int ypos = 0);
 
 };
 

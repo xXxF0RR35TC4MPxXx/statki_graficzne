@@ -30,5 +30,6 @@ sf::Text SFMLFactory::createText(string val = "text", string fontPath = "retrofo
     t.setCharacterSize(fsize);
     t.setPosition(sf::Vector2f(xpos, ypos));
     t.setString(val);
-    t.setFillColor(color);
+
+    return t;
 } 
