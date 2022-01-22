@@ -92,7 +92,7 @@ int gra_z_graczem::przebieg_jednej_tury(sf::RenderWindow* Window, render_api* re
 
 void gra_z_graczem::ustawienia(sf::RenderWindow* Window)//gracze ustawiaja nicki oraz statki
 {
-	render_api* renderer = new render_api();
+	render_api* renderer = render_api::GetInstance();
 
 	strcpy_s(nick1, renderer->podaj_nick(Window).c_str()); //wpisanie nicku przez gracza1
 	renderer->render_planszy_przy_ustawianiu(plansza1_1, plansza1_2, Window);//funkcja w ktorej gracz1 ustawia wszystkie swoje statki
@@ -122,7 +122,7 @@ gra_z_botem::gra_z_botem() :rozgrywka() //konstruktor
 void gra_z_botem::ustawienia(sf::RenderWindow* Window)//gracz oraz komputer ustawiaj¹ nicki oraz statki
 {
 
-	render_api* renderer = new render_api();
+	render_api* renderer = render_api::GetInstance();
 	strcpy_s(nick1, renderer->podaj_nick(Window).c_str()); //podanie nicku przez gracza1
 	renderer->render_planszy_przy_ustawianiu(plansza1_1, plansza1_2, Window);//funkcja w ktorej gracz1 ustawia wszystkie swoje statki
 
@@ -455,7 +455,7 @@ void gra_z_botem::ustawienie_statkow_czteromasztowych(render_api* renderer, Plan
 
 void gra_z_botem::ustawienie_statkow_bot(Plansza plansza1, Plansza plansza2)//funkcja w ktorej komputer losuje gdzie postawic statki
 {
-	render_api* renderer = new render_api();
+	render_api* renderer = render_api::GetInstance();
 	int odpowiedz = 0;
 
 	gra_z_botem::ustawienie_statkow_jednomasztowych(renderer, plansza1);

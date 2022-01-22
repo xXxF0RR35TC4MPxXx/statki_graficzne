@@ -3,6 +3,7 @@
 #include "wybor_typu_gry.h"
 #include "zapis_save_yes_no.h"
 #include "mainmenu.h"
+#include "render_handler.h"
 #include "Plansza.h"
 #pragma once
 class render_api {

@@ -35,7 +35,7 @@ int rozgrywka::czy_wygrana(Plansza plansza)//funkcja sprawdza czy w przeslanej t
 
 void rozgrywka::wygrana(sf::RenderWindow* Window, char nick[])//funkcja ktora wyswietla statystyki po wygranej jednej ze stron
 {
-	render_api* renderer = new render_api();
+	render_api* renderer = render_api::GetInstance();
 	bool wyszedl_z_okna = false;
 	sf::Event wyjdzdomenuevent;
 
@@ -65,7 +65,7 @@ void rozgrywka::wygrana(sf::RenderWindow* Window, char nick[])//funkcja ktora wy
 void rozgrywka::zapisywanie(sf::RenderWindow* Window)//funkcja do zapisania stanu gry
 {
 	
-	render_api* renderer = new render_api();
+	render_api* renderer = render_api::GetInstance();
 	string nazwa_pliku;
 	sf::Text text;
 	text.setFillColor(sf::Color::Black);
@@ -174,7 +174,7 @@ bool rozgrywka::operacja_zapisu_danych_do_pliku(string nazwa_pliku_od_usera) {
 
 int rozgrywka::wczytywanie(FILE* plik, sf::RenderWindow* Window)//funkcja do wczytania stanu gry
 {
-	render_api* renderer = new render_api();
+	render_api* renderer = render_api::GetInstance();
 	rewind(plik);//przewiniecie pliku do poczatku
 	//wczytanie wszystkich danych z pliku(ORAZ ICH KONTROLA !)
 	fscanf(plik, "%d%s%s%d%d%d%d", &tryb_gry, nick1, nick2, &oddane_strzaly_1, &oddane_strzaly_2, &trafienia_1, &trafienia_2);
