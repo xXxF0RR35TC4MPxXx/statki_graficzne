@@ -21,10 +21,11 @@ std::string RenderHandler::handleNickEvent(sf::RenderWindow* Window, sf::Text* t
 {
     sf::Event gevent;
     std::string s;
-    if (Window->pollEvent(gevent))
-	{
+	while (Window->isOpen()) {
+		if (Window->pollEvent(gevent))
+		{
 			if (gevent.type == sf::Event::MouseButtonPressed) {
-                // do nothing;
+				// do nothing;
 			}
 			if (gevent.type == sf::Event::Closed) {
 				Window->close();
@@ -57,8 +58,10 @@ std::string RenderHandler::handleNickEvent(sf::RenderWindow* Window, sf::Text* t
 					const char* nick = tempString.c_str();
 					return tempString;
 				}
+			}
 		}
 	}
+    
 }
 
 // jak to nie rzuci overflowa to robie fiko³ka na kamerce
