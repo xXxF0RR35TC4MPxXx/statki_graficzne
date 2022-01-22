@@ -24,6 +24,8 @@ public:
 			unsigned int& trafienia_1,
 			unsigned int& trafienia_2);
 
+		static void handleBoardSetup(sf::RectangleShape game_background, sf::Text twojaplanszatekst,
+			sf::Text planszaprzeciwnikatekst, game_screen game_screen, Plansza plansza1, Plansza plansza2, sf::RenderWindow* Window);
 private:
 	static int czy_wygrana(Plansza plansza);
 

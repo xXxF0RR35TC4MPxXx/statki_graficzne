@@ -17,21 +17,9 @@ game_screen::~game_screen() {
 }
 
 
-void game_screen::draw(RenderWindow& window, Plansza plansza1, Plansza plansza2, int typ) {
-	Texture sprite_pustego_pola_texture;
-	sprite_pustego_pola_texture.loadFromFile("Texture/empty_tile.png");
-	Texture sprite_1_tile;
-	sprite_1_tile.loadFromFile("Texture/1_tile.png");
-	Texture sprite_2_tile;
-	sprite_2_tile.loadFromFile("Texture/2_tile.png");
-	Texture sprite_3_tile;
-	sprite_3_tile.loadFromFile("Texture/3_tile.png");
-	Texture sprite_4_tile;
-	sprite_4_tile.loadFromFile("Texture/4_tile.png");
-	Texture sprite_hit_tile;
-	sprite_hit_tile.loadFromFile("Texture/hit_tile.png");
-	Texture sprite_miss_tile;
-	sprite_miss_tile.loadFromFile("Texture/missed_tile.png");
+void game_screen::draw(RenderWindow& window, Plansza plansza1, Plansza plansza2, int typ, Texture sprite_pustego_pola_texture, Texture sprite_1_tile,
+	Texture sprite_2_tile, Texture sprite_3_tile, Texture sprite_4_tile, Texture sprite_hit_tile, Texture sprite_miss_tile) {
+	
 	for (int i = 0; i < 10; i++) {
 		for (int j = 0; j < 10; j++) {
 			int p2 = floor(PoleSelected / 10);

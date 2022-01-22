@@ -21,7 +21,7 @@ public:
 	void rysujMenu(sf::RenderWindow* Window, mainmenu mainMenu);		//narysowanie menu g��wnego na ekran
 	void wybor_typ_gry(sf::RenderWindow*, wybor_typu_gry);				//wypisanie opcji wyboru typu gry
 	std::string podaj_nick(sf::RenderWindow* Window);					//wypisanie ekranu wczytania nicku od gracza i pobranie tego nicku
-	void ustawiasz_statek(int, int, sf::RenderWindow*, int);	//wypisanie informacji o typie i numerze stawianego statku
+	void ustawiasz_statek(int, int, sf::RenderWindow*, int, Font*);	//wypisanie informacji o typie i numerze stawianego statku
 	void render_planszy_przy_ustawianiu(Plansza plansza1, Plansza plansza2, sf::RenderWindow*); //funkcja rysuj�ca plansze podczas ustawiania statk�w i wczytuje pozycje od gracza
 	//funkcja rysuj�ca plansze graczy podczas oddawania strza��w i zliczanie statystyk
     void render_planszy_gra(Plansza plansza1, Plansza plansza2, Plansza plansza2_1, Plansza plansza2_2, sf::RenderWindow*, int typ, unsigned int& oddane_strzaly_1, unsigned int& oddane_strzaly_2, unsigned int& trafienia_1, unsigned int& trafienia_2);

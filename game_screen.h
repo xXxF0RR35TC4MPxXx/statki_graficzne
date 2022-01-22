@@ -11,7 +11,7 @@ class game_screen {
 public:
 	game_screen();
 	game_screen(float width, float height, RenderWindow* Window);
-	void draw(RenderWindow& window, Plansza plansza1, Plansza plansza2, int typ);
+	void draw(RenderWindow& window, Plansza plansza1, Plansza plansza2, int typ, Texture, Texture, Texture, Texture, Texture, Texture, Texture);
 	void MoveUp(Plansza plansza, int typ);
 	void MoveDown(Plansza plansza, int typ);
 	void MoveLeft(Plansza plansza, int typ);
