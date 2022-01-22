@@ -13,8 +13,8 @@ class SFMLFactory {
 
     public:
         static sf::RectangleShape createRectangle(int w, int h);
-        static sf::RectangleShape createRectangle(int w, int h, string pathToTexture);
-        static sf::Text createText(string val, string font, int fsize, int xpos, int ypos);
+        static sf::RectangleShape createRectangle(int w, int h, sf::Texture texture);
+        static sf::Text createText(string val, sf::Font font, int fsize, int xpos, int ypos);
 
 };
 

@@ -9,20 +9,18 @@ using namespace sf;
 
 
 class mainmenu {
-protected:
-	mainmenu(float, float);
-	int MainMenuSelected;
-	Font font;
-	Text mainMenu[Max_main_menu];
-	static mainmenu* mainmenu_;
 public:
-	void operator=(const mainmenu &) = delete;
-	static mainmenu *GetInstance(float, float);
+	mainmenu(float width, float height);
 	void draw(RenderWindow& window);
 	void MoveUp();
 	void MoveDown();
 	int MainMenuPressed() {
 		return MainMenuSelected;
 	}
+	~mainmenu();
+private:
+	int MainMenuSelected;
+	Font font;
+	Text mainMenu[Max_main_menu];
 };
 #endif

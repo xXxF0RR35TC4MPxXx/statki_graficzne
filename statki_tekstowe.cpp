@@ -1,6 +1,7 @@
 ﻿
 #include <SFML/Graphics.hpp>
 #include <string>
+#include <Windows.h>
 #include <time.h>
 #include <iostream>
 #include "dziedziczace.h"
@@ -139,7 +140,7 @@ void pokaz_okno_z_wyborem_typu_gry(RenderWindow* Window, render_api* renderer, m
 		}
 	}
 }
-void pokaż_okno_do_wpisania_nazwy_z_plikiem_zapisu_gry(RenderWindow* Window, render_api* renderer, bool nowa_gra, bool czy_exit, mainmenu mainMenu, zapis_save_yes_no zapis_yes_no, rozgrywka* rozgrywka) 
+void pokaz_okno_do_wpisania_nazwy_z_plikiem_zapisu_gry(RenderWindow* Window, render_api* renderer, bool nowa_gra, bool czy_exit, mainmenu mainMenu, zapis_save_yes_no zapis_yes_no, rozgrywka* rozgrywka) 
 {
 	sf::Text text;
 	text.setFillColor(sf::Color::Black);
@@ -263,7 +264,7 @@ void pokaż_okno_do_wpisania_nazwy_z_plikiem_zapisu_gry(RenderWindow* Window, re
 		}
 	}
 }
-void wypisz_instrukcję(RenderWindow* Window, render_api* renderer) {
+void wypisz_instrukcje(RenderWindow* Window, render_api* renderer) {
 	while (Window->isOpen())
 	{
 		Event aevent;
@@ -284,7 +285,7 @@ void wypisz_instrukcję(RenderWindow* Window, render_api* renderer) {
 		}
 	}
 }
-void wypisz_twórców(RenderWindow* Window, render_api* renderer) {
+void wypisz_tworcow(RenderWindow* Window, render_api* renderer) {
 	while (Window->isOpen())
 	{
 		Event aevent;
@@ -312,7 +313,7 @@ T menu(RenderWindow *Window, render_api* renderer)//menu glowne
 {
 
 	bool nowa_gra = true;
-	mainmenu mainMenu = mainmenu::GetInstance(Window->getSize().x, Window->getSize().y);
+	mainmenu mainMenu = mainmenu(Window->getSize().x, Window->getSize().y);
 	wybor_typu_gry wybor_typu_gry(Window->getSize().x, Window->getSize().y);
 	zapis_save_yes_no zapis_yes_no(Window->getSize().x, Window->getSize().y);
 	rozgrywka* rozgrywka = NULL;
@@ -347,19 +348,19 @@ T menu(RenderWindow *Window, render_api* renderer)//menu glowne
 
 					//gra
 					if (x == 0) {
-						pokaż_okno_z_wyborem_typu_gry(Window, renderer, mainMenu, wybor_typu_gry, zapis_yes_no, rozgrywka, nowa_gra, czy_exit);
+						pokaz_okno_z_wyborem_typu_gry(Window, renderer, mainMenu, wybor_typu_gry, zapis_yes_no, rozgrywka, nowa_gra, czy_exit);
 					}
 					//save
 					if (x == 1) {
-						pokaż_okno_do_wpisania_nazwy_z_plikiem_zapisu_gry(Window, renderer, nowa_gra, czy_exit, mainMenu, zapis_yes_no, rozgrywka);
+						pokaz_okno_do_wpisania_nazwy_z_plikiem_zapisu_gry(Window, renderer, nowa_gra, czy_exit, mainMenu, zapis_yes_no, rozgrywka);
 					}
 					//instrukcje
 					if (x == 2) {
-						wypisz_instrukcję(Window, renderer);
+						wypisz_instrukcje(Window, renderer);
 					}
 					//twórcy
 					if (x == 3) {
-						wypisz_twórców(Window, renderer);
+						wypisz_tworcow(Window, renderer);
 					}
 					//wyjście
 					if (x == 4)
@@ -384,7 +385,7 @@ T menu(RenderWindow *Window, render_api* renderer)//menu glowne
 
 int main()
 {
-	render_api* renderer = new render_api();
+	render_api* renderer = render_api::GetInstance();
 	sf::RenderWindow Window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Statki!", sf::Style::Default);
 
 	srand((unsigned int)time(NULL));//liczby pseudolosowe

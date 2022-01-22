@@ -10,21 +10,14 @@ sf::RectangleShape SFMLFactory::createRectangle(int w, int h) {
     return shape;
 }
 
-sf::RectangleShape SFMLFactory::createRectangle(int w, int h, string pathToTexture) {
+sf::RectangleShape SFMLFactory::createRectangle(int w, int h, sf::Texture texture) {
     sf::RectangleShape shape;
     shape.setSize(sf::Vector2f(w, h));
-    sf::Texture t;
-    t.loadFromFile(pathToTexture);
-    shape.setTexture(&t);
+    shape.setTexture(&texture);
     return shape;
 }
 
-sf::Text SFMLFactory::createText(string val = "text", string fontPath = "retrofont.ttf", int fsize = 30, int xpos = 0, int ypos = 0) {
-    sf::Color color;
-    sf::Font font;
-    
-    font.loadFromFile(fontPath);
-
+sf::Text SFMLFactory::createText(string val, sf::Font font, int fsize, int xpos, int ypos) {
     sf::Text t;
     t.setFont(font);
     t.setCharacterSize(fsize);

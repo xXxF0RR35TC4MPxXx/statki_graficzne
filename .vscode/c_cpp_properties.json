@@ -4,7 +4,9 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}"
+                "${workspaceFolder}",
+                "C:\\mingw64\\**",
+                "C:\\SFML\\include\\**"
             ],
             "defines": [
                 "_DEBUG",
@@ -12,10 +14,10 @@
                 "_UNICODE"
             ],
             "windowsSdkVersion": "10.0.19041.0",
-            "compilerPath": "C:\\msys64\\mingw64\\bin\\g++.exe",
+            "compilerPath": "C:\\mingw64\\bin\\gcc.exe",
             "cStandard": "c17",
-            "cppStandard": "c++20",
-            "intelliSenseMode": "windows-gcc-x64"
+            "cppStandard": "c++11",
+            "intelliSenseMode": "windows-gcc-x86"
         }
     ],
     "version": 4

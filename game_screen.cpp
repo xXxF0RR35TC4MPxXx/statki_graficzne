@@ -314,16 +314,16 @@ void game_screen::MoveLeft(Plansza plansza, int typ) {
 			sprite_pustego_pola.setTexture(&sprite_pustego_pola_texture);
 		}
 		
-		RectangleShape sprite_pod�wietlonego_pola;
+		RectangleShape sprite_podswietlonego_pola;
 		if (typ == 1) {
 			sprite_pustego_pola.setPosition(69 + (p2 * TILE_WIDTH), 160 + (p1 * TILE_HEIGHT));
 			PoleSelected-- ;
 		p1 = floor(PoleSelected / 10);
 		p2 = PoleSelected % 10;
 		
-		sprite_pod�wietlonego_pola.setFillColor(Color::White);
-		sprite_pod�wietlonego_pola.setSize(Vector2f(30, 30));
-		sprite_pod�wietlonego_pola.setPosition(69 + (p2 * TILE_WIDTH), 160 + (p1 * TILE_HEIGHT));
+		sprite_podswietlonego_pola.setFillColor(Color::White);
+		sprite_podswietlonego_pola.setSize(Vector2f(30, 30));
+		sprite_podswietlonego_pola.setPosition(69 + (p2 * TILE_WIDTH), 160 + (p1 * TILE_HEIGHT));
 		}
 		else if (typ == 2) {
 			sprite_pustego_pola.setPosition(450 + (p2 * TILE_WIDTH), 160 + (p1 * TILE_HEIGHT));
@@ -331,11 +331,11 @@ void game_screen::MoveLeft(Plansza plansza, int typ) {
 			p1 = floor(PoleSelected / 10);
 			p2 = PoleSelected % 10;
 
-			sprite_pod�wietlonego_pola.setFillColor(Color::White);
-			sprite_pod�wietlonego_pola.setSize(Vector2f(30, 30));
-			sprite_pod�wietlonego_pola.setPosition(450 + (p2 * TILE_WIDTH), 160 + (p1 * TILE_HEIGHT));
+			sprite_podswietlonego_pola.setFillColor(Color::White);
+			sprite_podswietlonego_pola.setSize(Vector2f(30, 30));
+			sprite_podswietlonego_pola.setPosition(450 + (p2 * TILE_WIDTH), 160 + (p1 * TILE_HEIGHT));
 		}
-		Window->draw(sprite_pod�wietlonego_pola);
+		Window->draw(sprite_podswietlonego_pola);
 	}
 }
 

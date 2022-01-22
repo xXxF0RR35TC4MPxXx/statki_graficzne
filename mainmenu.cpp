@@ -1,4 +1,4 @@
-#include "MainMenu.h"
+#include "mainmenu.h"
 
 mainmenu::mainmenu(float width, float height)
 {
@@ -52,6 +52,8 @@ void mainmenu::draw(RenderWindow& window) {
 	}
 }
 
+mainmenu::~mainmenu() {}
+
 void mainmenu::MoveUp() {
 	
 		mainMenu[MainMenuSelected].setFillColor(Color::Black);
@@ -74,11 +76,4 @@ void mainmenu::MoveDown() {
 		}
 		mainMenu[MainMenuSelected].setFillColor(Color::White);
 	}
-}
-
-mainmenu* mainmenu::GetInstance(float w, float h) {
-	if(mainmenu_ == nullptr) {
-		mainmenu_ = new mainmenu(w, h);
-	}
-	return mainmenu_;
 }

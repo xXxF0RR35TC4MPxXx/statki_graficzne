@@ -8,10 +8,13 @@
 #include "SFMLFactory.h"
 #include "render_api.h"
 #include "game_screen.h"
+#include "render_handler.h"
 
 #pragma warning(disable:4996)
+
 #define WINDOW_HEIGHT 613
 #define WINDOW_WIDTH 822
+
 #define TILE_WIDTH 30
 #define TILE_HEIGHT 30
 
@@ -19,103 +22,59 @@ const string FONT_DIR = "retrofont.ttf";
 
 using std::to_string;
 
-render_api::render_api() {
+render_api* render_api::singleton = nullptr;
 
+render_api* render_api::GetInstance() {
+	if (singleton == nullptr) {
+		singleton = new render_api();
+	}
+	return singleton;
 }
 
-
-
-
 void render_api::rysujMenu(sf::RenderWindow* Window, mainmenu MainMenu) {
-	auto background = SFMLFactory::createRectangle(WINDOW_WIDTH, WINDOW_HEIGHT, "Texture/menu_background.jpg");
+	sf::Texture t;
+	t.loadFromFile("Texture/menu_background.jpg");
+	auto background = SFMLFactory::createRectangle(WINDOW_WIDTH, WINDOW_HEIGHT, t);
 	Window->clear();
 	Window->draw(background);
 	MainMenu.draw(*Window);
 	Window->display();
 }
 void render_api::wybor_typ_gry(sf::RenderWindow* Window, wybor_typu_gry wybor_typu_gry) {
-	auto background = SFMLFactory::createRectangle(WINDOW_HEIGHT, WINDOW_HEIGHT, "Texture/menu_background.jpg");
+	sf::Texture t;
+	t.loadFromFile("Texture/menu_background.jpg");
+	auto background = SFMLFactory::createRectangle(WINDOW_HEIGHT, WINDOW_HEIGHT, t);
 	Window->clear();
 	Window->draw(background);
 	wybor_typu_gry.draw(*Window);
 	Window->display();
 }
 std::string render_api::podaj_nick(sf::RenderWindow* Window) {
-	auto t = SFMLFactory::createText("", FONT_DIR, 50, 75, 250);
+	sf::Font f;
+	f.loadFromFile(FONT_DIR);
+	auto t = SFMLFactory::createText("", f, 50, 75, 250);
 	string s;
-	RectangleShape podaj_nick_background = SFMLFactory::createRectangle(WINDOW_WIDTH, WINDOW_HEIGHT, "Texture/podaj_nick.png");
+	sf::Texture tx;
+	tx.loadFromFile("Texture/podaj_nick.png");
+	RectangleShape podaj_nick_background = SFMLFactory::createRectangle(WINDOW_WIDTH, WINDOW_HEIGHT, tx);
 	while (Window->isOpen())
 	{
-		Event gevent;
 		Window->clear();
 		Window->draw(podaj_nick_background);
 		Window->draw(t);
 		Window->display();
-		if (Window->pollEvent(gevent))
-		{
-			if (gevent.type == Event::MouseButtonPressed) {
 
-			}
-			if (gevent.type == Event::Closed) {
-				Window->close();
-			}
-			if (gevent.type == sf::Event::TextEntered)
-			{
-				if (gevent.text.unicode < 127 &&
-					gevent.text.unicode >= 48 &&
-					gevent.text.unicode != '\n' &&
-					gevent.text.unicode != '\r' &&
-					gevent.text.unicode != 10 &&
-					gevent.text.unicode != '\v' &&
-					gevent.text.unicode != 27 &&
-					gevent.text.unicode != 32 &&
-					gevent.text.unicode != '\b' &&
-					t.getString().getSize() < 16)
-				{
-					s += static_cast<char>(gevent.text.unicode);
-					t.setString(s); //dodaj do stringa
-
-				}
-				//je�eli masz co usuwa�, to usu� ostatnio dodany znak
-				if (t.getString().getSize() > 0 && gevent.text.unicode == '\b') {
-					s.pop_back();
-					t.setString(s);
-				}
-				if ((gevent.text.unicode == '\n' || gevent.text.unicode == '\r') && t.getString().getSize() > 0) {
-					string tempString = t.getString();
-					int rodzaj = 0;
-					const char* nick = tempString.c_str();
-					return tempString;
-				}
-			}
-		}
-	}
+		return RenderHandler::handleNickEvent(Window, &t);
+	}	
 }
 void render_api::ustawiasz_statek(int typ, int nr, sf::RenderWindow* Window, int typ_wiadomosci) {
 	string s;
-
-	int max_ilosc = 5 - typ;
-	int x, y, csize = 0;
-	std::string var;
-	if (typ_wiadomosci == 1)
-	{
-		s = "Ustawiasz statek " + std::to_string(typ) + "-masztowy (" + std::to_string(nr) + "/" + std::to_string(max_ilosc) + ")\n";
-		x = 115; y = 493; csize = 18;
-	}
-	else if (typ_wiadomosci == 2) {
-		s = "Wybierz orientacje okretu (strzalkami)\n";
-		x = 75; y = 539; csize = 18;
-	}
-	else if (typ_wiadomosci == 3) {
-		s = "Nie mozna umiescic statku w tym miejscu!\n";
-		x = 75; y = 579; csize = 17;
-	}
-	else if (typ_wiadomosci == 4) {
-		s = "";
-		x = 71; y = 539; csize = 17;
-	}
-
-	auto napis = SFMLFactory::createText(s, FONT_DIR, csize, x, y);
+	int x, y, csize;
+	std::tie(s, x, y, csize) = RenderHandler::handleShipPlacement(typ_wiadomosci, typ, nr);
+	
+	sf::Font f;
+	f.loadFromFile(FONT_DIR);
+	auto napis = SFMLFactory::createText(s, f, csize, x, y);
 	napis.setFillColor(sf::Color::Black);
 	Window->draw(napis);
 }
@@ -123,18 +82,20 @@ void render_api::ustawiasz_statek(int typ, int nr, sf::RenderWindow* Window, int
 void render_api::render_planszy_przy_ustawianiu(Plansza plansza1, Plansza plansza2, sf::RenderWindow* Window) {
 
 	//t�o planszy
-	auto game_background = SFMLFactory::createRectangle(WINDOW_WIDTH, WINDOW_HEIGHT, "Texture/game_background.png");
+	sf::Texture t;
+	t.loadFromFile("Texture/game_background.png");
+	auto game_background = SFMLFactory::createRectangle(WINDOW_WIDTH, WINDOW_HEIGHT, t);
 
 	//font
 	sf::Font retrofont;
 	retrofont.loadFromFile(FONT_DIR);
 
 	//tekst "Twoje pole:"
-	auto twojaplanszatekst = SFMLFactory::createText("Twoje pole:", FONT_DIR, 18, 120, 100);
+	auto twojaplanszatekst = SFMLFactory::createText("Twoje pole:", retrofont, 18, 120, 100);
 	twojaplanszatekst.setFillColor(sf::Color::Green);
 
 	//tekst "Pole przeciwnika:"
-	auto planszaprzeciwnikatekst = SFMLFactory::createText("Pole przeciwnika:", FONT_DIR, 18, 456, 100);
+	auto planszaprzeciwnikatekst = SFMLFactory::createText("Pole przeciwnika:", retrofont, 18, 456, 100);
 	planszaprzeciwnikatekst.setFillColor(sf::Color::Red);
 
 	sf::Text ustawiasz_statek;
@@ -683,17 +644,21 @@ void render_api::render_planszy_przy_ustawianiu(Plansza plansza1, Plansza plansz
 void render_api::render_planszy_gra(Plansza plansza1, Plansza plansza2, Plansza plansza2_1, Plansza plansza2_2, sf::RenderWindow* Window, int typ, unsigned int& oddane_strzaly_1, unsigned int& oddane_strzaly_2, unsigned int& trafienia_1, unsigned int& trafienia_2) {
 
 	//tlo planszy
-	auto game_background = SFMLFactory::createRectangle(WINDOW_WIDTH, WINDOW_HEIGHT,"Texture/game_background.png");
+	sf::Texture t;
+	t.loadFromFile("Texture/game_background.png");
+	auto game_background = SFMLFactory::createRectangle(WINDOW_WIDTH, WINDOW_HEIGHT,t);
 
 	//tekst "Twoje pole:"
-	auto twojaplanszatekst = SFMLFactory::createText("Twoje pole:", FONT_DIR, 18, 120, 100);
+	sf::Font f;
+	f.loadFromFile(FONT_DIR);
+	auto twojaplanszatekst = SFMLFactory::createText("Twoje pole:", f, 18, 120, 100);
 	twojaplanszatekst.setFillColor(sf::Color::Green);
 
 	//tekst "Pole przeciwnika:"
-	auto planszaprzeciwnikatekst = SFMLFactory::createText("Pole przeciwnika:", FONT_DIR, 18, 456, 100);
+	auto planszaprzeciwnikatekst = SFMLFactory::createText("Pole przeciwnika:", f, 18, 456, 100);
 	planszaprzeciwnikatekst.setFillColor(sf::Color::Red);
 
-	auto komunikat = SFMLFactory::createText("", FONT_DIR, 18, 333, 539);
+	auto komunikat = SFMLFactory::createText("", f, 18, 333, 539);
 	komunikat.setFillColor(sf::Color::Red);
 
 	//ladowanie dostepnych tekstur pol
@@ -712,7 +677,7 @@ void render_api::render_planszy_gra(Plansza plansza1, Plansza plansza2, Plansza 
 	Texture sprite_miss_tile;
 	sprite_miss_tile.loadFromFile("Texture/missed_tile.png");
 	game_screen game_screen(Window->getSize().x, Window->getSize().y, Window);
-	render_api* renderer = new render_api();
+	render_api* renderer = this->GetInstance();
 	int nr = 1;
 	int odpowiedz = -1;
 	int jezeli_wygrana = 0;
@@ -996,12 +961,17 @@ void render_api::render_planszy_gra(Plansza plansza1, Plansza plansza2, Plansza 
 	}
 }
 void render_api::przekaz_komputer(sf::RenderWindow* Window) {
-	sf::RectangleShape przekaz_background = SFMLFactory::createRectangle(WINDOW_WIDTH, WINDOW_HEIGHT, "Texture/game_background.png");
+	sf::Texture t;
+	t.loadFromFile("Texture/game_background.png");
+	sf::RectangleShape przekaz_background = SFMLFactory::createRectangle(WINDOW_WIDTH, WINDOW_HEIGHT, t);
 
-	sf::Text przekaz_text = SFMLFactory::createText("Przekaz komputer drugiemu graczowi", FONT_DIR, 18, 100, 100);
+	sf::Font f;
+	f.loadFromFile(FONT_DIR);
+
+	sf::Text przekaz_text = SFMLFactory::createText("Przekaz komputer drugiemu graczowi", f, 18, 100, 100);
 	przekaz_text.setFillColor(sf::Color::Black);
 
-	sf::Text enter_text = SFMLFactory::createText("Wcisnij ENTER, aby kontynuowac", FONT_DIR, 22, 86, 500);
+	sf::Text enter_text = SFMLFactory::createText("Wcisnij ENTER, aby kontynuowac", f, 22, 86, 500);
 	enter_text.setFillColor(sf::Color::Black);
 
 	Window->draw(przekaz_background);
@@ -1010,8 +980,13 @@ void render_api::przekaz_komputer(sf::RenderWindow* Window) {
 	Window->display();
 }
 void render_api::komputer_ustawia_statki(sf::RenderWindow* Window) {
-	auto ustawienie_statkow_bota_background = SFMLFactory::createRectangle(WINDOW_WIDTH, WINDOW_HEIGHT, "Texture/game_background.png");
-	auto ustawienie_statkow_bota_text = SFMLFactory::createText("Komputer ustawia statki", FONT_DIR, 24, 134, 300);
+	sf::Texture t;
+	t.loadFromFile("Texture / game_background.png");
+
+	sf::Font f;
+	f.loadFromFile(FONT_DIR);
+	auto ustawienie_statkow_bota_background = SFMLFactory::createRectangle(WINDOW_WIDTH, WINDOW_HEIGHT, t);
+	auto ustawienie_statkow_bota_text = SFMLFactory::createText("Komputer ustawia statki", f, 24, 134, 300);
 	ustawienie_statkow_bota_text.setFillColor(sf::Color::Black);
 	
 	Window->draw(ustawienie_statkow_bota_background);
@@ -1021,8 +996,13 @@ void render_api::komputer_ustawia_statki(sf::RenderWindow* Window) {
 	clear_screen(Window);
 }
 void render_api::ruch_wykonuje_komputer(sf::RenderWindow* Window) {
-	auto ruch_komputera_background = SFMLFactory::createRectangle(WINDOW_WIDTH, WINDOW_HEIGHT, "Texture/game_background.png");
-	auto ruch_komputera_text = SFMLFactory::createText("Ruch wykonuje komputer", FONT_DIR, 24, 154, 300);
+	sf::Texture t;
+	t.loadFromFile("Texture/game_background.png");
+	auto ruch_komputera_background = SFMLFactory::createRectangle(WINDOW_WIDTH, WINDOW_HEIGHT, t);
+
+	sf::Font f;
+	f.loadFromFile(FONT_DIR);
+	auto ruch_komputera_text = SFMLFactory::createText("Ruch wykonuje komputer", f, 24, 154, 300);
 	ruch_komputera_text.setFillColor(sf::Color::Black);
 
 	Window->draw(ruch_komputera_background);
@@ -1048,40 +1028,44 @@ int render_api::czy_wygrana(Plansza plansza)//funkcja sprawdza czy w przeslanej 
 	return 1;
 }
 void render_api::drukuj_statystyki(sf::RenderWindow* Window, char* nick, char* nick1, char* nick2, int oddane_strzaly_1, int oddane_strzaly_2, int trafienia_1, int trafienia_2) {
-	auto background = SFMLFactory::createRectangle(WINDOW_WIDTH, WINDOW_HEIGHT, "Texture/game_background.png");
+	sf::Texture t;
+	t.loadFromFile("Texture/game_background.png");
+	auto background = SFMLFactory::createRectangle(WINDOW_WIDTH, WINDOW_HEIGHT, t);
 
+	sf::Font f;
+	f.loadFromFile(FONT_DIR);
 	//tekst "Twoje pole:"
-	auto game_over_text = SFMLFactory::createText("KONIEC GRY", FONT_DIR, 38, 230, 100);
+	auto game_over_text = SFMLFactory::createText("KONIEC GRY", f, 38, 230, 100);
 	game_over_text.setFillColor(sf::Color::Black);
 
-	auto wygral = SFMLFactory::createText("Wygral: " + std::string(nick), FONT_DIR, 38, 145, 160);
+	auto wygral = SFMLFactory::createText("Wygral: " + std::string(nick), f, 38, 145, 160);
 	wygral.setFillColor(sf::Color::Black);
 
-	auto player1_name = SFMLFactory::createText(nick1, FONT_DIR, 38, 76, 300);
+	auto player1_name = SFMLFactory::createText(nick1, f, 38, 76, 300);
 	player1_name.setFillColor(sf::Color::Black);
 
-	auto player2_name = SFMLFactory::createText(nick2, FONT_DIR, 38, 76, 400);
+	auto player2_name = SFMLFactory::createText(nick2, f, 38, 76, 400);
 	player2_name.setFillColor(sf::Color::Black);
 
-	auto oddane_strzaly_player1_text = SFMLFactory::createText(to_string(oddane_strzaly_1), FONT_DIR, 38, 500, 300);
+	auto oddane_strzaly_player1_text = SFMLFactory::createText(to_string(oddane_strzaly_1), f, 38, 500, 300);
 	oddane_strzaly_player1_text.setFillColor(sf::Color::Black);
 
-	auto oddane_strzaly_player2_text = SFMLFactory::createText(to_string(oddane_strzaly_2), FONT_DIR, 38, 500, 400);
+	auto oddane_strzaly_player2_text = SFMLFactory::createText(to_string(oddane_strzaly_2), f, 38, 500, 400);
 	oddane_strzaly_player2_text.setFillColor(sf::Color::Black);
 
-	auto trafienia_player1_text = SFMLFactory::createText(to_string(trafienia_1), FONT_DIR, 38, 680, 300);
+	auto trafienia_player1_text = SFMLFactory::createText(to_string(trafienia_1), f, 38, 680, 300);
 	trafienia_player1_text.setFillColor(sf::Color::Black);
 
-	auto trafienia_player2_text = SFMLFactory::createText(to_string(trafienia_2), FONT_DIR, 38, 680, 400);
+	auto trafienia_player2_text = SFMLFactory::createText(to_string(trafienia_2), f, 38, 680, 400);
 	trafienia_player2_text.setFillColor(sf::Color::Black);
 
-	auto shots_text = SFMLFactory::createText("Strzalów:", FONT_DIR, 18, 460, 240);
+	auto shots_text = SFMLFactory::createText("Strzalów:", f, 18, 460, 240);
 	shots_text.setFillColor(sf::Color::Black);
 
-	auto hit_text = SFMLFactory::createText("Trafien:", FONT_DIR, 18, 630, 240);
+	auto hit_text = SFMLFactory::createText("Trafien:", f, 18, 630, 240);
 	hit_text.setFillColor(sf::Color::Black);
 
-	auto enter_text = SFMLFactory::createText("Wcisnij ENTER, aby kontynuowac", FONT_DIR, 22, 86, 500);
+	auto enter_text = SFMLFactory::createText("Wcisnij ENTER, aby kontynuowac", f, 22, 86, 500);
 	enter_text.setFillColor(sf::Color::Black);
 
 	Window->draw(background);
@@ -1104,7 +1088,9 @@ void render_api::drukuj_statystyki(sf::RenderWindow* Window, char* nick, char* n
 
 
 void render_api::czy_zapisac_gre(sf::RenderWindow* Window, zapis_save_yes_no zapis_yes_no) {
-	auto pusty_background = SFMLFactory::createRectangle(WINDOW_WIDTH, WINDOW_HEIGHT, "Texture/game_background.png");
+	sf::Texture t;
+	t.loadFromFile("Texture/game_background.png");
+	auto pusty_background = SFMLFactory::createRectangle(WINDOW_WIDTH, WINDOW_HEIGHT, t);
 	Window->clear();
 	Window->draw(pusty_background);
 	zapis_yes_no.draw(*Window);
@@ -1112,39 +1098,53 @@ void render_api::czy_zapisac_gre(sf::RenderWindow* Window, zapis_save_yes_no zap
 }
 
 void render_api::zapisano_pomyslnie(sf::RenderWindow* Window) {
-	auto zapis_udany_background = SFMLFactory::createRectangle(WINDOW_WIDTH, WINDOW_HEIGHT, "Texture/zapis_udany.png");
+	sf::Texture t;
+	t.loadFromFile("Texture/zapis_udany.png");
+	auto zapis_udany_background = SFMLFactory::createRectangle(WINDOW_WIDTH, WINDOW_HEIGHT, t);
 	Window->clear();
 	Window->draw(zapis_udany_background);
 	Window->display();
 }
 
 void render_api::wczytaj_save_background_method(sf::RenderWindow* Window, sf::Text text) {
-	auto Wczytaj_save_background = SFMLFactory::createRectangle(WINDOW_WIDTH, WINDOW_HEIGHT, "Texture/podaj_nazwe_pliku.png");
+	sf::Texture t;
+	t.loadFromFile("Texture/podaj_nazwe_pliku.png");
+	auto Wczytaj_save_background = SFMLFactory::createRectangle(WINDOW_WIDTH, WINDOW_HEIGHT, t);
 	Window->clear();
 	Window->draw(Wczytaj_save_background);
 	Window->draw(text);
 	Window->display();
 }
 void render_api::plik_uszkodzony(sf::RenderWindow* Window) {
-	auto plik_uszkodzony_background = SFMLFactory::createRectangle(WINDOW_WIDTH, WINDOW_HEIGHT, "Texture/plik_uszkodzony.png");
+	sf::Texture t;
+	t.loadFromFile("Texture/plik_uszkodzony.png");
+	auto plik_uszkodzony_background = SFMLFactory::createRectangle(WINDOW_WIDTH, WINDOW_HEIGHT, t);
 	Window->draw(plik_uszkodzony_background);
 	Window->display();
 }
 void render_api::blad_odczytu_save(sf::RenderWindow* Window, sf::Text text) {
-	auto blad_odczytu_background = SFMLFactory::createRectangle(WINDOW_WIDTH, WINDOW_HEIGHT, "Texture/blad_odczytu.png");
+	sf::Texture t;
+	t.loadFromFile("Texture/blad_odczytu.png");
+	
+	auto blad_odczytu_background = SFMLFactory::createRectangle(WINDOW_WIDTH, WINDOW_HEIGHT, t);
 	Window->draw(blad_odczytu_background);
 	Window->draw(text);
 	Window->display();
 }
 void render_api::zaczyna(sf::RenderWindow* Window, char* nick1)
 {
+	sf::Font f;
+	f.loadFromFile(FONT_DIR);
 	int count = 3;
-	auto text_odliczania = SFMLFactory::createText("", FONT_DIR, 30, 136, 157);
-	auto text_odliczania2 = SFMLFactory::createText("", FONT_DIR, 24, 294, 400);
+	auto text_odliczania = SFMLFactory::createText("", f, 30, 136, 157);
+	auto text_odliczania2 = SFMLFactory::createText("", f, 24, 294, 400);
 	text_odliczania.setFillColor(sf::Color::Black);
 	text_odliczania2.setFillColor(sf::Color::Black);
 
-	sf::RectangleShape wczytaj_save_background = SFMLFactory::createRectangle(WINDOW_WIDTH, WINDOW_HEIGHT, "Texture/game_background.png");
+
+	sf::Texture t;
+	t.loadFromFile("Texture/game_background.png");
+	sf::RectangleShape wczytaj_save_background = SFMLFactory::createRectangle(WINDOW_WIDTH, WINDOW_HEIGHT, t);
 	while (Window->isOpen() && count > 0)
 	{
 		Window->clear();
@@ -1161,21 +1161,26 @@ void render_api::zaczyna(sf::RenderWindow* Window, char* nick1)
 
 void render_api::instrukcja(sf::RenderWindow* Window) {
 	//photo to instructions
-	auto Instrukcja_background = SFMLFactory::createRectangle(WINDOW_WIDTH, WINDOW_HEIGHT, "Texture/Instruction_photo.png");
+	sf::Texture t;
+	t.loadFromFile("Texture/About_photo.png");
+	auto Instrukcja_background = SFMLFactory::createRectangle(WINDOW_WIDTH, WINDOW_HEIGHT, t);
 	Window->clear();
 	Window->draw(Instrukcja_background);
 	Window->display();
 }
 void render_api::tworcy(sf::RenderWindow* Window) {
-
-	auto Tworcy_background = SFMLFactory::createRectangle(WINDOW_WIDTH, WINDOW_HEIGHT, "Texture/About_photo.png");
+	sf::Texture t;
+	t.loadFromFile("Texture/About_photo.png");
+	auto Tworcy_background = SFMLFactory::createRectangle(WINDOW_WIDTH, WINDOW_HEIGHT, t);
 	Window->clear();
 	Window->draw(Tworcy_background);
 	Window->display();
 }
 void render_api::draw_empty_background(sf::RenderWindow* Window)
 {
-	auto background = SFMLFactory::createRectangle(WINDOW_WIDTH, WINDOW_HEIGHT, "Texture/menu_background.jpg");
+	sf::Texture t;
+	t.loadFromFile("Texture/game_background.png");
+	auto background = SFMLFactory::createRectangle(WINDOW_WIDTH, WINDOW_HEIGHT, t);
 	Window->clear();
 	Window->draw(background);
 	Window->display();
