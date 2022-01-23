@@ -6,14 +6,21 @@
 #include "SFMLFactory.h"
 #include "game_screen.h"
 
+class Result {
+public:
+	Result(string s, bool e) {
+		nickname = s;
+		exit = e;
+	}
+	string nickname;
+	bool exit;
+};
+
 class RenderHandler {
 public:
-        static std::string handleNickEvent(sf::RenderWindow*, sf::Text*);
+        static Result handleNickEvent(sf::RenderWindow*, sf::Text*);
         static std::tuple<std::string, int, int, int> handleShipPlacement(int msgtype, int type, int nr);
-		static void handleBoardGame(sf::RectangleShape game_background, sf::Texture emptyTile, sf::Texture sprite_1_tile,
-			sf::Texture sprite_2_tile, sf::Texture sprite_3_tile,
-			sf::Texture sprite_4_tile, sf::Texture sprite_hit_tile,
-			sf::Texture sprite_miss_tile, sf::Text twojaplanszatekst,
+		static void handleBoardGame(sf::RectangleShape game_background, sf::Text twojaplanszatekst,
 			sf::Text planszaprzeciwnikatekst, sf::Text komunikat,
 			game_screen game_screen,
 			Plansza plansza1, Plansza plansza2,

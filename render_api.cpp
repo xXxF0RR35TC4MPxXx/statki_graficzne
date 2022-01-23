@@ -56,19 +56,23 @@ std::string render_api::podaj_nick(sf::RenderWindow* Window) {
 	f->loadFromFile(FONT_DIR);
 	sf::Text t = *SFMLFactory::createText("", *f, 50, 75, 250);
 	string s;
+	bool czy_wyjsc = false;
 	sf::Texture* tx = new Texture();
 	tx->loadFromFile("Texture/podaj_nick.png");
 	RectangleShape podaj_nick_background = *SFMLFactory::createRectangle(WINDOW_WIDTH, WINDOW_HEIGHT, *tx);
-	while (Window->isOpen())
-	{
-		
+	Window->clear();
+	Window->draw(podaj_nick_background);
+	Window->display();
+	while (Window->isOpen()) {
+		sf::Event gevent;
 		Window->clear();
 		Window->draw(podaj_nick_background);
+		Result result = RenderHandler::handleNickEvent(Window, &t);
+		t.setString(result.nickname);
 		Window->draw(t); //tutaj error
 		Window->display();
-
-		return RenderHandler::handleNickEvent(Window, &t);
-	}	
+		if(result.exit) return t.getString();
+	}
 }
 void render_api::ustawiasz_statek(int typ, int nr, sf::RenderWindow* Window, int typ_wiadomosci, Font* f) {
 	string s;
@@ -125,310 +129,13 @@ void render_api::render_planszy_gra(Plansza plansza1, Plansza plansza2, Plansza 
 	auto komunikat = *SFMLFactory::createText("", f, 18, 333, 539);
 	komunikat.setFillColor(sf::Color::Red);
 
-	//ladowanie dostepnych tekstur pol
-	Texture sprite_pustego_pola_texture;
-	sprite_pustego_pola_texture.loadFromFile("Texture/empty_tile.png");
-	Texture sprite_1_tile;
-	sprite_1_tile.loadFromFile("Texture/1_tile.png");
-	Texture sprite_2_tile;
-	sprite_2_tile.loadFromFile("Texture/2_tile.png");
-	Texture sprite_3_tile;
-	sprite_3_tile.loadFromFile("Texture/3_tile.png");
-	Texture sprite_4_tile;
-	sprite_4_tile.loadFromFile("Texture/4_tile.png");
-	Texture sprite_hit_tile;
-	sprite_hit_tile.loadFromFile("Texture/hit_tile.png");
-	Texture sprite_miss_tile;
-	sprite_miss_tile.loadFromFile("Texture/missed_tile.png");
 	game_screen game_screen(Window->getSize().x, Window->getSize().y, Window);
-	//render_api* renderer = this->GetInstance();
-	//int nr = 1;
-	//int odpowiedz = -1;
-	//int jezeli_wygrana = 0;
-	//bool podaje_kierunek = false;
-	//bool czy_error = false;
-	//bool czy_kontynuowac = true;
-	//unsigned int wspolrzedna_x, wspolrzedna_y, orientacja = 1;
-	RenderHandler::handleBoardGame(game_background, sprite_pustego_pola_texture,
-		sprite_1_tile, sprite_2_tile, sprite_3_tile, sprite_4_tile,
-		sprite_hit_tile, sprite_miss_tile, twojaplanszatekst,
+
+	RenderHandler::handleBoardGame(game_background, twojaplanszatekst,
 		planszaprzeciwnikatekst, komunikat,
 		game_screen, plansza1, plansza2, plansza2_1, plansza2_2,
 		Window, typ, oddane_strzaly_1, oddane_strzaly_2, trafienia_1, trafienia_2);
-	//while (Window->isOpen() && czy_kontynuowac)
-	//{
-	//	Event gevent;
-
-	//	Window->clear();
-	//	Window->draw(game_background);
-	//	Window->draw(twojaplanszatekst);
-	//	Window->draw(planszaprzeciwnikatekst);
-	//	Window->draw(komunikat);
-	//	game_screen.draw(*Window, plansza1, plansza2, 2);
-	//	Window->display();
-	//	wspolrzedna_x = 0;
-	//	int czy_trafione = 0;
-	//	wspolrzedna_y = 0;
-	//	while (Window->pollEvent(gevent))
-	//	{
-	//		if (gevent.type == Event::MouseButtonPressed) {
-
-	//		}
-	//		if (gevent.type == Event::KeyPressed) {
-	//			if (gevent.key.code == Keyboard::Up)
-	//			{
-	//				game_screen.MoveUp(plansza2, 2);
-	//				break;
-	//			}
-	//			if (gevent.key.code == Keyboard::Down) {
-	//				game_screen.MoveDown(plansza2, 2);
-	//				break;
-	//			}
-	//			if (gevent.key.code == Keyboard::Left) {
-	//				game_screen.MoveLeft(plansza2, 2);
-	//				break;
-	//			}
-	//			if (gevent.key.code == Keyboard::Right) {
-	//				game_screen.MoveRight(plansza2, 2);
-	//				break;
-	//			}
-	//			if (gevent.key.code == Keyboard::Return)
-	//			{
-
-	//				wspolrzedna_x = floor(game_screen.PoleSelected / 10);
-	//				wspolrzedna_y = game_screen.PoleSelected % 10;
-
-
-	//				if (typ == 1 || typ == 2) {
-	//					if (plansza2_1.pola_planszy[wspolrzedna_y][wspolrzedna_x]->symbol == ' ')//jezeli uzytkownik strzelil w puste pole
-	//					{
-	//						if (typ == 1) {
-	//							oddane_strzaly_1++;
-	//							temp_shot1++;
-
-	//						}
-	//						if (typ == 2) {
-	//							oddane_strzaly_2++;
-	//							temp_shot2++;
-	//						}
-	//						//ustawianie oznaczenia strzalu w odpowiednich tablicach
-
-	//						komunikat.setPosition(Vector2f(356, 539));
-	//						komunikat.setString("Pudlo!");
-	//						Window->clear();
-	//						Window->draw(game_background);
-	//						Window->draw(twojaplanszatekst);
-	//						Window->draw(planszaprzeciwnikatekst);
-	//						Window->draw(komunikat);
-	//						game_screen.draw(*Window, plansza1, plansza2, 2);
-	//						Window->display();
-	//						plansza2_1.pola_planszy[wspolrzedna_y][wspolrzedna_x]->symbol = '.';
-	//						plansza2.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol = '.';
-	//						czy_trafione = 0;
-	//						czy_kontynuowac = false;
-	//					}
-	//					else if (plansza2_1.pola_planszy[wspolrzedna_y][wspolrzedna_x]->symbol == 'x' || plansza2_1.pola_planszy[wspolrzedna_y][wspolrzedna_x]->symbol == '.')//jezeli uzytkownik strzelil w juz strzelane pole
-	//					{
-
-	//						if (typ == 1) {
-	//							oddane_strzaly_1++;
-	//							temp_shot1++;
-
-
-	//						}
-	//						if (typ == 2) {
-	//							oddane_strzaly_2++;
-	//							temp_shot2++;
-	//						}
-	//						komunikat.setPosition(Vector2f(226, 539));
-	//						komunikat.setString("Strzelales juz tutaj!");
-	//						Window->clear();
-	//						Window->draw(game_background);
-	//						Window->draw(twojaplanszatekst);
-	//						Window->draw(planszaprzeciwnikatekst);
-	//						Window->draw(komunikat);
-	//						game_screen.draw(*Window, plansza1, plansza2, 2);
-	//						Window->display();
-	//						czy_trafione = 2;
-	//						czy_kontynuowac = false;
-	//					}
-	//					else//jezeli uzytkownik trafil
-	//					{
-	//						if (typ == 1) {
-	//							oddane_strzaly_1++;
-
-	//							temp_shot1++;
-
-	//							trafienia_1++;
-
-	//							temp_hit1++;
-
-	//						}
-	//						if (typ == 2) {
-	//							oddane_strzaly_2++;
-
-	//							temp_shot2++;
-	//							trafienia_2++;
-
-	//							temp_hit2++;
-	//						}
-
-	//						komunikat.setString("Trafiles!");
-	//						czy_kontynuowac = true;
-	//						Window->clear();
-	//						Window->draw(game_background);
-	//						Window->draw(twojaplanszatekst);
-	//						Window->draw(planszaprzeciwnikatekst);
-	//						Window->draw(komunikat);
-	//						game_screen.draw(*Window, plansza1, plansza2, 2);
-	//						Window->display();
-	//						//umieszczanie odpowiednich oznaczen statkow na tablicach
-	//						if (plansza2_1.pola_planszy[wspolrzedna_y][wspolrzedna_x]->symbol == '1')//jezeli statek jednomasztowy
-	//						{
-	//							plansza2.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol = 'x';
-	//						}
-	//						else if (plansza2_1.pola_planszy[wspolrzedna_y][wspolrzedna_x]->symbol == '2')//jezeli statek dwumasztowy
-	//						{
-	//							plansza2.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol = 'x';
-	//						}
-	//						else if (plansza2_1.pola_planszy[wspolrzedna_y][wspolrzedna_x]->symbol == '3')//jezeli statek trzymasztowy
-	//						{
-	//							plansza2.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol = 'x';
-	//						}
-	//						else if (plansza2_1.pola_planszy[wspolrzedna_y][wspolrzedna_x]->symbol == '4')//jezeli statek czteromasztowy
-	//						{
-	//							plansza2.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol = 'x';
-	//						}
-	//						plansza2_1.pola_planszy[wspolrzedna_y][wspolrzedna_x]->symbol = 'x';//ustawienie na planszy drugiego gracza oznaczenia, ze przeciwnik trafil
-	//						czy_trafione = 1;
-	//						jezeli_wygrana = czy_wygrana(plansza2_1);//sprawdzenie czy gracz wygral
-	//						if (jezeli_wygrana == 1)//jezeli wygral
-	//						{
-	//							czy_kontynuowac = false;
-	//							//wygrana(nick1);//wyswietlenie statystyk
-	//							break;
-	//						}
-	//					}
-	//					std::cout << "PLANSZA2_1\n";
-	//					for (int i = 0; i < 10; i++) {
-	//						for (int j = 0; j < 10; j++) {
-	//							if (plansza2_1.pola_planszy[j][i]->symbol != ' ')
-	//								std::cout << plansza2_1.pola_planszy[j][i]->symbol;
-	//							else std::cout << '-';
-	//						}std::cout << "\n";
-	//					}
-	//				}
-	//				//typ 3 jest ok - NIE RUSZAC!
-	//				else if (typ == 3) {
-	//					if (plansza2_1.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol == ' ')//jezeli uzytkownik strzelil w puste pole
-	//					{
-	//						//ustawianie oznaczenia strzalu w odpowiednich tablicach
-
-	//						oddane_strzaly_1++;
-	//						temp_shot1++;
-
-
-	//						komunikat.setPosition(Vector2f(356, 539));
-	//						komunikat.setString("Pudlo!");
-	//						Window->clear();
-	//						Window->draw(game_background);
-	//						Window->draw(twojaplanszatekst);
-	//						Window->draw(planszaprzeciwnikatekst);
-	//						Window->draw(komunikat);
-	//						game_screen.draw(*Window, plansza1, plansza2, 2);
-	//						Window->display();
-	//						plansza2_1.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol = '.';
-	//						plansza2.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol = '.';
-	//						czy_trafione = 0;
-	//						czy_kontynuowac = false;
-	//					}
-	//					else if (plansza2_1.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol == 'x' || plansza2_1.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol == '.')//jezeli uzytkownik strzelil w juz strzelane pole
-	//					{
-
-	//						oddane_strzaly_1++;
-	//						temp_shot1++;
-
-	//						komunikat.setPosition(Vector2f(226, 539));
-	//						komunikat.setString("Strzelales juz tutaj!");
-	//						Window->clear();
-	//						Window->draw(game_background);
-	//						Window->draw(twojaplanszatekst);
-	//						Window->draw(planszaprzeciwnikatekst);
-	//						Window->draw(komunikat);
-	//						game_screen.draw(*Window, plansza1, plansza2, 2);
-	//						Window->display();
-	//						czy_trafione = 2;
-	//						czy_kontynuowac = false;
-	//					}
-	//					else//jezeli uzytkownik trafil
-	//					{
-	//						oddane_strzaly_1++;
-	//						temp_shot1++;
-
-	//						trafienia_1++;
-	//						temp_hit1++;
-
-	//						komunikat.setString("Trafiles!");
-	//						czy_kontynuowac = true;
-	//						Window->clear();
-	//						Window->draw(game_background);
-	//						Window->draw(twojaplanszatekst);
-	//						Window->draw(planszaprzeciwnikatekst);
-	//						Window->draw(komunikat);
-	//						game_screen.draw(*Window, plansza1, plansza2, 2);
-	//						Window->display();
-	//						//umieszczanie odpowiednich oznaczen statkow na tablicach
-	//						if (plansza2_1.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol == '1')//jezeli statek jednomasztowy
-	//						{
-	//							plansza2.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol = 'x';
-	//						}
-	//						else if (plansza2_1.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol == '2')//jezeli statek dwumasztowy
-	//						{
-	//							plansza2.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol = 'x';
-	//						}
-	//						else if (plansza2_1.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol == '3')//jezeli statek trzymasztowy
-	//						{
-	//							plansza2.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol = 'x';
-	//						}
-	//						else if (plansza2_1.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol == '4')//jezeli statek czteromasztowy
-	//						{
-	//							plansza2.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol = 'x';
-	//						}
-	//						plansza2_1.pola_planszy[wspolrzedna_x][wspolrzedna_y]->symbol = 'x';//ustawienie na planszy drugiego gracza oznaczenia, ze przeciwnik trafil
-	//						czy_trafione = 1;
-	//						jezeli_wygrana = czy_wygrana(plansza2_1);//sprawdzenie czy gracz wygral
-	//						if (jezeli_wygrana == 1)//jezeli wygral
-	//						{
-	//							czy_kontynuowac = false;
-	//							//wygrana(nick1);//wyswietlenie statystyk
-	//							break;
-	//						}
-	//					}
-	//					std::cout << "PLANSZA1_2\n";
-	//					for (int i = 0; i < 10; i++) {
-	//						for (int j = 0; j < 10; j++) {
-	//							if (plansza2.pola_planszy[i][j]->symbol != ' ')
-	//								std::cout << plansza2.pola_planszy[i][j]->symbol;
-	//							else std::cout << '-';
-	//						}std::cout << "\n";
-	//					}
-	//					std::cout << "PLANSZA2_1\n";
-	//					for (int i = 0; i < 10; i++) {
-	//						for (int j = 0; j < 10; j++) {
-	//							if (plansza2_1.pola_planszy[i][j]->symbol != ' ')
-	//								std::cout << plansza2_1.pola_planszy[i][j]->symbol;
-	//							else std::cout << '-';
-	//						}std::cout << "\n";
-	//					}
-	//				}
-	//			}
-	//		}
-	//		if (gevent.type == Event::Closed) {
-	//			Window->close();
-	//		}
-	//		//Window->display();
-	//	}
-	//}
+	
 }
 void render_api::przekaz_komputer(sf::RenderWindow* Window) {
 	sf::Texture* t = new sf::Texture();

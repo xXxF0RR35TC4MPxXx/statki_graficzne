@@ -17,7 +17,7 @@
 	return 1;
 }
 
-std::string RenderHandler::handleNickEvent(sf::RenderWindow* Window, sf::Text* t) 
+ Result RenderHandler::handleNickEvent(sf::RenderWindow* Window, sf::Text* t)
 {
     sf::Event gevent;
     std::string s;
@@ -43,20 +43,23 @@ std::string RenderHandler::handleNickEvent(sf::RenderWindow* Window, sf::Text* t
 					gevent.text.unicode != '\b' &&
 					t->getString().getSize() < 16)
 				{
+					s = t->getString();
 					s += static_cast<char>(gevent.text.unicode);
-					t->setString(s); //dodaj do stringa
-
+					std::cout << "TextEntered s = " << s << "\n";
+					Result wynik(s, false);
+					return wynik;
 				}
 				//jezeli masz co usuwac, to usun ostatnio dodany znak
 				if (t->getString().getSize() > 0 && gevent.text.unicode == '\b') {
-					s.pop_back();
-					t->setString(s);
+					s = t->getString();  s.pop_back();
+					Result wynik(s, false);
+					return wynik;
 				}
 				if ((gevent.text.unicode == '\n' || gevent.text.unicode == '\r') && t->getString().getSize() > 0) {
 					std::string tempString = t->getString();
-					int rodzaj = 0;
-					const char* nick = tempString.c_str();
-					return tempString;
+					std::cout << "Enter: tempString = " << tempString << "\n";
+					Result wynik(tempString, true);
+					return wynik;
 				}
 			}
 		}
@@ -643,10 +646,7 @@ void RenderHandler::handleBoardSetup(sf::RectangleShape game_background, sf::Tex
 	}
 }
 
-void RenderHandler::handleBoardGame(sf::RectangleShape game_background, sf::Texture emptyTile, sf::Texture sprite_1_tile,
-	sf::Texture sprite_2_tile, sf::Texture sprite_3_tile,
-	sf::Texture sprite_4_tile, sf::Texture sprite_hit_tile,
-	sf::Texture sprite_miss_tile, sf::Text twojaplanszatekst,
+void RenderHandler::handleBoardGame(sf::RectangleShape game_background, sf::Text twojaplanszatekst,
 	sf::Text planszaprzeciwnikatekst, sf::Text komunikat,
 	game_screen game_screen,
 	Plansza plansza1, Plansza plansza2,
