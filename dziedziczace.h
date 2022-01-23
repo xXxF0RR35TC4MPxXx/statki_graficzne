@@ -9,7 +9,7 @@ public:
 	gra_z_graczem();//konstruktor
 protected:
 	int przebieg_jednej_tury(sf::RenderWindow*, render_api* renderer);//funkcja ktora "przeprowadza" gre(wersja dla gracz vs gracz)
-	void ustawienia(sf::RenderWindow*);//funkcja sluzaca do ustawienia rzeczy przed rozpoczeciem stzrelania (nick i statki)(wersja dla gracz vs gracz)
+	void ustawienia(sf::RenderWindow*, render_api* renderer);//funkcja sluzaca do ustawienia rzeczy przed rozpoczeciem stzrelania (nick i statki)(wersja dla gracz vs gracz)
 	void przekaz_komputer(RenderWindow*, render_api*);
 };
 
@@ -33,9 +33,9 @@ public:
 	
 protected:
 	int przebieg_jednej_tury(sf::RenderWindow*, render_api* renderer);//funkcja ktora "przeprowadza" gre(wersja dla gracz vs komputer)
-	void ustawienia(sf::RenderWindow*);//funkcja sluzaca do ustawienia rzeczy przed rozpoczeciem stzrelania (nick i statki)(wersja dla gracz vs komputer)
+	void ustawienia(sf::RenderWindow*, render_api* renderer);//funkcja sluzaca do ustawienia rzeczy przed rozpoczeciem stzrelania (nick i statki)(wersja dla gracz vs komputer)
 	OstatnioTrafionePole* strzal_bot(Plansza plansza1, Plansza plansza2, int, int);//funkcja w ktorej komputer wybiera wspolrzedna gdzie strzelic
-	void ustawienie_statkow_bot(Plansza plansza1, Plansza plansza2);//funkcja w ktorej komputer losuje gdzie postawic statki
+	void ustawienie_statkow_bot(Plansza plansza1, Plansza plansza2, render_api* renderer);//funkcja w ktorej komputer losuje gdzie postawic statki
 
 	void ustawienie_statkow_jednomasztowych(render_api*, Plansza plansza1);
 	void ustawienie_statkow_dwumasztowych(render_api*, Plansza plansza1);

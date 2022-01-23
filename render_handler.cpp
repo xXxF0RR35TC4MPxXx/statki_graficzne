@@ -1,6 +1,6 @@
 ﻿#include "render_handler.h"
 #include "game_screen.h"
-#include "render_api.h"
+
 
  int RenderHandler::czy_wygrana(Plansza plansza) {
 	for (int i = 0; i < 10; i++)
@@ -95,7 +95,7 @@ std::tuple<std::string, int, int, int> RenderHandler::handleShipPlacement(int ms
 }
 
 void RenderHandler::handleBoardSetup(sf::RectangleShape game_background, sf::Text twojaplanszatekst,
-	sf::Text planszaprzeciwnikatekst, game_screen game_screen, Plansza plansza1, Plansza plansza2, sf::RenderWindow* Window) {
+	sf::Text planszaprzeciwnikatekst, game_screen game_screen, Plansza plansza1, Plansza plansza2, sf::RenderWindow* Window, render_api* renderer) {
 	//font
 	sf::Font* retrofont = new Font();
 	retrofont->loadFromFile("retrofont.ttf");
@@ -118,9 +118,6 @@ void RenderHandler::handleBoardSetup(sf::RectangleShape game_background, sf::Tex
 	Texture sprite_miss_tile;
 	sprite_miss_tile.loadFromFile("Texture/missed_tile.png");
 
-
-
-	render_api* renderer = render_api::GetInstance();
 	int nr = 1;
 	int typ = 1;
 	int odpowiedz = -1;
@@ -655,9 +652,8 @@ void RenderHandler::handleBoardGame(sf::RectangleShape game_background, sf::Text
 	unsigned int& oddane_strzaly_1,
 	unsigned int& oddane_strzaly_2,
 	unsigned int& trafienia_1,
-	unsigned int& trafienia_2)
+	unsigned int& trafienia_2, render_api* renderer)
 {
-	render_api* renderer = render_api::GetInstance();
 	int nr = 1;
 	int odpowiedz = -1;
 	int jezeli_wygrana = 0;

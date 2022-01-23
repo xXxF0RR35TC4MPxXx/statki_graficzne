@@ -5,7 +5,7 @@
 #include <string>
 #include "SFMLFactory.h"
 #include "game_screen.h"
-
+#include "render_api.h"
 class Result {
 public:
 	Result(string s, bool e) {
@@ -18,6 +18,7 @@ public:
 
 class RenderHandler {
 public:
+		
         static Result handleNickEvent(sf::RenderWindow*, sf::Text*);
         static std::tuple<std::string, int, int, int> handleShipPlacement(int msgtype, int type, int nr);
 		static void handleBoardGame(sf::RectangleShape game_background, sf::Text twojaplanszatekst,
@@ -29,10 +30,10 @@ public:
 			unsigned int& oddane_strzaly_1,
 			unsigned int& oddane_strzaly_2,
 			unsigned int& trafienia_1,
-			unsigned int& trafienia_2);
+			unsigned int& trafienia_2, render_api* renderer);
 
 		static void handleBoardSetup(sf::RectangleShape game_background, sf::Text twojaplanszatekst,
-			sf::Text planszaprzeciwnikatekst, game_screen game_screen, Plansza plansza1, Plansza plansza2, sf::RenderWindow* Window);
+			sf::Text planszaprzeciwnikatekst, game_screen game_screen, Plansza plansza1, Plansza plansza2, sf::RenderWindow* Window, render_api* renderer);
 private:
 	static int czy_wygrana(Plansza plansza);
 

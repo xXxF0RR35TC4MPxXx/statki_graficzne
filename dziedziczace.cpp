@@ -45,20 +45,20 @@ int gra_z_graczem::przebieg_jednej_tury(sf::RenderWindow* Window, render_api* re
 	{
 		if (czy_wygrana(plansza2_1) == 1)//jezeli gracz1 wygral
 		{
-			if (trafienia_1 != 0 && trafienia_2 != 0) wygrana(Window, nick1);//wyswietlenie ekranu ze statystykami
+			if (trafienia_1 != 0 && trafienia_2 != 0) wygrana(Window, nick1, renderer);//wyswietlenie ekranu ze statystykami
 			return 1;
 		}
 		
 		
 		std::cout << "Wartosci zmiennych przed ta tura: " + std::to_string(oddane_strzaly_1) + ", " + std::to_string(oddane_strzaly_2) + ", " + std::to_string(trafienia_1) + ", " + std::to_string(trafienia_2) + "\n";
 		//oddawanie strza³u przez pierwszego gracza
-		renderer->render_planszy_gra(plansza1_1, plansza1_2, plansza2_1, plansza2_2, Window, 1, oddane_strzaly_1, oddane_strzaly_2, trafienia_1, trafienia_2);
+		renderer->render_planszy_gra(plansza1_1, plansza1_2, plansza2_1, plansza2_2, Window, 1, oddane_strzaly_1, oddane_strzaly_2, trafienia_1, trafienia_2, renderer);
 		std::cout << "Wartosci zmiennych po tej turze: " + std::to_string(oddane_strzaly_1) + ", " + std::to_string(oddane_strzaly_2) + ", " + std::to_string(trafienia_1) + ", " + std::to_string(trafienia_2) + "\n";
 		sf::sleep(sf::milliseconds(1000));
 		
 		if (czy_wygrana(plansza2_1) == 1)//jezeli gracz1 wygral
 		{
-			if (trafienia_1 != 0 && trafienia_2 != 0)wygrana(Window, nick1);//wyswietlenie statystyk
+			if (trafienia_1 != 0 && trafienia_2 != 0)wygrana(Window, nick1, renderer);//wyswietlenie statystyk
 			return 1;
 		}
 		
@@ -67,20 +67,20 @@ int gra_z_graczem::przebieg_jednej_tury(sf::RenderWindow* Window, render_api* re
 		
 		if (czy_wygrana(plansza1_1) == 1)//jezeli gracz2 wygral
 		{
-			if(trafienia_1 !=0 && trafienia_2 !=0) wygrana(Window, nick2);//wyswietlenie statystyk
+			if(trafienia_1 !=0 && trafienia_2 !=0) wygrana(Window, nick2, renderer);//wyswietlenie statystyk
 			return 1;
 		}
 
 		
 		std::cout << "Wartosci zmiennych przed ta tura: " + std::to_string(oddane_strzaly_1) + ", " + std::to_string(oddane_strzaly_2) + ", " + std::to_string(trafienia_1) + ", " + std::to_string(trafienia_2) + "\n";
 		//oddawanie strza³u przez drugiego gracza
-		renderer->render_planszy_gra(plansza2_1, plansza2_2, plansza1_1, plansza1_2, Window, 2, oddane_strzaly_1, oddane_strzaly_2, trafienia_1, trafienia_2);
+		renderer->render_planszy_gra(plansza2_1, plansza2_2, plansza1_1, plansza1_2, Window, 2, oddane_strzaly_1, oddane_strzaly_2, trafienia_1, trafienia_2, renderer);
 		std::cout << "Wartosci zmiennych po tej turze: " + std::to_string(oddane_strzaly_1) + ", " + std::to_string(oddane_strzaly_2) + ", " + std::to_string(trafienia_1) + ", " + std::to_string(trafienia_2) + "\n";
 		sf::sleep(sf::milliseconds(1000));
 
 		if (czy_wygrana(plansza1_1) == 1)//jezeli gracz2 wygral
 		{
-			if (trafienia_1 != 0 && trafienia_2 != 0) wygrana(Window, nick2);//wyswietlenie statystyk
+			if (trafienia_1 != 0 && trafienia_2 != 0) wygrana(Window, nick2, renderer);//wyswietlenie statystyk
 			return 1;
 		}
 
@@ -90,18 +90,16 @@ int gra_z_graczem::przebieg_jednej_tury(sf::RenderWindow* Window, render_api* re
 	}
 }
 
-void gra_z_graczem::ustawienia(sf::RenderWindow* Window)//gracze ustawiaja nicki oraz statki
+void gra_z_graczem::ustawienia(sf::RenderWindow* Window, render_api* renderer)//gracze ustawiaja nicki oraz statki
 {
-	render_api* renderer = render_api::GetInstance();
-
 	strcpy_s(nick1, renderer->podaj_nick(Window).c_str()); //wpisanie nicku przez gracza1
-	renderer->render_planszy_przy_ustawianiu(plansza1_1, plansza1_2, Window);//funkcja w ktorej gracz1 ustawia wszystkie swoje statki
+	renderer->render_planszy_przy_ustawianiu(plansza1_1, plansza1_2, Window, renderer);//funkcja w ktorej gracz1 ustawia wszystkie swoje statki
 	
 	//rysowanie okna mówi¹cego graczowi1, aby przekaza³ komputer drugiej osobie.
 	przekaz_komputer(Window, renderer);
 
 	strcpy_s(nick2, renderer->podaj_nick(Window).c_str());  //wpisanie nicku przez gracza2
-	renderer->render_planszy_przy_ustawianiu(plansza2_1, plansza2_2, Window);//funkcja w ktorej gracz1 ustawia wszystkie swoje statki
+	renderer->render_planszy_przy_ustawianiu(plansza2_1, plansza2_2, Window, renderer);//funkcja w ktorej gracz1 ustawia wszystkie swoje statki
 	
 	//rysowanie okna mówi¹cego graczowi2, aby przekaza³ komputer pierwszej osobie.
 	przekaz_komputer(Window, renderer);
@@ -119,12 +117,10 @@ gra_z_botem::gra_z_botem() :rozgrywka() //konstruktor
 	tryb_gry = 1;
 }
 
-void gra_z_botem::ustawienia(sf::RenderWindow* Window)//gracz oraz komputer ustawiaj¹ nicki oraz statki
+void gra_z_botem::ustawienia(sf::RenderWindow* Window, render_api* renderer)//gracz oraz komputer ustawiaj¹ nicki oraz statki
 {
-
-	render_api* renderer = render_api::GetInstance();
 	strcpy_s(nick1, renderer->podaj_nick(Window).c_str()); //podanie nicku przez gracza1
-	renderer->render_planszy_przy_ustawianiu(plansza1_1, plansza1_2, Window);//funkcja w ktorej gracz1 ustawia wszystkie swoje statki
+	renderer->render_planszy_przy_ustawianiu(plansza1_1, plansza1_2, Window, renderer);//funkcja w ktorej gracz1 ustawia wszystkie swoje statki
 
 	//wyœwietlenie ekranu z info o ustawianiu statków przez komputer
 	sf::Event ruch_komputera_event;
@@ -138,7 +134,7 @@ void gra_z_botem::ustawienia(sf::RenderWindow* Window)//gracz oraz komputer usta
 		}
 	}
 	strcpy_s(nick2, "Komputer");//ustawienie drugiego nicku jako 'Komputer'
-	ustawienie_statkow_bot(plansza2_1, plansza2_2);//funkcja gdzie komputer ustawia statki
+	ustawienie_statkow_bot(plansza2_1, plansza2_2, renderer);//funkcja gdzie komputer ustawia statki
 }
 
 
@@ -162,18 +158,18 @@ int gra_z_botem::przebieg_jednej_tury(sf::RenderWindow* Window, render_api* rend
 
 			if (jezeli_wygrana == 1)//jezeli wygral
 			{
-				if (trafienia_1 != 0 || trafienia_2 != 0)wygrana(Window, nick1);//wyswietlenie statystyk
+				if (trafienia_1 != 0 || trafienia_2 != 0)wygrana(Window, nick1, renderer);//wyswietlenie statystyk
 				return 1;
 			}
 			//oddawanie strza³u przez gracza na wyrenderowanej planszy
 			std::cout << "Wartosci zmiennych przed ta tura: " + std::to_string(oddane_strzaly_1) + ", " + std::to_string(oddane_strzaly_2) + ", " + std::to_string(trafienia_1) + ", " + std::to_string(trafienia_2) + "\n";
-			renderer->render_planszy_gra(plansza1_1, plansza1_2, plansza2_1, plansza2_2, Window, 3, oddane_strzaly_1, oddane_strzaly_2, trafienia_1, trafienia_2);
+			renderer->render_planszy_gra(plansza1_1, plansza1_2, plansza2_1, plansza2_2, Window, 3, oddane_strzaly_1, oddane_strzaly_2, trafienia_1, trafienia_2, renderer);
 			std::cout << "Wartosci zmiennych po tej turze: " + std::to_string(oddane_strzaly_1) + ", " + std::to_string(oddane_strzaly_2) + ", " + std::to_string(trafienia_1) + ", " + std::to_string(trafienia_2) + "\n";
 			
 			jezeli_wygrana = czy_wygrana(plansza2_1);//sprawdzenie czy gracz wygral
 			if (jezeli_wygrana == 1)//jezeli wygral
 			{
-				if (trafienia_1 != 0 || trafienia_2 != 0) wygrana(Window, nick1);//wyswietlenie statystyk
+				if (trafienia_1 != 0 || trafienia_2 != 0) wygrana(Window, nick1, renderer);//wyswietlenie statystyk
 				return 1;
 			}
 			//opóŸnienie, ¿eby wyœwietliæ komunikat o pudle
@@ -232,7 +228,7 @@ int gra_z_botem::przebieg_jednej_tury(sf::RenderWindow* Window, render_api* rend
 			if (jezeli_wygrana == 1)//jezeli wygral
 			{
 				//printf("WYGRAL: %s \n", nick2);
-				if (trafienia_1 != 0 && trafienia_2 != 0) wygrana(Window, nick2);//wyswietlenie statystyk
+				if (trafienia_1 != 0 && trafienia_2 != 0) wygrana(Window, nick2, renderer);//wyswietlenie statystyk
 				return 1;
 			}
 		} while (czy_trafione == 1 || czy_trafione == 2);//strzela do poki trafia lub trafil w to w co juz strzelal(bot nie marnuje strzalow na stzrelanie w cos co juz strzelal)
@@ -453,9 +449,8 @@ void gra_z_botem::ustawienie_statkow_czteromasztowych(render_api* renderer, Plan
 	}
 }
 
-void gra_z_botem::ustawienie_statkow_bot(Plansza plansza1, Plansza plansza2)//funkcja w ktorej komputer losuje gdzie postawic statki
+void gra_z_botem::ustawienie_statkow_bot(Plansza plansza1, Plansza plansza2, render_api* renderer)//funkcja w ktorej komputer losuje gdzie postawic statki
 {
-	render_api* renderer = render_api::GetInstance();
 	int odpowiedz = 0;
 
 	gra_z_botem::ustawienie_statkow_jednomasztowych(renderer, plansza1);

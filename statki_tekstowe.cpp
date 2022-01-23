@@ -42,7 +42,7 @@ int zapytanie_o_zapis_gry(RenderWindow* Window, render_api* renderer, zapis_save
 
 				if (zapis_yes_no.zapis_save_yes_no_pressed() == 0)
 				{
-					rozgrywka->zapisywanie(Window);
+					rozgrywka->zapisywanie(Window, renderer);
 					czy_exit = true;
 					nowa_gra = true;
 					Window->clear();
@@ -85,7 +85,7 @@ void pokaz_okno_z_wyborem_typu_gry(RenderWindow* Window, render_api* renderer, m
 					if (y == 0) {
 						gra_z_botem bot;//inicjalizacja klasy dla gry gracz vs bot
 						rozgrywka = &bot;
-						if (nowa_gra)rozgrywka->ustawienia(Window);//wywolanie funkcji w ktorej uzytkownicy ustawiaja nicki i statki
+						if (nowa_gra)rozgrywka->ustawienia(Window, renderer);//wywolanie funkcji w ktorej uzytkownicy ustawiaja nicki i statki
 						int licznik = 0, czy_zapisac = 0, czy_wygrana = 0;
 						while (Window->isOpen() && !czy_exit)
 						{
@@ -111,7 +111,7 @@ void pokaz_okno_z_wyborem_typu_gry(RenderWindow* Window, render_api* renderer, m
 					{
 						gra_z_graczem gracz;//inicjalizacja klasy dla gry gracz vs gracz
 						rozgrywka = &gracz;
-						if (nowa_gra)rozgrywka->ustawienia(Window);//wywolanie funkcji w ktorej uzytkownicy ustawiaja nicki i statki
+						if (nowa_gra)rozgrywka->ustawienia(Window, renderer);//wywolanie funkcji w ktorej uzytkownicy ustawiaja nicki i statki
 						int licznik = 0, czy_zapisac = 0, czy_wygrana = 0;
 						while (Window->isOpen() && !czy_exit)
 						{
@@ -237,7 +237,7 @@ void pokaz_okno_do_wpisania_nazwy_z_plikiem_zapisu_gry(RenderWindow* Window, ren
 
 
 						int czy_wczytywanie_udane = 0;
-						if (!nowa_gra)czy_wczytywanie_udane = rozgrywka->wczytywanie(plik_zapis, Window);//funkcja do wczytania stanu gry i pobranie wartosci czy udalo sie wczytac
+						if (!nowa_gra)czy_wczytywanie_udane = rozgrywka->wczytywanie(plik_zapis, Window, renderer);//funkcja do wczytania stanu gry i pobranie wartosci czy udalo sie wczytac
 						if (czy_wczytywanie_udane == 1) {
 
 							int licznik = 0, czy_zapisac = 0, czy_wygrana = 0;

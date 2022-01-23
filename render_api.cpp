@@ -8,8 +8,8 @@
 #include "SFMLFactory.h"
 #include "render_api.h"
 #include "game_screen.h"
-#include "render_handler.h"
 
+#include "render_handler.h"
 #pragma warning(disable:4996)
 
 #define WINDOW_HEIGHT 613
@@ -84,7 +84,7 @@ void render_api::ustawiasz_statek(int typ, int nr, sf::RenderWindow* Window, int
 	Window->draw(napis);
 }
 
-void render_api::render_planszy_przy_ustawianiu(Plansza plansza1, Plansza plansza2, sf::RenderWindow* Window) {
+void render_api::render_planszy_przy_ustawianiu(Plansza plansza1, Plansza plansza2, sf::RenderWindow* Window, render_api* renderer) {
 
 	//tlo planszy
 	sf::Texture* t = new sf::Texture();
@@ -107,9 +107,9 @@ void render_api::render_planszy_przy_ustawianiu(Plansza plansza1, Plansza plansz
 	game_screen game_screen(Window->getSize().x, Window->getSize().y, Window);
 
 	RenderHandler::handleBoardSetup(game_background, twojaplanszatekst,
-		planszaprzeciwnikatekst, game_screen, plansza1, plansza2, Window);
+		planszaprzeciwnikatekst, game_screen, plansza1, plansza2, Window, renderer);
 }
-void render_api::render_planszy_gra(Plansza plansza1, Plansza plansza2, Plansza plansza2_1, Plansza plansza2_2, sf::RenderWindow* Window, int typ, unsigned int& oddane_strzaly_1, unsigned int& oddane_strzaly_2, unsigned int& trafienia_1, unsigned int& trafienia_2) {
+void render_api::render_planszy_gra(Plansza plansza1, Plansza plansza2, Plansza plansza2_1, Plansza plansza2_2, sf::RenderWindow* Window, int typ, unsigned int& oddane_strzaly_1, unsigned int& oddane_strzaly_2, unsigned int& trafienia_1, unsigned int& trafienia_2, render_api* renderer) {
 
 	//tlo planszy
 	sf::Texture* t = new sf::Texture();
@@ -134,7 +134,7 @@ void render_api::render_planszy_gra(Plansza plansza1, Plansza plansza2, Plansza 
 	RenderHandler::handleBoardGame(game_background, twojaplanszatekst,
 		planszaprzeciwnikatekst, komunikat,
 		game_screen, plansza1, plansza2, plansza2_1, plansza2_2,
-		Window, typ, oddane_strzaly_1, oddane_strzaly_2, trafienia_1, trafienia_2);
+		Window, typ, oddane_strzaly_1, oddane_strzaly_2, trafienia_1, trafienia_2, renderer);
 	
 }
 void render_api::przekaz_komputer(sf::RenderWindow* Window) {

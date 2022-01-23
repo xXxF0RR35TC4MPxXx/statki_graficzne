@@ -3,7 +3,6 @@
 #include "wybor_typu_gry.h"
 #include "zapis_save_yes_no.h"
 #include "mainmenu.h"
-#include "render_handler.h"
 #include "Plansza.h"
 #pragma once
 class render_api {
@@ -22,9 +21,9 @@ public:
 	void wybor_typ_gry(sf::RenderWindow*, wybor_typu_gry);				//wypisanie opcji wyboru typu gry
 	std::string podaj_nick(sf::RenderWindow* Window);					//wypisanie ekranu wczytania nicku od gracza i pobranie tego nicku
 	void ustawiasz_statek(int, int, sf::RenderWindow*, int, Font*);	//wypisanie informacji o typie i numerze stawianego statku
-	void render_planszy_przy_ustawianiu(Plansza plansza1, Plansza plansza2, sf::RenderWindow*); //funkcja rysuj�ca plansze podczas ustawiania statk�w i wczytuje pozycje od gracza
+	void render_planszy_przy_ustawianiu(Plansza plansza1, Plansza plansza2, sf::RenderWindow*, render_api* renderer); //funkcja rysuj�ca plansze podczas ustawiania statk�w i wczytuje pozycje od gracza
 	//funkcja rysuj�ca plansze graczy podczas oddawania strza��w i zliczanie statystyk
-    void render_planszy_gra(Plansza plansza1, Plansza plansza2, Plansza plansza2_1, Plansza plansza2_2, sf::RenderWindow*, int typ, unsigned int& oddane_strzaly_1, unsigned int& oddane_strzaly_2, unsigned int& trafienia_1, unsigned int& trafienia_2);
+    void render_planszy_gra(Plansza plansza1, Plansza plansza2, Plansza plansza2_1, Plansza plansza2_2, sf::RenderWindow*, int typ, unsigned int& oddane_strzaly_1, unsigned int& oddane_strzaly_2, unsigned int& trafienia_1, unsigned int& trafienia_2, render_api* renderer);
     void przekaz_komputer(sf::RenderWindow*);							//wy�wietlanie ekranu z pro�b� o przekazanie komputera drugiemu graczowi
     void komputer_ustawia_statki(sf::RenderWindow* Window);				//wy�wietlanie ekranu z info o ustawianiu statk�w przez komputer
     void ruch_wykonuje_komputer(sf::RenderWindow*);						//wy�wietlanie ekranu z info o wykonywaniu ruchu przez komputer
