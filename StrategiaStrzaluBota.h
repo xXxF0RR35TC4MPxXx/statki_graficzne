@@ -95,8 +95,8 @@ public:
 		std::vector<Pole> mozliwe_miejsca_nastepnego_trafienia;
 
 		//mo�liwe kierunki ruchu po trafieniu
-		Pole* west = new Pole(y, x-1);
-		Pole* east = new Pole(y, x+1);
+		Pole* west = new Pole(y, x+1);
+		Pole* east = new Pole(y, x-1);
 		Pole* south = new Pole(y+1, x);
 		Pole* north = new Pole(y-1, x);
 
@@ -111,36 +111,78 @@ public:
 		//przejrzenie tej listy w celu sprawdzenia, czy nie wychodzimy poza plansz� i czy nie s� to pola ju� trafione
 		
 		//je�eli w prawo mamy trafienie, to nie chcemy szuka� w g�r� i w d�, tylko szukamy na lewo
-		if (x!=9 && plansza1.pola_planszy[east->y][east->x]->symbol == 'x') {
+		//if (x!=9 && x != 0  && plansza1.pola_planszy[east->y][east->x]->symbol == 'x' && plansza1.pola_planszy[west->y][west->x]->symbol != '.' && plansza1.pola_planszy[west->y][west->x]->symbol != 'x') {
+		//	mozliwe_miejsca_nastepnego_trafienia.push_back(*west);
+		//}
+		//else if (x!=0 && x!=9 && plansza1.pola_planszy[west->y][west->x]->symbol == 'x' && plansza1.pola_planszy[east->y][east->x]->symbol != '.' && plansza1.pola_planszy[east->y][east->x]->symbol != 'x') {
+		//	mozliwe_miejsca_nastepnego_trafienia.push_back(*east);
+		//}
+		//else if (y!= 0 && y!=9 && plansza1.pola_planszy[north->y][north->x]->symbol == 'x' && plansza1.pola_planszy[south->y][south->x]->symbol != '.' && plansza1.pola_planszy[south->y][south->x]->symbol != 'x') {
+		//	mozliwe_miejsca_nastepnego_trafienia.push_back(*south);
+		//}
+		//else if (y!=9 && y!=0 && plansza1.pola_planszy[south->y][south->x]->symbol == 'x' && plansza1.pola_planszy[north->y][north->x]->symbol != '.' && plansza1.pola_planszy[north->y][north->x]->symbol != 'x') {
+		//	mozliwe_miejsca_nastepnego_trafienia.push_back(*north);
+		//}
+		//else {
+		//	for (Pole pole : potencjalne_miejsca_nastepnego_trafienia) {
+		//		if (pole.x > 0 && pole.x < 9 && pole.y > 0 && pole.y < 9 && (plansza1.pola_planszy[pole.y][pole.x]->symbol != 'x' && plansza1.pola_planszy[pole.y][pole.x]->symbol != '.'))
+		//		{
+		//			mozliwe_miejsca_nastepnego_trafienia.push_back(pole);
+		//		}
+		//	}
+		//}
+		//
+		
+		if ((x<9 && x > 0 && plansza1.pola_planszy[east->y][east->x]->symbol == 'x' && 
+			plansza1.pola_planszy[west->y][west->x]->symbol != '.' && 
+			plansza1.pola_planszy[west->y][west->x]->symbol != 'x') || 
+			(x==0 && plansza1.pola_planszy[west->y][west->x]->symbol != '.' &&
+				plansza1.pola_planszy[west->y][west->x]->symbol != 'x')
+			) {
 			mozliwe_miejsca_nastepnego_trafienia.push_back(*west);
 		}
-		else if (x!=0 && plansza1.pola_planszy[west->y][west->x]->symbol == 'x') {
+
+		else if ((x < 9 && x > 0 && plansza1.pola_planszy[west->y][west->x]->symbol == 'x' &&
+			plansza1.pola_planszy[east->y][east->x]->symbol != '.' &&
+			plansza1.pola_planszy[east->y][east->x]->symbol != 'x') ||
+			(x == 9 && plansza1.pola_planszy[east->y][east->x]->symbol != '.' &&
+				plansza1.pola_planszy[east->y][east->x]->symbol != 'x')
+			) {
 			mozliwe_miejsca_nastepnego_trafienia.push_back(*east);
 		}
-		else if (y!= 0 && plansza1.pola_planszy[north->y][north->x]->symbol == 'x') {
+		else if ((y < 9 && y > 0 && plansza1.pola_planszy[north->y][north->x]->symbol == 'x' &&
+			plansza1.pola_planszy[south->y][south->x]->symbol != '.' &&
+			plansza1.pola_planszy[south->y][south->x]->symbol != 'x') ||
+			(y == 0 && plansza1.pola_planszy[south->y][south->x]->symbol != '.' &&
+				plansza1.pola_planszy[south->y][south->x]->symbol != 'x')
+			) {
 			mozliwe_miejsca_nastepnego_trafienia.push_back(*south);
 		}
-		else if (y!=9 && plansza1.pola_planszy[south->y][south->x]->symbol == 'x') {
+		else if ((y < 9 && y > 0 && plansza1.pola_planszy[south->y][south->x]->symbol == 'x' &&
+			plansza1.pola_planszy[north->y][north->x]->symbol != '.' &&
+			plansza1.pola_planszy[north->y][north->x]->symbol != 'x') ||
+			(y == 9 && plansza1.pola_planszy[north->y][north->x]->symbol != '.' &&
+				plansza1.pola_planszy[north->y][north->x]->symbol != 'x')
+			) {
 			mozliwe_miejsca_nastepnego_trafienia.push_back(*north);
 		}
 		else {
-			for (Pole pole : potencjalne_miejsca_nastepnego_trafienia) {
-				if (pole.x >= 0 && pole.x <= 9 && pole.y >= 0 && pole.y <= 9 && (plansza1.pola_planszy[pole.y][pole.x]->symbol != 'x' && plansza1.pola_planszy[pole.y][pole.x]->symbol != '.'))
-				{
-					mozliwe_miejsca_nastepnego_trafienia.push_back(pole);
-				}
-			}
+			if(y<9) mozliwe_miejsca_nastepnego_trafienia.push_back(*south);
+			if(y>0) mozliwe_miejsca_nastepnego_trafienia.push_back(*north);
+			if(x>0) mozliwe_miejsca_nastepnego_trafienia.push_back(*east);
+			if(x<9) mozliwe_miejsca_nastepnego_trafienia.push_back(*west);
 		}
-		
-		int selectedIndex,temp_x,temp_y;
+
+
+
+		int selectedIndex, temp_x, temp_y;
 		//ustawienie losowego kierunku ruchu z mo�liwych (spe�niaj�cych warunki)
-		if(mozliwe_miejsca_nastepnego_trafienia.size()!=0){
+		if (mozliwe_miejsca_nastepnego_trafienia.size() != 0 && x >= 0 && x < 10 && y >= 0 && y < 10) {
 			selectedIndex = rand() % mozliwe_miejsca_nastepnego_trafienia.size();
 			temp_x = mozliwe_miejsca_nastepnego_trafienia[selectedIndex].x;
 			temp_y = mozliwe_miejsca_nastepnego_trafienia[selectedIndex].y;
 		}
-		else return new OstatnioTrafionePole(0,0,-1);
-
+		else return new OstatnioTrafionePole(0, 0, -1);
 
 
 

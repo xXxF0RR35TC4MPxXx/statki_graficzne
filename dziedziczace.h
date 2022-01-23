@@ -26,7 +26,6 @@ public:
 
 	void zmien_strategie(IStrategiaStrzaluBota* nowa_strategia) {
 		std::cout << "Zmiana strategii!";
-		//delete this->obecna_strategia;
 		this->obecna_strategia = nowa_strategia;
 	}
 

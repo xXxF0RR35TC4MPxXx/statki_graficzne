@@ -68,14 +68,14 @@
     <ClInclude Include="zapis_save_yes_no.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="StrategiaStrzałuBota.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
     <ClInclude Include="Pojedyncze_pole.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="Plansza.h">
       <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="StrategiaStrzaluBota.h">
+      <Filter>Pliki zasobów</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

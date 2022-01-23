@@ -201,12 +201,11 @@ int gra_z_botem::przebieg_jednej_tury(sf::RenderWindow* Window, render_api* rend
 			oddane_strzaly_2++;//doliczenie do statystyk oddane strzaly
 
 			//sprawdzanie czy trafil
-			if (czy_trafione == -1) {
+			if (czy_trafione == -1 || czy_trafione == 2) {
 				zmien_strategie(new StrategiaBota_StrzalLosowy());
-				trafienia_bota_z_rzedu = 0;
-			}
-			if (czy_trafione == 2) {
-				zmien_strategie(new StrategiaBota_StrzalLosowy());
+				ostatnio_trafione = strzal_bot(plansza1_1, plansza2_2, ostatnio_trafiony_x, ostatnio_trafiony_y);//wywolanie funkcji w ktorej komputer wybiera gdzie strzelic i sprawdzenie gdzie trafil
+				czy_trafione = ostatnio_trafione->wynik_trafienia;
+				nowa_zmiana = true;
 				trafienia_bota_z_rzedu = 0;
 			}
 			if (czy_trafione == 1)

@@ -24,13 +24,13 @@ using std::to_string;
 
 render_api::render_api(){}
 
-render_api* render_api::singleton = nullptr;
+render_api* render_api::pojedyncza_instancja_render_api = nullptr;
 
 render_api* render_api::GetInstance() {
-	if (singleton == nullptr) {
-		singleton = new render_api();
+	if (pojedyncza_instancja_render_api == nullptr) {
+		pojedyncza_instancja_render_api = new render_api();
 	}
-	return singleton;
+	return pojedyncza_instancja_render_api;
 }
 
 void render_api::rysujMenu(sf::RenderWindow* Window, mainmenu MainMenu) {

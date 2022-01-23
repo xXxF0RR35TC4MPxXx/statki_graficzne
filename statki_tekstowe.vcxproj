@@ -164,7 +164,7 @@
     <ClInclude Include="Plansza.h" />
     <ClInclude Include="Pojedyncze_pole.h" />
     <ClInclude Include="render_api.h" />
-    <ClInclude Include="StrategiaStrzałuBota.h" />
+    <ClInclude Include="StrategiaStrzaluBota.h" />
     <ClInclude Include="wybor_typu_gry.h" />
     <ClInclude Include="zapis_save_yes_no.h" />
   </ItemGroup>

@@ -8,7 +8,7 @@
 class render_api {
 protected:
 	render_api();
-	static render_api* singleton;
+	static render_api* pojedyncza_instancja_render_api;
 
 public:
 
